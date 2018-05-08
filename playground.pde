@@ -46,6 +46,13 @@ void draw(){
     pos.y = 0;
     dir.y = -dir.y;
   }
+  grid.getCell((int)pos.x, (int)pos.y).applyImpulse(1.0);
+  grid.getCell((int)mouseX/10, (int)mouseY/10).applyImpulse(1.0);
+  grid.getCell((int)mouseX/10, (int)47).applyImpulse(1.0);
+  grid.getCell((int)mouseX/10+1, (int)47).applyImpulse(1.0);
+  grid.getCell((int)mouseX/10-1, (int)47).applyImpulse(1.0);
+  grid.getCell((int)mouseX/10+2, (int)47).applyImpulse(1.0);
+  grid.getCell((int)mouseX/10-2, (int)47).applyImpulse(1.0);
   grid.draw();
   grid.update(delta);
 }

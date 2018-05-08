@@ -5,7 +5,7 @@ int cellHeight = 10;
 int gridWidth = screenWidth / cellWidth;
 int gridHeight = screenHeight / cellHeight;
 
-Grid grid = new Grid(640/10, 480/10, 5, 5);
+ImpulseGrid grid = new ImpulseGrid(640/10, 480/10, 5, 5);
 
 void setup(){
   size(640, 480);
@@ -23,36 +23,23 @@ long lastFrame = millis();
 float lastMouseX = mouseX;
 
 void draw(){
+  clear();
+  
   long frame = millis();
   float delta = (frame - lastFrame)/1000.0;
   lastFrame = frame;
-  clear();
-  grid.clearCells();
-  grid.setValue(pos.x, pos.y);
-  
-  float newMouseX = lastMouseX + (mouseX - lastMouseX)*delta;
-  lastMouseX = newMouseX;
-  
-  float bitPos = newMouseX - newMouseX%10;
-  grid.setValue(bitPos, 105);
-  grid.setValue(bitPos+10, 105);
-  grid.setValue(bitPos+20, 105);
-  grid.setValue(bitPos+30, 105);
-  grid.setValue(bitPos+40, 105);
-  grid.setValue(bitPos+50, 105);
-  
   pos.x += dir.x*delta;
   pos.y += dir.y*delta;
-  if(pos.x > 640){
-    pos.x = 640;
+  if(pos.x > 63){
+    pos.x = 63;
     dir.x = -dir.x;
   }
   if(pos.x < 0){
     pos.x = 0;
     dir.x = -dir.x;
   }
-  if(pos.y > 480){
-    pos.y = 480;
+  if(pos.y > 47){
+    pos.y = 47;
     dir.y = -dir.y;
   }
   if(pos.y < 0){
@@ -60,4 +47,5 @@ void draw(){
     dir.y = -dir.y;
   }
   grid.draw();
+  grid.update(delta);
 }

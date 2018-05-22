@@ -3,13 +3,15 @@ class ImpulseGrid{
   int width;
   int height;
   int originX, originY;
-  float cellWidth = 10;
-  float cellHeight = 10;
+  float cellWidth = 8;
+  float cellHeight = 8;
   ImpulseCell[] cells;
   
-  ImpulseGrid(int width, int height, int originX, int originY){
+  ImpulseGrid(int width, int height, int cellWidth, int cellHeight, int originX, int originY){
     this.width = width;
     this.height = height;
+    this.cellWidth = cellWidth;
+    this.cellHeight = cellHeight;
     this.originX = originX;
     this.originY = originY;
     cells = new ImpulseCell[width*height];

@@ -1,46 +1,72 @@
-int screenW = 1524;
-int screenH = 768;
+import com.hamoid.*;
+
+int screenW = 1920;
+int screenH = 1200;
 int cellWidth = 10;
 int cellHeight = 10;
 int gridWidth = screenW / cellWidth;
 int gridHeight = screenH / cellHeight;
-int KOMETKAS_COUNT = 200;
-PVector pos = new PVector(320, 240);
-float speed = 1550;
-PVector dir = new PVector(speed*random(0, 1), speed*random(0, 1));
-Kometka [] kometkas = new Kometka[KOMETKAS_COUNT];
+int KOMETKAS_COUNT = 0;
+int INITIAL_SIZE = 1;
+
+ArrayList<Kometka> kometkas = new ArrayList();
 long lastFrame = millis();
-
 float lastMouseX = mouseX;
-ImpulseGrid grid = new ImpulseGrid(gridWidth, gridHeight, 5, 5);
+ImpulseGrid grid = new ImpulseGrid(gridWidth, gridHeight, cellWidth, cellHeight, 0, 0);
 Bitka bitka = new Bitka(grid);
+VideoExport videoExport;
 
-void setup(){
-  size(1524, 768);
+// ------------
+void setup() {
+  //size(1024, 768);
+  fullScreen();
   stroke(100, 100);
   fill(200);
   rectMode(CENTER);
   background(100);
-  for(int i = 0; i < KOMETKAS_COUNT; i++){
-    kometkas[i] = new Kometka(grid);
+  frameRate(100);
+
+  for (int i = 0; i < INITIAL_SIZE; i++) {
+    kometkas.add(new Kometka(grid));
   }
 }
-void draw(){
+
+void draw() {
   clear();
-  
+
   long frame = millis();
   float delta = (frame - lastFrame)/1000.0;
   lastFrame = frame;
-  for(int i = 0 ; i < KOMETKAS_COUNT; i++){
-    kometkas[i].draw();
-    kometkas[i].update(delta);
+
+  for (Kometka k : kometkas) {
+    k.draw();
+    k.update(delta);
   }
-  grid.getCellAt(mouseX, mouseY).applyImpulse(0.2);
-  
+  grid.getCellAt(mouseX, mouseY).applyImpulse(1.0);
+
+  text("FPS : " + frameRate, 10, 10);
+  double creationSinus = Math.sin((millis()/ 1000.0)%(Math.PI*2) );
+  println("seconds: " + millis()/1000 + " sin value: " + creationSinus);
+  if (Math.random() > creationSinus) {
+    kometkas.add(new Kometka(grid));
+  } else {
+    if (kometkas.size() > 0) {
+      kometkas.remove(0);
+    }
+  }
+
+
 
   grid.draw();
   grid.update(delta);
-  
-  bitka.draw();
-  bitka.update(delta);
+}
+
+void processExit() {
+  exit();
+}
+
+void keyPressed() {
+  if (key == 'q') {
+    processExit();
+  }
 }

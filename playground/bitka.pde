@@ -1,7 +1,7 @@
 class Bitka{
   ImpulseGrid grid;
   int segments = 15;
-  int bitkaHeight = 3;
+  int bitkaHeight = 5;
   float xpos;
   float ypos;
   

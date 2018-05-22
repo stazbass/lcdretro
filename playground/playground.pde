@@ -1,14 +1,15 @@
-int screenWidth = 640;
-int screenHeight = 480;
+int screenW = 1024;
+int screenH = 768;
 int cellWidth = 10;
 int cellHeight = 10;
-int gridWidth = screenWidth / cellWidth;
-int gridHeight = screenHeight / cellHeight;
+int gridWidth = screenW / cellWidth;
+int gridHeight = screenH / cellHeight;
 
-ImpulseGrid grid = new ImpulseGrid(640/10, 480/10, 5, 5);
+ImpulseGrid grid = new ImpulseGrid(gridWidth, gridHeight, 5, 5);
+Bitka bitka = new Bitka(grid);
 
 void setup(){
-  size(640, 480);
+  size(1024, 768);
   stroke(100, 100);
   fill(200);
   rectMode(CENTER);
@@ -16,7 +17,8 @@ void setup(){
 }
 
 PVector pos = new PVector(320, 240);
-PVector dir = new PVector(50*random(0, 1), 50*random(0, 1));
+float speed = 350;
+PVector dir = new PVector(speed*random(0, 1), speed*random(0, 1));
 
 long lastFrame = millis();
 
@@ -30,29 +32,30 @@ void draw(){
   lastFrame = frame;
   pos.x += dir.x*delta;
   pos.y += dir.y*delta;
-  if(pos.x > 63){
-    pos.x = 63;
+  if(pos.x > screenW){
+    pos.x = screenW;
     dir.x = -dir.x;
   }
   if(pos.x < 0){
     pos.x = 0;
     dir.x = -dir.x;
   }
-  if(pos.y > 47){
-    pos.y = 47;
+  if(pos.y > screenH){
+    pos.y = screenH;
     dir.y = -dir.y;
   }
   if(pos.y < 0){
     pos.y = 0;
     dir.y = -dir.y;
   }
-  grid.getCell((int)pos.x, (int)pos.y).applyImpulse(1.0);
-  grid.getCell((int)mouseX/10, (int)mouseY/10).applyImpulse(1.0);
-  grid.getCell((int)mouseX/10, (int)47).applyImpulse(1.0);
-  grid.getCell((int)mouseX/10+1, (int)47).applyImpulse(1.0);
-  grid.getCell((int)mouseX/10-1, (int)47).applyImpulse(1.0);
-  grid.getCell((int)mouseX/10+2, (int)47).applyImpulse(1.0);
-  grid.getCell((int)mouseX/10-2, (int)47).applyImpulse(1.0);
+  
+  grid.getCellAt((int)pos.x, (int)pos.y).applyImpulse(1.0);
+  grid.getCellAt(mouseX, mouseY).applyImpulse(0.2);
+  
+
   grid.draw();
   grid.update(delta);
+  
+  bitka.draw();
+  bitka.update(delta);
 }

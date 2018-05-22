@@ -20,12 +20,14 @@ class ImpulseGrid{
     }
   }
 
-  ImpulseCell getCell(int x, int y){
-    if(x >= width)x = width-1;
-    if(x < 0)x = 0;
-    if(y >= height)y = height-1;
-    if(y < 0)y = 0;
-    return cells[y*width + x];
+  ImpulseCell getCellAt(float x, float y){
+    int gridx = (int)(x/cellWidth);
+    int gridy = (int)(y/cellHeight);
+    if(gridx >= width)gridx = width-1;
+    if(gridx < 0)gridx = 0;
+    if(gridy >= height)gridy = height-1;
+    if(gridy < 0)gridy = 0;
+    return cells[gridy*width + gridx];
   }
   
   void draw(){

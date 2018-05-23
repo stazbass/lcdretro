@@ -9,11 +9,11 @@ int gridHeight = screenH / cellHeight;
 int KOMETKAS_COUNT = 0;
 int INITIAL_SIZE = 3000;
 
-ArrayList<Kometka> kometkas = new ArrayList();
 long lastFrame = millis();
 float lastMouseX = mouseX;
 ImpulseGrid grid = new ImpulseGrid(gridWidth, gridHeight, cellWidth, cellHeight, 0, 0);
 Bitka bitka = new Bitka(grid);
+ArrayList<Kometka> kometkas = new ArrayList();
 VideoExport videoExport;
 
 // ------------

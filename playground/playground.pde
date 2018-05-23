@@ -31,8 +31,13 @@ void setup() {
   }
 }
 
+void impulseAt(float x, float y, float power){
+  grid.getCellAt(x, y).applyImpulse(power);
+}
+
+
 void drawMouse(){
-  grid.getCellAt(mouseX, mouseY).applyImpulse(1.0);
+  impulseAt(mouseX, mouseY, 1.0);
 }
 
 void draw() {
@@ -50,7 +55,7 @@ void draw() {
       kometkas.remove(0);
     }
   }
-for (Kometka k : kometkas) {
+  for (Kometka k : kometkas) {
     k.draw();
     k.update(delta);
   }

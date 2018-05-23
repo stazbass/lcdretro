@@ -7,7 +7,7 @@ int cellHeight = 10;
 int gridWidth = screenW / cellWidth;
 int gridHeight = screenH / cellHeight;
 int KOMETKAS_COUNT = 0;
-int INITIAL_SIZE = 1;
+int INITIAL_SIZE = 3000;
 
 ArrayList<Kometka> kometkas = new ArrayList();
 long lastFrame = millis();
@@ -31,6 +31,10 @@ void setup() {
   }
 }
 
+void drawMouse(){
+  grid.getCellAt(mouseX, mouseY).applyImpulse(1.0);
+}
+
 void draw() {
   clear();
 
@@ -38,24 +42,20 @@ void draw() {
   float delta = (frame - lastFrame)/1000.0;
   lastFrame = frame;
 
-  for (Kometka k : kometkas) {
-    k.draw();
-    k.update(delta);
-  }
-  grid.getCellAt(mouseX, mouseY).applyImpulse(1.0);
-
-  text("FPS : " + frameRate, 10, 10);
-  double creationSinus = Math.sin((millis()/ 1000.0)%(Math.PI*2) );
-  println("seconds: " + millis()/1000 + " sin value: " + creationSinus);
-  if (Math.random() > creationSinus) {
+  double creationSinus = abs((float)Math.sin((millis()/ 100.0)%(Math.PI*2)));
+  if (Math.random() > creationSinus/2.0) {
     kometkas.add(new Kometka(grid));
   } else {
     if (kometkas.size() > 0) {
       kometkas.remove(0);
     }
   }
-
-
+for (Kometka k : kometkas) {
+    k.draw();
+    k.update(delta);
+  }
+  
+  drawMouse();
 
   grid.draw();
   grid.update(delta);

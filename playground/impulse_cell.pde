@@ -2,7 +2,7 @@
 class ImpulseCell{
   final float DEFAULT_VALUE = 0.0;
   final float HIDE_SPEED = 5.0;
-  final float SHOW_SPEED = 25.0;
+  final float SHOW_SPEED = HIDE_SPEED*2;
   float value = DEFAULT_VALUE;
   float impulse = 0.0;
   float width = 10;

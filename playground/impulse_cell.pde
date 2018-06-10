@@ -1,20 +1,21 @@
 
 class ImpulseCell{
-  final float DEFAULT_VALUE = 0.0;
-  final float HIDE_SPEED = 2.1;
-  final float SHOW_SPEED = 30;
-  float value = DEFAULT_VALUE;
-  float impulse = 0.0;
-  float width = 10;
-  float height = 10;
+  final float HIDE_SPEED = 2;
+  final float SHOW_SPEED = 5;
+  final float MIN_SIZE = 0.08;
+  float size = MIN_SIZE;
+  float impulse;
+  float width;
+  float height;
   int x, y;
 
   ImpulseCell(float width, float height, int x, int y, float value){
     this.width = width;
     this.height = height;
-    this.value = value;
+    this.size = value;
     this.x = x;
     this.y = y;
+    this.impulse = 0.0;
   }
 
   float getRealX(){
@@ -26,18 +27,21 @@ class ImpulseCell{
   }
   
   void update(float deltaTime){
-    if(impulse == 0){
-      setValue(value - HIDE_SPEED * deltaTime);
-    }else{
-      setImpulse(impulse - deltaTime*SHOW_SPEED);
-      setValue(value + deltaTime*SHOW_SPEED);
+    if(size != MIN_SIZE || impulse != 0){
+      if(impulse == 0){
+        setSize(size - HIDE_SPEED * deltaTime);
+      }else{
+        float delta = deltaTime*SHOW_SPEED;
+        setImpulse(impulse - delta);
+        setSize(size + delta);
+      }
     }
   }
   
-  void setValue(float value){
-    if(value < 0.001)value = 0;
+  void setSize(float value){
+    if(value < MIN_SIZE)value = MIN_SIZE;
     if(value > 0.99)value = 1;
-    this.value = value;
+    this.size = value;
   }
   void setImpulse(float value){
     if(value < 0.001)value = 0;
@@ -49,9 +53,6 @@ class ImpulseCell{
   }
   
   void draw(){
-    pushMatrix();
-    translate(x*width, y * height);
-    rect(0, 0, width*value, height * value);
-    popMatrix();
+    rect(x*width, y * height, width*size, height * size);
   }
 }

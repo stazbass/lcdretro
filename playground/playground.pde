@@ -1,47 +1,82 @@
 import com.hamoid.*;
 
-final int screenW = 1920;
-final int screenH = 1200;
-int cellWidth = 13;
-int cellHeight = 13;
-int gridWidth = screenW / cellWidth;
-int gridHeight = screenH / cellHeight;
+final boolean PERFORM_RECORDING = false;
+final int SCREEN_WIDTH = 1920;
+final int SCREEN_HEIGHT = 1200;
+final int CELL_WIDTH = 12;
+final int CELL_HEIGHT = CELL_WIDTH;
 
-long lastFrame = millis();
-float lastMouseX = mouseX;
-ImpulseGrid grid = new ImpulseGrid(gridWidth, gridHeight, cellWidth, cellHeight, 0, 0);
-GridRenderer render = new GridRenderer(grid);
-Bitka bitka = new Bitka(grid);
+final int MAX_LINES = 5;
+
 VideoExport videoExport;
+long lastFrame;
+
+ImpulseGrid grid;
+GridRenderer render;
+ArrayList<MovingLine> lines = new ArrayList<MovingLine>(100);
+
 
 // ------------
 void setup() {
-  //size(screenW, screenH);
-  fullScreen();
-  stroke(200, 200, 200);
-  fill(70);
+  size(1024, 768);
+  background(0);
+  //fullScreen(P2D );
+  stroke(70);
+  fill(200);
   rectMode(CENTER);
-  background(100);
   frameRate(100);
+  lastFrame = millis();
+  
+  grid = new ImpulseGrid(width/CELL_WIDTH, height/CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT, CELL_WIDTH/2, CELL_HEIGHT/2);
+  render = new GridRenderer(grid);
+  for(int i =0 ;i < MAX_LINES; i++){
+    lines.add(new MovingLine(grid.width, grid.height, render));
+  }
+  
+  if(PERFORM_RECORDING){
+    videoExport = new VideoExport(this, "interactive.mp4");
+    videoExport.startMovie();
+  }
 }
 
 void draw() {
-  clear();
-
   long frame = millis();
   float delta = (frame - lastFrame)/1000.0;
   lastFrame = frame;
   
+  
+  clear();
+  
   drawAll();
   updateAll(delta);
+  
+  videoCapture();
+  printfps();
+}
+
+void videoCapture(){
+  if(PERFORM_RECORDING){
+    videoExport.saveFrame();
+  }
+}
+
+void printfps(){
+  if(frameCount%100 == 0){
+    println("FPS : " + frameRate);
+  }
 }
 
 void drawAll(){
-  render.point(10,10);
+  for(MovingLine line : lines){
+    line.draw();
+  }
   grid.draw();
 }
 
 void updateAll(float delta){
+  for(MovingLine line : lines){
+    line.update(delta);
+  }
   grid.update(delta);  
 }
 
@@ -52,5 +87,9 @@ void processExit() {
 void keyPressed() {
   if (key == 'q') {
     processExit();
+  }
+  if(key == 'a'){
+    lines.add(new MovingLine(grid.width, grid.height, render));
+    println(lines.size());
   }
 }

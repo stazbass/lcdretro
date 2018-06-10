@@ -1,6 +1,6 @@
 class Kometka{
   PVector pos = new PVector((float)(1920.0f * Math.random()), (float)(1200.0f * Math.random()));
-  float speed = 1550;
+  float speed = 2000;
   PVector dir = new PVector(speed*random(0, 1) - speed/2, speed*random(0, 1) - speed/2);
   ImpulseGrid grid;
   
@@ -9,7 +9,7 @@ class Kometka{
   }
   
   void draw(){
-    grid.getCellAt(pos.x,pos.y).applyImpulse(0.1);
+    grid.getCellAt(pos.x,pos.y).applyImpulse(0.8);
   }
   
   void update(float dt){

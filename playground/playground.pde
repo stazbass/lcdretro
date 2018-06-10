@@ -2,26 +2,26 @@ import com.hamoid.*;
 
 int screenW = 1920;
 int screenH = 1200;
-int cellWidth = 10;
-int cellHeight = 10;
+int cellWidth = 13;
+int cellHeight = 13;
 int gridWidth = screenW / cellWidth;
 int gridHeight = screenH / cellHeight;
 int KOMETKAS_COUNT = 0;
-int INITIAL_SIZE = 3000;
+int INITIAL_SIZE = 50;
 
+ArrayList<Kometka> kometkas = new ArrayList();
 long lastFrame = millis();
 float lastMouseX = mouseX;
 ImpulseGrid grid = new ImpulseGrid(gridWidth, gridHeight, cellWidth, cellHeight, 0, 0);
 Bitka bitka = new Bitka(grid);
-ArrayList<Kometka> kometkas = new ArrayList();
 VideoExport videoExport;
 
 // ------------
 void setup() {
-  //size(1024, 768);
-  fullScreen();
-  stroke(100, 100);
-  fill(200);
+  size(1024, 768);
+  //fullScreen();
+  stroke(200, 200, 200);
+  fill(70);
   rectMode(CENTER);
   background(100);
   frameRate(100);
@@ -31,15 +31,6 @@ void setup() {
   }
 }
 
-void impulseAt(float x, float y, float power){
-  grid.getCellAt(x, y).applyImpulse(power);
-}
-
-
-void drawMouse(){
-  impulseAt(mouseX, mouseY, 1.0);
-}
-
 void draw() {
   clear();
 
@@ -47,10 +38,15 @@ void draw() {
   float delta = (frame - lastFrame)/1000.0;
   lastFrame = frame;
 
-  double creationSinus = abs((float)Math.sin((millis()/ 100.0)%(Math.PI*2)));
-  if (Math.random() > creationSinus/2.0) {
+  double creationSinus = abs((float)Math.sin((millis()/ 3.0)%(Math.PI*2)));
+  println(creationSinus);
+  if (Math.random()*2 > creationSinus) {
+    println("Adding");
+    kometkas.add(new Kometka(grid));
+    kometkas.add(new Kometka(grid));
     kometkas.add(new Kometka(grid));
   } else {
+    println("Removing");
     if (kometkas.size() > 0) {
       kometkas.remove(0);
     }
@@ -59,8 +55,8 @@ void draw() {
     k.draw();
     k.update(delta);
   }
-  
-  drawMouse();
+
+  //drawMouse();
 
   grid.draw();
   grid.update(delta);

@@ -15,7 +15,7 @@ class Bitka{
     
     for(int i = 0; i < segments; i++){
       for(int j = 0; j < bitkaHeight; j++){
-        grid.getCellAt(xpos + grid.cellWidth*i - segments*grid.cellWidth/2, ypos + j* grid.cellHeight).applyImpulse(1);
+        //grid.getCellAt(xpos + grid.cellWidth*i - segments*grid.cellWidth/2, ypos + j* grid.cellHeight).applyImpulse(1);
       }
     }
   }

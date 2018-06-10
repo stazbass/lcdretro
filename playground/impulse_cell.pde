@@ -1,8 +1,8 @@
 
 class ImpulseCell{
-  final float HIDE_SPEED = 10;
-  final float SHOW_SPEED = 10;
-  final float MIN_SIZE = 0.1;
+  final float HIDE_SPEED = 100;
+  final float SHOW_SPEED = 100;
+  final float MIN_SIZE = 0.05;
   final float MAX_SIZE = 1.00;
   float size = MIN_SIZE;
   float targetSize = 0.0;
@@ -45,8 +45,6 @@ class ImpulseCell{
   }
   
   void show(float targetSize){
-    if(targetSize > MAX_SIZE)targetSize = MAX_SIZE;
-    if(targetSize < MIN_SIZE)targetSize = MIN_SIZE;
     if(targetSize > this.targetSize){
       this.targetSize = targetSize;
     }

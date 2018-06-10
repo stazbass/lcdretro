@@ -3,10 +3,10 @@ import com.hamoid.*;
 final boolean PERFORM_RECORDING = false;
 final int SCREEN_WIDTH = 1920;
 final int SCREEN_HEIGHT = 1200;
-final int CELL_WIDTH = 12;
+final int CELL_WIDTH = 20;
 final int CELL_HEIGHT = CELL_WIDTH;
 
-final int MAX_LINES = 50;
+final int MAX_LINES = 20;
 
 VideoExport videoExport;
 long lastFrame;
@@ -49,7 +49,7 @@ void draw() {
   clear();
   
   drawAll();
-  updateAll(1.0/250.0);
+  updateAll(1.0/100.0);
   
   videoCapture();
   printfps();

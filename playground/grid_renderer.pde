@@ -5,8 +5,8 @@ class GridRenderer {
     this.grid = grid;
   }
 
-  void point(int x, int y, float impulse) {
-    grid.getCellAt(x, y).applyImpulse(impulse);
+  void point(int x, int y, float brightness) {
+    grid.getCellAt(x, y).show(brightness);
   }
 
   void point(int x, int y) {
@@ -14,7 +14,7 @@ class GridRenderer {
   }
   
   void point(float x, float y){
-    point(x,y,1);
+    point((int)x,(int)y,1.0);
   }
   
   private void plotLineLow(int x0, int y0, int x1, int y1) {

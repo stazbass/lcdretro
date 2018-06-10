@@ -6,7 +6,7 @@ final int SCREEN_HEIGHT = 1200;
 final int CELL_WIDTH = 12;
 final int CELL_HEIGHT = CELL_WIDTH;
 
-final int MAX_LINES = 5;
+final int MAX_LINES = 50;
 
 VideoExport videoExport;
 long lastFrame;
@@ -18,7 +18,8 @@ ArrayList<MovingLine> lines = new ArrayList<MovingLine>(100);
 
 // ------------
 void setup() {
-  size(1024, 768);
+  //size(1024, 768);
+  fullScreen();
   background(0);
   //fullScreen(P2D );
   stroke(70);
@@ -41,14 +42,14 @@ void setup() {
 
 void draw() {
   long frame = millis();
-  float delta = (frame - lastFrame)/1000.0;
+  //float delta = (frame - lastFrame)/1000.0;
   lastFrame = frame;
   
   
   clear();
   
   drawAll();
-  updateAll(delta);
+  updateAll(1.0/250.0);
   
   videoCapture();
   printfps();

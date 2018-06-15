@@ -7,14 +7,9 @@ class Box{
   Box(float bWidth, float bHeight){
     lu = new PVector(-bWidth/2.0, -bHeight/2.0);
     ru = new PVector(bWidth/2.0, -bHeight/2.0);
-    ld = new PVector(bWidth/2.0, bHeight/2.0);
-    rd = new PVector(-bWidth/2.0, bHeight/2.0);
+    rd = new PVector(bWidth/2.0, bHeight/2.0);
+    ld = new PVector(-bWidth/2.0, bHeight/2.0);
     position = new PVector(0,0);
-    calculateVertices();
-  }
-  
-  void moveTo(PVector pos){
-    position.set(pos);
     calculateVertices();
   }
   
@@ -28,7 +23,7 @@ class Box{
     calculateVertices();
   }
   void calculateVertices(){
-    vertices = new PVector[]{lu.copy().rotate(angle), ru.copy().rotate(angle), ld.copy().rotate(angle), rd.copy().rotate(angle)};
+    vertices = new PVector[]{lu.copy().rotate(angle), ru.copy().rotate(angle), rd.copy().rotate(angle), ld.copy().rotate(angle)};
     for(PVector v: vertices){
       v.add(position);
     }

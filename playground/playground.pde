@@ -5,7 +5,7 @@ import shiffman.box2d.*;
 final boolean PERFORM_RECORDING = false;
 final int SCREEN_WIDTH = 1024;
 final int SCREEN_HEIGHT = 768;
-final int CELL_WIDTH = 10;
+final int CELL_WIDTH = 5;
 final int CELL_HEIGHT = CELL_WIDTH;
 
 final int MAX_LINES = 0;
@@ -20,10 +20,9 @@ Bitka bitka;
 LineChain chain;
 // ------------
 void setup() {
-  size(1024, 768, P2D);
+  size(1024, 768);
   //fullScreen();
   background(0);
-  //fullScreen(P2D );
   stroke(70);
   fill(200);
   rectMode(CENTER);
@@ -34,9 +33,6 @@ void setup() {
   println("Grid size: " + grid.width + " : " + grid.height);
   render = new GridRenderer(grid);
   bitka = new Bitka(render);
-  for(int i =0 ;i < MAX_LINES; i++){
-    lines.add(new MovingLine(grid.width, grid.height, render));
-  }
   chain = new LineChain(grid.width, grid.height, render);
   
   if(PERFORM_RECORDING){

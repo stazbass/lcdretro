@@ -16,7 +16,7 @@ long lastFrame;
 ImpulseGrid grid;
 GridRenderer render;
 Bitka bitka;
-Ball ball;
+ArrayList<Ball> balls = new ArrayList<Ball>();
 // ------------
 void setup() {
   size(1024, 768);
@@ -33,7 +33,8 @@ void setup() {
   println("Grid size: " + grid.width + " : " + grid.height);
   render = new GridRenderer(grid);
   bitka = new Bitka(render);
-  ball = new Ball(render);
+  balls = new ArrayList();
+  balls.add(new Ball(render));
   
   if(PERFORM_RECORDING){
     videoExport = new VideoExport(this, "interactive.mp4");
@@ -50,25 +51,40 @@ void draw() {
   clear();
   
   drawAll();
-  updateAll(1.0/100.0);
+  updateAll(1.0/50.0);
   
   videoCapture();
   printfps();
 }
 
 void drawAll(){
-  ball.draw();
+  for(Ball b : balls){
+    b.draw();
+  }
   bitka.draw();
   grid.draw();
 }
 
 void updateAll(float delta){
-  if(bitka.checkCollision(ball.point, delta)){
-    ball.point.dir.y *= -1;
+  for(Ball b : balls){
+     if(bitka.checkCollision(b.point, delta)){
+      b.point.dir.y *= -1;
+    }
+    b.update(delta);
   }
-  ball.update(delta);
+  ArrayList<Ball> candidates = new ArrayList<Ball>();
+  for(Ball b : balls){
+    if(!b.point.alive){
+      candidates.add(b);
+    }
+  }
+  for(Ball b : candidates){
+    balls.remove(b);
+  }
+  
   bitka.update(delta);
   grid.update(delta);  
+  if(frameCount%20 == 0)balls.add(new Ball(render));
 }
 
 void keyPressed() {

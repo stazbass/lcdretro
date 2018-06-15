@@ -4,10 +4,11 @@ class MovingPoint{
   PVector dir;
   int maxX;
   int maxY;
+  boolean alive = true;
   
   MovingPoint(int maxx, int maxy){
     pos = new PVector((float)(maxx * Math.random()), (float)(maxy * Math.random()));
-    speed = 240;
+    speed = 100*Math.random();
     dir = new PVector(speed*random(0, 1) - speed/2, speed*random(0, 1) - speed/2);
     this.maxX = maxx;
     this.maxY = maxy;
@@ -38,6 +39,7 @@ class MovingPoint{
     if(pos.y > maxY){
       pos.y = maxY;
       dir.y = -dir.y;
+      alive = false;
     }
     if(pos.y < 0){
       pos.y = 0;

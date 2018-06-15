@@ -7,11 +7,22 @@ class MovingPoint{
   
   MovingPoint(int maxx, int maxy){
     pos = new PVector((float)(maxx * Math.random()), (float)(maxy * Math.random()));
-    speed = 200;
+    speed = 240;
     dir = new PVector(speed*random(0, 1) - speed/2, speed*random(0, 1) - speed/2);
     this.maxX = maxx;
     this.maxY = maxy;
   }
+  
+  MovingPoint(PVector pos, int maxx, int maxy){
+    this.pos = pos.copy();
+    speed = 240;
+    dir = new PVector(random(-1, 1), random(-1, 1));
+    dir.normalize();
+    dir.mult(speed);
+    this.maxX = maxx;
+    this.maxY = maxy;
+  }
+  
   
   void update(float dt){
     pos.x += dir.x*dt;

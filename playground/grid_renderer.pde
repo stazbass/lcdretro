@@ -10,11 +10,11 @@ class GridRenderer {
   }
 
   void point(int x, int y) {
-    point(x, y, 1.0);
+    grid.getCellAt(x, y).show(1.0);
   }
   
   void point(float x, float y){
-    point((int)x,(int)y,1.0);
+    point((int)x,(int)y, 1.0);
   }
   
   private void plotLineLow(int x0, int y0, int x1, int y1) {
@@ -79,5 +79,12 @@ class GridRenderer {
 
   void line(float x0, float y0, float x1, float y1) {
     line((int)x0, (int)y0, (int)x1, (int)y1);
+  }
+  
+  void rect(float x, float y, float rWidth, float rHeight){
+    line((int)x, (int)y, (int)x+rWidth, (int)y);
+    line((int)x+rWidth, (int)y, (int)x+rWidth, (int)y);
+    line((int)x+rWidth, (int)y+rHeight, (int)x,(int)y+rHeight);
+    line((int)x,(int)y+rHeight, (int)x, (int)y);
   }
 }

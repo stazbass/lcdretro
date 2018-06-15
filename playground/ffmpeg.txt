@@ -1,0 +1,43 @@
+ffmpeg version N-91141-gc24d247e2c Copyright (c) 2000-2018 the FFmpeg developers
+  built with gcc 7.3.0 (GCC)
+  configuration: --enable-gpl --enable-version3 --enable-sdl2 --enable-bzlib --enable-fontconfig --enable-gnutls --enable-iconv --enable-libass --enable-libbluray --enable-libfreetype --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libopus --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libtheora --enable-libtwolame --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxml2 --enable-libzimg --enable-lzma --enable-zlib --enable-gmp --enable-libvidstab --enable-libvorbis --enable-libvo-amrwbenc --enable-libmysofa --enable-libspeex --enable-libxvid --enable-libaom --enable-libmfx --enable-amf --enable-ffnvcodec --enable-cuvid --enable-d3d11va --enable-nvenc --enable-nvdec --enable-dxva2 --enable-avisynth
+  libavutil      56. 18.102 / 56. 18.102
+  libavcodec     58. 19.102 / 58. 19.102
+  libavformat    58. 16.100 / 58. 16.100
+  libavdevice    58.  4.100 / 58.  4.100
+  libavfilter     7. 24.100 /  7. 24.100
+  libswscale      5.  2.100 /  5.  2.100
+  libswresample   3.  2.100 /  3.  2.100
+  libpostproc    55.  2.100 / 55.  2.100
+Input #0, rawvideo, from 'pipe:':
+  Duration: N/A, start: 0.000000, bitrate: 1658880 kb/s
+    Stream #0:0: Video: rawvideo (RGB[24] / 0x18424752), rgb24, 1920x1200, 1658880 kb/s, 30 tbr, 30 tbn, 30 tbc
+Stream mapping:
+  Stream #0:0 -> #0:0 (rawvideo (native) -> h264 (libx264))
+[libx264 @ 000002f8cff4d6c0] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX XOP FMA3 BMI1
+[libx264 @ 000002f8cff4d6c0] profile High, level 5.0
+[libx264 @ 000002f8cff4d6c0] 264 - core 155 r2901 7d0ff22 - H.264/MPEG-4 AVC codec - Copyleft 2003-2018 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=12 lookahead_threads=2 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=15.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, mp4, to 'C:\dev\projects\lcdretro\playground\interactive.mp4':
+  Metadata:
+    comment         : Made with Video Export for Processing - https://git.io/vAXLk
+    encoder         : Lavf58.16.100
+    Stream #0:0: Video: h264 (libx264) (avc1 / 0x31637661), yuv420p, 1920x1200, q=-1--1, 30 fps, 15360 tbn, 30 tbc
+    Metadata:
+      encoder         : Lavc58.19.102 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: -1
+frame=    6 fps=0.0 q=-1.0 Lsize=     308kB time=00:00:00.10 bitrate=25254.3kbits/s speed=0.155x    
+video:308kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.302287%
+[libx264 @ 000002f8cff4d6c0] frame I:1     Avg QP:17.11  size: 47441
+[libx264 @ 000002f8cff4d6c0] frame P:5     Avg QP:20.52  size: 53360
+[libx264 @ 000002f8cff4d6c0] mb I  I16..4:  0.0% 36.0% 64.0%
+[libx264 @ 000002f8cff4d6c0] mb P  I16..4:  1.2%  6.3%  3.5%  P16..4: 31.2% 10.0% 18.9%  0.0%  0.0%    skip:28.9%
+[libx264 @ 000002f8cff4d6c0] 8x8 transform intra:43.7% inter:2.7%
+[libx264 @ 000002f8cff4d6c0] coded y,uvDC,uvAC intra: 15.2% 0.0% 0.0% inter: 11.3% 0.0% 0.0%
+[libx264 @ 000002f8cff4d6c0] i16 v,h,dc,p: 87% 11%  3%  0%
+[libx264 @ 000002f8cff4d6c0] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu:  0%  0% 100%  0%  0%  0%  0%  0%  0%
+[libx264 @ 000002f8cff4d6c0] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu:  6%  4% 89%  0%  0%  0%  0%  0%  0%
+[libx264 @ 000002f8cff4d6c0] i8c dc,h,v,p: 100%  0%  0%  0%
+[libx264 @ 000002f8cff4d6c0] Weighted P-Frames: Y:60.0% UV:0.0%
+[libx264 @ 000002f8cff4d6c0] ref P L0: 47.3% 13.3% 32.2%  4.4%  2.9%
+[libx264 @ 000002f8cff4d6c0] kb/s:12569.68

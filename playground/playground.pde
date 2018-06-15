@@ -1,12 +1,14 @@
 import com.hamoid.*;
+import shiffman.box2d.*;
+
 
 final boolean PERFORM_RECORDING = false;
-final int SCREEN_WIDTH = 1920;
-final int SCREEN_HEIGHT = 1200;
-final int CELL_WIDTH = 20;
+final int SCREEN_WIDTH = 1024;
+final int SCREEN_HEIGHT = 768;
+final int CELL_WIDTH = 10;
 final int CELL_HEIGHT = CELL_WIDTH;
 
-final int MAX_LINES = 20;
+final int MAX_LINES = 0;
 
 VideoExport videoExport;
 long lastFrame;
@@ -14,12 +16,12 @@ long lastFrame;
 ImpulseGrid grid;
 GridRenderer render;
 ArrayList<MovingLine> lines = new ArrayList<MovingLine>(100);
-
-
+Bitka bitka;
+LineChain chain;
 // ------------
 void setup() {
-  //size(1024, 768);
-  fullScreen();
+  size(1024, 768, P2D);
+  //fullScreen();
   background(0);
   //fullScreen(P2D );
   stroke(70);
@@ -29,10 +31,13 @@ void setup() {
   lastFrame = millis();
   
   grid = new ImpulseGrid(width/CELL_WIDTH, height/CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT, CELL_WIDTH/2, CELL_HEIGHT/2);
+  println("Grid size: " + grid.width + " : " + grid.height);
   render = new GridRenderer(grid);
+  bitka = new Bitka(render);
   for(int i =0 ;i < MAX_LINES; i++){
     lines.add(new MovingLine(grid.width, grid.height, render));
   }
+  chain = new LineChain(grid.width, grid.height, render);
   
   if(PERFORM_RECORDING){
     videoExport = new VideoExport(this, "interactive.mp4");
@@ -49,15 +54,50 @@ void draw() {
   clear();
   
   drawAll();
-  updateAll(1.0/100.0);
+  updateAll(1.0/60.0);
   
   videoCapture();
   printfps();
 }
 
-void videoCapture(){
-  if(PERFORM_RECORDING){
-    videoExport.saveFrame();
+void drawAll(){
+  for(MovingLine line : lines){
+    line.draw();
+  }
+  chain.draw();
+  bitka.draw();
+  grid.draw();
+}
+
+void updateAll(float delta){
+  for(MovingLine line : lines){
+    line.update(delta);
+    if(bitka.checkCollision(line.p1.pos)){
+      line.p1.dir.mult(-1);
+    line.update(delta);
+    }
+    if(bitka.checkCollision(line.p2.pos)){
+      line.p2.dir.mult(-1);
+    line.update(delta);
+    }
+  }
+  chain.update(delta);
+  bitka.update(delta);
+  grid.update(delta);  
+}
+
+void keyPressed() {
+  if (key == 'q') {
+    processExit();
+  }
+  if(key == 'a'){
+    for(int i = 0; i < 10; i++){
+      lines.add(new MovingLine(grid.width, grid.height, render));
+      println(lines.size());
+    }
+  }
+  if(key == 'c'){
+    chain.addPoint();
   }
 }
 
@@ -66,31 +106,12 @@ void printfps(){
     println("FPS : " + frameRate);
   }
 }
-
-void drawAll(){
-  for(MovingLine line : lines){
-    line.draw();
-  }
-  grid.draw();
-}
-
-void updateAll(float delta){
-  for(MovingLine line : lines){
-    line.update(delta);
-  }
-  grid.update(delta);  
-}
-
 void processExit() {
   exit();
 }
 
-void keyPressed() {
-  if (key == 'q') {
-    processExit();
-  }
-  if(key == 'a'){
-    lines.add(new MovingLine(grid.width, grid.height, render));
-    println(lines.size());
+void videoCapture(){
+  if(PERFORM_RECORDING){
+    videoExport.saveFrame();
   }
 }

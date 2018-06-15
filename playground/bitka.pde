@@ -4,11 +4,11 @@ class Bitka{
   int bitkaHeight = 1;
   float xpos;
   float ypos;
-  Box box;
+  Rect box;
   
   Bitka(GridRenderer grid){
     this.grid = grid;
-    box = new Box(20, 4);
+    box = new Rect(20, 4);
   }
   
   void draw(){

@@ -1,39 +1,91 @@
-class Box{
-  PVector lu, ru, ld, rd;
-  PVector position;
-  PVector[] vertices;
-  float angle = 0;
-  
-  Box(float bWidth, float bHeight){
-    lu = new PVector(-bWidth/2.0, -bHeight/2.0);
-    ru = new PVector(bWidth/2.0, -bHeight/2.0);
-    ld = new PVector(bWidth/2.0, bHeight/2.0);
-    rd = new PVector(-bWidth/2.0, bHeight/2.0);
-    position = new PVector(0,0);
-    calculateVertices();
+// The Nature of Code
+// <http://www.shiffman.net/teaching/nature>
+// Spring 2010
+// Box2DProcessing example
+
+// A rectangular box
+class Box {
+
+  // We need to keep track of a Body and a width and height
+  Body body;
+  float w;
+  float h;
+  Rect rect;
+
+  // Constructor
+  Box(float x, float y) {
+    w = random(4, 16);
+    h = random(4, 16);
+    // Add the box to the box2d world
+    makeBody(new Vec2(x, y), w, h);
+    rect = new Rect(w/10.0, h/10.0);
+    rect.moveTo(x/10.0,y/10.0);
   }
-  
-  void moveTo(PVector pos){
-    position.set(pos);
-    calculateVertices();
+
+  // This function removes the particle from the box2d world
+  void killBody() {
+    box2d.destroyBody(body);
   }
-  
-  void moveTo(float x, float y){
-    position.set(x, y);
-    calculateVertices();
-  }
-  
-  void rot(float angle){
-    this.angle = angle;
-    calculateVertices();
-  }
-  void calculateVertices(){
-    vertices = new PVector[]{lu.copy().rotate(angle), ru.copy().rotate(angle), ld.copy().rotate(angle), rd.copy().rotate(angle)};
-    for(PVector v: vertices){
-      v.add(position);
+
+  // Is the particle ready for deletion?
+  boolean done() {
+    // Let's find the screen position of the particle
+    Vec2 pos = box2d.getBodyPixelCoord(body);
+    // Is it off the bottom of the screen?
+    if (pos.y > height+w*h) {
+      killBody();
+      return true;
     }
+    return false;
   }
-  PVector [] getVertices(){
-    return vertices;
+
+  // Drawing the box
+  void display(GridRenderer render) {
+    // We look at each body and get its screen position
+    Vec2 pos = box2d.getBodyPixelCoord(body);
+    // Get its angle of rotation
+    float a = body.getAngle();
+
+    //rectMode(CENTER);
+    //pushMatrix();
+    //translate(pos.x, pos.y);
+    //rotate(-a);
+    //fill(175);
+    //stroke(0);
+    rect.rot(-a);
+    rect.moveTo(pos.x/10.0, pos.y/10.0);
+    render.rect(rect);
+    //rect(0, 0, w, h);
+    //popMatrix();
+  }
+
+  // This function adds the rectangle to the box2d world
+  void makeBody(Vec2 center, float w_, float h_) {
+
+    // Define a polygon (this is what we use for a rectangle)
+    PolygonShape sd = new PolygonShape();
+    float box2dW = box2d.scalarPixelsToWorld(w_/2);
+    float box2dH = box2d.scalarPixelsToWorld(h_/2);
+    sd.setAsBox(box2dW, box2dH);
+
+    // Define a fixture
+    FixtureDef fd = new FixtureDef();
+    fd.shape = sd;
+    // Parameters that affect physics
+    fd.density = 1;
+    fd.friction = 0.3;
+    fd.restitution = 0.5;
+
+    // Define the body and make it from the shape
+    BodyDef bd = new BodyDef();
+    bd.type = BodyType.DYNAMIC;
+    bd.position.set(box2d.coordPixelsToWorld(center));
+
+    body = box2d.createBody(bd);
+    body.createFixture(fd);
+
+    // Give it some initial random velocity
+    body.setLinearVelocity(new Vec2(random(-5, 5), random(2, 5)));
+    body.setAngularVelocity(random(-5, 5));
   }
 }

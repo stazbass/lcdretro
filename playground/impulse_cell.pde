@@ -1,8 +1,8 @@
 
 class ImpulseCell{
-  final float HIDE_SPEED = 5;
-  final float SHOW_SPEED = 10;
-  final float MIN_SIZE = 0.005;
+  final float HIDE_SPEED = 4;
+  final float SHOW_SPEED = 30;
+  final float MIN_SIZE = 0;
   final float MAX_SIZE = 1;
   final float MAX_IMPULSE = 1.0;
   float size = MIN_SIZE;

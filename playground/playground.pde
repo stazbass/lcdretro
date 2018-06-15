@@ -5,7 +5,7 @@ import shiffman.box2d.*;
 final boolean PERFORM_RECORDING = false;
 final int SCREEN_WIDTH = 1024;
 final int SCREEN_HEIGHT = 768;
-final int CELL_WIDTH = 5;
+final int CELL_WIDTH = 11;
 final int CELL_HEIGHT = CELL_WIDTH;
 
 final int MAX_LINES = 0;
@@ -15,12 +15,12 @@ long lastFrame;
 
 ImpulseGrid grid;
 GridRenderer render;
-ArrayList<MovingLine> lines = new ArrayList<MovingLine>(100);
 Bitka bitka;
-LineChain chain;
+Ball ball;
 // ------------
 void setup() {
   size(1024, 768);
+  smooth();
   //fullScreen();
   background(0);
   stroke(70);
@@ -33,7 +33,7 @@ void setup() {
   println("Grid size: " + grid.width + " : " + grid.height);
   render = new GridRenderer(grid);
   bitka = new Bitka(render);
-  chain = new LineChain(grid.width, grid.height, render);
+  ball = new Ball(render);
   
   if(PERFORM_RECORDING){
     videoExport = new VideoExport(this, "interactive.mp4");
@@ -50,34 +50,23 @@ void draw() {
   clear();
   
   drawAll();
-  updateAll(1.0/60.0);
+  updateAll(1.0/100.0);
   
   videoCapture();
   printfps();
 }
 
 void drawAll(){
-  for(MovingLine line : lines){
-    line.draw();
-  }
-  chain.draw();
+  ball.draw();
   bitka.draw();
   grid.draw();
 }
 
 void updateAll(float delta){
-  for(MovingLine line : lines){
-    line.update(delta);
-    if(bitka.checkCollision(line.p1.pos)){
-      line.p1.dir.mult(-1);
-    line.update(delta);
-    }
-    if(bitka.checkCollision(line.p2.pos)){
-      line.p2.dir.mult(-1);
-    line.update(delta);
-    }
+  if(bitka.checkCollision(ball.point, delta)){
+    ball.point.dir.y *= -1;
   }
-  chain.update(delta);
+  ball.update(delta);
   bitka.update(delta);
   grid.update(delta);  
 }
@@ -87,13 +76,9 @@ void keyPressed() {
     processExit();
   }
   if(key == 'a'){
-    for(int i = 0; i < 10; i++){
-      lines.add(new MovingLine(grid.width, grid.height, render));
-      println(lines.size());
-    }
+
   }
   if(key == 'c'){
-    chain.addPoint();
   }
 }
 

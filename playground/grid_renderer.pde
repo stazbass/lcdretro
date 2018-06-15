@@ -30,7 +30,7 @@ class GridRenderer {
     int D = 2*dy - dx;
     int y = y0;
 
-    for (int x = x0; x < x1; x++) {
+    for (int x = x0; x <= x1; x++) {
       point(x, y);
       if (D > 0) {
         y = y + yi;
@@ -51,7 +51,7 @@ class GridRenderer {
     int D = 2 * dx - dy;
     int x = x0;
 
-    for (int y = y0; y < y1; y++) {
+    for (int y = y0; y <= y1; y++) {
       point(x, y);
       if (D > 0) {
         x = x + xi;

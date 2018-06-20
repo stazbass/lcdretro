@@ -81,6 +81,12 @@ class GridRenderer {
     line((int)x0, (int)y0, (int)x1, (int)y1);
   }
   
+  void circle(PVector pos, float radius){
+    circle(pos.x, pos.y, radius);
+  }
+  void circleAlt(PVector pos, float r){
+    circleAlt(pos.x, pos.y, r);
+  }
   void circle(float x0, float y0, float radius){
     int x = (int)(radius-1);
     int y = 0;

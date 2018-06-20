@@ -16,12 +16,13 @@ class MovingLine{
   }
   
   void draw(){
+    render.circle(p1.pos,5);
+    render.circle(p2.pos,5);
+    render.circleAlt(p1.pos,5);
+    render.circleAlt(p2.pos,5);
     render.line(p1.pos.x,p1.pos.y,p2.pos.x,p2.pos.y);
   }
   
-  boolean connectedToBall(Ball b){
-    if(p1 == b.point || p2 == b.point)return true;else return false;
-  }
   void update(float delta){
     p1.update(delta);
     p2.update(delta);

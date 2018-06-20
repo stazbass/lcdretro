@@ -1,7 +1,7 @@
 
 class ImpulseCell{
-  final float HIDE_SPEED = 1;
-  final float SHOW_SPEED = 30;
+  final float HIDE_SPEED = 5;
+  final float SHOW_SPEED = 45;
   final float MIN_SIZE = 0.0;
   final float MAX_SIZE = 1;
   final float MAX_IMPULSE = 1.0;
@@ -55,8 +55,9 @@ class ImpulseCell{
   }
   
   void show(float brightness){
-    float impulse = brightness - size;
-    this.impulse = impulse > this.impulse?impulse:this.impulse;
+    //float impulse = brightness - size;
+    //this.impulse = impulse > this.impulse?impulse:this.impulse;
+    this.impulse += brightness;
   }
   
   void draw(){

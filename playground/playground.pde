@@ -42,7 +42,7 @@ void draw() {
   
   drawAll();
   updateAll(1.0/50.0);
-  if(frameCount%5 == 0){
+  if(frameCount%5 == 0 && lines.size() < 10){
       lines.add(new MovingLine(grid.width-1, grid.height-1, render));
   }
   ve.frame();

@@ -2,10 +2,10 @@ import com.hamoid.*;
 import shiffman.box2d.*;
 
 
-final boolean enabled = false;
+final boolean enabled = true;
 final int SCREEN_WIDTH = 1500;
 final int SCREEN_HEIGHT = 1000;
-final int CELL_WIDTH = 10;
+final int CELL_WIDTH = 15;
 final int CELL_HEIGHT = CELL_WIDTH;
 
 final int MAX_LINES = 0;
@@ -22,7 +22,7 @@ ArrayList<MovingLine> lines = new ArrayList<MovingLine>(1000);
 void setup() {
   size(1024, 768);
   smooth();
-  //fullScreen();
+  fullScreen();
   background(0);
   stroke(210);
   fill(100);

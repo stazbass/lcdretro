@@ -11,6 +11,7 @@ class Box {
   float w;
   float h;
   Rect rect;
+  final float scale = 10;
 
   // Constructor
   Box(float x, float y) {
@@ -18,8 +19,8 @@ class Box {
     h = random(4, 16);
     // Add the box to the box2d world
     makeBody(new Vec2(x, y), w, h);
-    rect = new Rect(w/10.0, h/10.0);
-    rect.moveTo(x/10.0,y/10.0);
+    rect = new Rect(w/scale, h/scale);
+    rect.moveTo(x/scale,y/scale);
   }
 
   // This function removes the particle from the box2d world
@@ -53,7 +54,7 @@ class Box {
     //fill(175);
     //stroke(0);
     rect.rot(-a);
-    rect.moveTo(pos.x/10.0, pos.y/10.0);
+    rect.moveTo(pos.x/scale, pos.y/scale);
     render.rect(rect);
     //rect(0, 0, w, h);
     //popMatrix();

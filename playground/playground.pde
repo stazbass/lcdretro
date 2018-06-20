@@ -10,7 +10,7 @@ import org.jbox2d.dynamics.*;
 final boolean PERFORM_RECORDING = false;
 final int SCREEN_WIDTH = 1024;
 final int SCREEN_HEIGHT = 768;
-final int CELL_WIDTH = 7;
+final int CELL_WIDTH =10;
 final int CELL_HEIGHT = CELL_WIDTH;
 
 VideoExport videoExport;

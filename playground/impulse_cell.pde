@@ -1,6 +1,6 @@
 
 class ImpulseCell{
-  final float HIDE_SPEED = 5;
+  final float HIDE_SPEED = 1;
   final float SHOW_SPEED = 30;
   final float MIN_SIZE = 0.0;
   final float MAX_SIZE = 1;
@@ -33,7 +33,6 @@ class ImpulseCell{
       float delta = deltaTime * SHOW_SPEED;
       setImpulse(impulse - delta);
       setSize(size + delta);
-      println(size);
     }else{
       setSize(size - deltaTime*HIDE_SPEED);
     }
@@ -61,7 +60,7 @@ class ImpulseCell{
   }
   
   void draw(){
-    strokeWeight(size > 0.2 ? size : 0.2);
+    strokeWeight(size > 0.5 ? size : 0.5);
     rect(x*cellWidth, y * cellHeight, cellWidth* size, cellHeight * size);
   }
 }

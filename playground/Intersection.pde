@@ -1,7 +1,7 @@
 static class Intersection {
 
   static boolean checkLineCircleIntersect(PVector start, PVector end, PVector sphereCenter, float radius) {
-    PVector d = end.sub(end, start);
+    PVector d = PVector.sub(end, start);
     PVector f = PVector.sub(start, sphereCenter) ;
     float a = PVector.dot(d, d ) ;
     float b = 2*PVector.dot(f, d);

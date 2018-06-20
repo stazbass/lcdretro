@@ -2,10 +2,10 @@ import com.hamoid.*;
 import shiffman.box2d.*;
 
 
-final boolean PERFORM_RECORDING = true;
+final boolean PERFORM_RECORDING = false;
 final int SCREEN_WIDTH = 1024;
 final int SCREEN_HEIGHT = 768;
-final int CELL_WIDTH = 9;
+final int CELL_WIDTH = 15;
 final int CELL_HEIGHT = CELL_WIDTH;
 
 final int MAX_LINES = 0;
@@ -28,8 +28,8 @@ void setup() {
   smooth();
   //fullScreen();
   background(0);
-  stroke(190);
-  fill(110);
+  stroke(210);
+  fill(100);
   rectMode(CENTER);
   frameRate(100);
   strokeWeight(1);
@@ -121,8 +121,10 @@ void updateAll(float delta){
   grid.update(delta);  
   if(frameCount%5== 0 && balls.size()<20){
     Ball newBall = new Ball(render);
-    if(prevBall != null)
+    if(prevBall != null && frameCount%3 == 0){
       lines.add(new MovingLine(prevBall.point, newBall.point, render));
+      prevBall = null;;
+    }
     balls.add(newBall);
     prevBall = newBall;
   };

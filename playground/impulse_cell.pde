@@ -1,19 +1,19 @@
 
 class ImpulseCell{
-  final float HIDE_SPEED = 4;
+  final float HIDE_SPEED = 5;
   final float SHOW_SPEED = 30;
-  final float MIN_SIZE = 0;
+  final float MIN_SIZE = 0.0;
   final float MAX_SIZE = 1;
   final float MAX_IMPULSE = 1.0;
   float size = MIN_SIZE;
   float impulse = 0.0;
-  float width;
-  float height;
-  int x, y;
+  float cellWidth;
+  float cellHeight;
+  float x, y;
 
   ImpulseCell(float width, float height, int x, int y, float size){
-    this.width = width;
-    this.height = height;
+    this.cellWidth = width;
+    this.cellHeight = height;
     this.size = size;
     this.x = x;
     this.y = y;
@@ -31,18 +31,28 @@ class ImpulseCell{
   void update(float deltaTime){
     if(impulse > 0){
       float delta = deltaTime * SHOW_SPEED;
-      impulse = impulse - delta;
-      if(impulse < 0)impulse = 0;
+      setImpulse(impulse - delta);
       setSize(size + delta);
+      println(size);
     }else{
       setSize(size - deltaTime*HIDE_SPEED);
     }
   }
   
-  void setSize(float size){
-    if(size <= MIN_SIZE)size = MIN_SIZE;
-    if(size >= MAX_SIZE)size = MAX_SIZE;
-    this.size = size;
+  void setImpulse(float val){
+    if(val < 0)val = 0;
+    if(val > MAX_IMPULSE)val = MAX_IMPULSE;
+    this.impulse = val;
+  }
+  
+  void setSize(float val){
+    if(val <= MIN_SIZE)val = MIN_SIZE;
+    if(val >= MAX_SIZE){
+      val = MAX_SIZE;
+      if(impulse > 0.5)
+      setImpulse(0.5);
+    }
+    this.size = val;
   }
   
   void show(float brightness){
@@ -51,6 +61,7 @@ class ImpulseCell{
   }
   
   void draw(){
-    rect(x*width, y * height, width*size, height * size);
+    strokeWeight(size > 0.2 ? size : 0.2);
+    rect(x*cellWidth, y * cellHeight, cellWidth* size, cellHeight * size);
   }
 }

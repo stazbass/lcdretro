@@ -36,9 +36,9 @@ class Bitka{
   
       return null; // No collision
   }
-  boolean checkCollision(MovingPoint point, float delta){
+  boolean checkCollision(MovingPoint point){
     PVector start = point.pos.copy();
-    PVector end = point.dir.copy().mult(delta).add(start);
+    PVector end = point.nextPosition;
     
     PVector i = get_line_intersection(start.x, start.y, end.x, end.y, vertices[0].x, vertices[0].y, vertices[1].x, vertices[1].y);
     if(i != null){

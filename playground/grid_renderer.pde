@@ -9,12 +9,12 @@ class GridRenderer {
     grid.getCellAt(x, y).show(brightness);
   }
 
-  void point(int x, int y) {
-    grid.getCellAt(x, y).show(1.0);
+  void point(float x, float y) {
+    grid.getCellAt((int)x, (int)y).show(1.0);
   }
   
-  void point(float x, float y){
-    point((int)x,(int)y, 1.0);
+  void point(float x, float y, float brightness){
+    grid.getCellAt(Math.round(x), Math.round(y)).show(brightness);
   }
   
   private void plotLineLow(int x0, int y0, int x1, int y1) {
@@ -79,6 +79,78 @@ class GridRenderer {
 
   void line(float x0, float y0, float x1, float y1) {
     line((int)x0, (int)y0, (int)x1, (int)y1);
+  }
+  
+  void circle(float x0, float y0, float radius){
+    int x = (int)(radius-1);
+    int y = 0;
+    int dx = 1;
+    int dy = 1;
+    int intr = (int)radius;
+    int err = dx - (intr << 1);
+
+    while (x >= y)
+    {
+        point(x0 + x, y0 + y);
+        point(x0 + y, y0 + x);
+        point(x0 - y, y0 + x);
+        point(x0 - x, y0 + y);
+        point(x0 - x, y0 - y);
+        point(x0 - y, y0 - x);
+        point(x0 + y, y0 - x);
+        point(x0 + x, y0 - y);
+
+        if (err <= 0)
+        {
+            y++;
+            err += dy;
+            dy += 2;
+        }
+        
+        if (err > 0)
+        {
+            x--;
+            dx += 2;
+            err += dx - (intr << 1);
+        }
+    }
+  }
+  
+  private void drawCirclePoints(float xc, float yc, float x, float y)
+  {
+      point(xc+x, yc+y);
+      point(xc-x, yc+y);
+      point(xc+x, yc-y);
+      point(xc-x, yc-y);
+      point(xc+y, yc+x);
+      point(xc-y, yc+x);
+      point(xc+y, yc-x);
+      point(xc-y, yc-x);
+  }
+  
+  void circleAlt(float xc, float yc, float r)
+  {
+      int x = 0, y = (int)r;
+      int d = (int)(3 - 2 * r);
+      while (y >= x)
+      {
+          // for each pixel we will
+          // draw all eight pixels
+          drawCirclePoints(xc, yc, x, y);
+          x++;
+   
+          // check for decision parameter
+          // and correspondingly 
+          // update d, x, y
+          if (d > 0)
+          {
+              y--; 
+              d = d + 4 * (x - y) + 10;
+          }
+          else
+              d = d + 4 * x + 6;
+          drawCirclePoints(xc, yc, x, y);
+      }
   }
   
   void rect(float x, float y, float rWidth, float rHeight){

@@ -8,11 +8,10 @@ class Ball{
   }
   
   void draw(){
-    
+    render.point(point.pos.x, point.pos.y, 1.0);    
   }
   
   void update(float dt){
     point.update(dt);
-    render.point(point.pos.x, point.pos.y);
   }
 }

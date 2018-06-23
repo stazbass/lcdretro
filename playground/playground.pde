@@ -1,74 +1,60 @@
-import com.hamoid.*;
+ import com.hamoid.*;
 import shiffman.box2d.*;
 
 
-final boolean enabled = false;
 final int SCREEN_WIDTH = 1500;
 final int SCREEN_HEIGHT = 1000;
-final int CELL_WIDTH = 10;
-final int CELL_HEIGHT = CELL_WIDTH;
 
-final int MAX_LINES = 0;
-
-
-VideoRecorder ve;
+VideoRecorder videoRecorder;
 ImpulseGrid grid;
 GridRenderer render;
-ArrayList<Ball> balls = new ArrayList<Ball>(1000);
-ArrayList<MovingLine> lines = new ArrayList<MovingLine>(1000);
+ScenePong pongScene;
 
 
 // ------------
 void setup() {
-  size(1024, 768);
+  size(1024, 768, P3D);
   smooth();
   //fullScreen();
   background(0);
-  stroke(210);
-  fill(100);
+  stroke(220, 150, 220);
+  fill(250, 10, 250);
   rectMode(CENTER);
   frameRate(50);
-  strokeWeight(1);
-  ve = new VideoRecorder(enabled, new VideoExport(this, "interactive.mp4"));
-  ve.start();
-  grid = new ImpulseGrid(width/CELL_WIDTH, height/CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT, CELL_WIDTH/2, CELL_HEIGHT/2);
+  //strokeWeight(1);
+  strokeWeight(1.0);
+  videoRecorder = new VideoRecorder(ConfigSource.VIDEO_RECORDING_ENABLED, new VideoExport(this, "interactive.mp4"));
+  videoRecorder.start();
+  grid = new ImpulseGrid(width/ConfigSource.CELL_SIZE, height/ConfigSource.CELL_SIZE, ConfigSource.CELL_SIZE, ConfigSource.CELL_SIZE, ConfigSource.CELL_SIZE/2, ConfigSource.CELL_SIZE/2);
   println("Grid size: " + grid.width + " : " + grid.height);
   render = new GridRenderer(grid);
-  lines.add(new MovingLine(grid.width-1, grid.height-1, render));
+  pongScene = new ScenePong(render);
 }
 
 void draw() {
   clear();
-  
+
   drawAll();
-  updateAll(1.0/50.0);
-  if(frameCount%5 == 0 && lines.size() < 10){
-      lines.add(new MovingLine(grid.width-1, grid.height-1, render));
-  }
-  ve.frame();
+  updateAll(1.0/450.0);
+  videoRecorder.frame();
 }
 
-void drawAll(){
-  for(MovingLine line : lines){
-    line.draw();
-  }
+void drawAll() {
+  pongScene.draw();
   grid.draw();
 }
 
-void updateAll(float delta){
-  for(MovingLine line : lines){
-    line.update(delta);
-  }
-  grid.update(delta);  
+void updateAll(float delta) {
+  pongScene.update(delta);
+  grid.update(delta);
 }
 
 void keyPressed() {
   if (key == 'q') {
-      exit();
+    exit();
   }
-  if(key == 'a'){
-
+  if (key == 'a') {
   }
-  if(key == 'c'){
+  if (key == 'c') {
   }
 }

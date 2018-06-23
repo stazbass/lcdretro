@@ -16,11 +16,11 @@ class MovingLine{
   }
   
   void draw(){
-    render.circle(p1.pos,5);
-    render.circle(p2.pos,5);
-    render.circleAlt(p1.pos,5);
-    render.circleAlt(p2.pos,5);
-    render.line(p1.pos.x,p1.pos.y,p2.pos.x,p2.pos.y);
+    render.circle(p1.pos,5, 1);
+    render.circle(p2.pos,5, 1);
+    render.circleAlt(p1.pos,5, 1);
+    render.circleAlt(p2.pos,5, 1);
+    render.line(p1.pos.x,p1.pos.y,p2.pos.x,p2.pos.y, 1);
   }
   
   void update(float delta){

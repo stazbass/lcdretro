@@ -1,23 +1,23 @@
 
 class ImpulseCell{
-  final float HIDE_SPEED = 10;
-  final float SHOW_SPEED = 15;
+  final float HIDE_SPEED = 15;
+  final float SHOW_SPEED = 35;
   final float MIN_SIZE = 0.0;
   final float MAX_SIZE = 1;
-  final float MAX_IMPULSE = 1.2;
+  final float MAX_IMPULSE = 1;
   float size = MIN_SIZE;
   float impulse = 0.0;
   float cellWidth;
   float cellHeight;
   float x, y;
 
-  ImpulseCell(float width, float height, int x, int y, float size){
+  ImpulseCell(float width, float height, int x, int y){
     this.cellWidth = width;
     this.cellHeight = height;
-    this.size = size;
+    this.size = MIN_SIZE;
     this.x = x;
     this.y = y;
-    this.impulse = 0.0;
+    this.impulse =0 ;
   }
 
   float getRealX(){
@@ -31,9 +31,10 @@ class ImpulseCell{
   void update(float deltaTime){
     if(impulse > 0){
       float delta = deltaTime * SHOW_SPEED;
-      setImpulse(impulse - delta);
       setSize(size + delta);
+      setImpulse(impulse - delta);
     }else{
+      if(size > MIN_SIZE)
       setSize(size - deltaTime*HIDE_SPEED);
     }
   }
@@ -55,13 +56,10 @@ class ImpulseCell{
   }
   
   void show(float brightness){
-    //float impulse = brightness - size;
-    //this.impulse = impulse > this.impulse?impulse:this.impulse;
-    this.impulse += brightness;
+    this.impulse = brightness;
   }
   
   void draw(){
-    strokeWeight(size > 0.5 ? size : 0.5);
     rect(x*cellWidth, y * cellHeight, cellWidth* size, cellHeight * size);
   }
 }

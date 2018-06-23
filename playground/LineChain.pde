@@ -15,7 +15,7 @@ class LineChain{
     for(int i = 0; i < points.size()-1; i++){
       PVector p1 = points.get(i).pos;
       PVector p2 = points.get(i+1).pos;
-      render.line(p1.x,p1.y,p2.x,p2.y);
+      render.line(p1.x,p1.y,p2.x,p2.y, 1.0);
     }
   }
   

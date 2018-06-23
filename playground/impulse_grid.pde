@@ -17,7 +17,7 @@ class ImpulseGrid{
     cells = new ImpulseCell[width*height];
     for(int i = 0; i < width; i++){
       for(int j = 0; j < height; j++){
-        cells[j*width + i] = new ImpulseCell(cellWidth, cellHeight, i, j, 0);
+        cells[j*width + i] = new ImpulseCell(cellWidth, cellHeight, i, j);
       }
     }
   }

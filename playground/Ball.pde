@@ -9,7 +9,7 @@ class Ball{
   
   void draw(){
     //render.circle(point.pos.x, point.pos.y, 3.0);    
-    render.circleAlt(point.pos.x, point.pos.y, 3.0);    
+    render.circleAlt(point.pos.x, point.pos.y, 5.0, 2.0);    
   }
   
   void update(float dt){

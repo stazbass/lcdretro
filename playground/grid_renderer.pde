@@ -5,19 +5,11 @@ class GridRenderer {
     this.grid = grid;
   }
 
-  void point(int x, int y, float brightness) {
-    grid.getCellAt(x, y).show(brightness);
-  }
-
-  void point(float x, float y) {
-    grid.getCellAt((int)x, (int)y).show(1.0);
-  }
-  
-  void point(float x, float y, float brightness){
+  void point(float x, float y, float brightness) {
     grid.getCellAt(Math.round(x), Math.round(y)).show(brightness);
   }
   
-  private void plotLineLow(int x0, int y0, int x1, int y1) {
+  private void plotLineLow(int x0, int y0, int x1, int y1, float brightness) {
     int dx = x1 - x0;
     int dy = y1 - y0;
 
@@ -31,7 +23,7 @@ class GridRenderer {
     int y = y0;
 
     for (int x = x0; x <= x1; x++) {
-      point(x, y);
+      point(x, y, brightness);
       if (D > 0) {
         y = y + yi;
         D = D - 2 * dx;
@@ -40,7 +32,7 @@ class GridRenderer {
     }
   }
 
-  private void plotLineHigh(int x0, int y0, int x1, int y1) {
+  private void plotLineHigh(int x0, int y0, int x1, int y1, float brightness) {
     int dx = x1 - x0;
     int dy = y1 - y0;
     int xi = 1;
@@ -52,7 +44,7 @@ class GridRenderer {
     int x = x0;
 
     for (int y = y0; y <= y1; y++) {
-      point(x, y);
+      point(x, y, brightness);
       if (D > 0) {
         x = x + xi;
         D = D - 2 * dy;
@@ -61,33 +53,34 @@ class GridRenderer {
     }
   }
 
-  void line(int x0, int y0, int x1, int y1) {
+  void line(float x0, float y0, float x1, float y1, float brightness) {
+    int x0i = Math.round(x0);
+    int y0i = Math.round(y0);
+    int x1i = Math.round(x1);
+    int y1i = Math.round(y1);
+    
     if (abs(y1 - y0) < abs(x1 - x0)) {
       if (x0 > x1) {
-        plotLineLow(x1, y1, x0, y0);
+        plotLineLow(x1i, y1i, x0i, y0i, brightness);
       } else {
-        plotLineLow(x0, y0, x1, y1);
+        plotLineLow(x0i, y0i, x1i, y1i, brightness);
       }
     } else {
       if (y0 > y1) {
-        plotLineHigh(x1, y1, x0, y0);
+        plotLineHigh(x1i, y1i, x0i, y0i, brightness);
       } else {
-        plotLineHigh(x0, y0, x1, y1);
+        plotLineHigh(x0i, y0i, x1i, y1i, brightness);
       }
     }
   }
-
-  void line(float x0, float y0, float x1, float y1) {
-    line((int)x0, (int)y0, (int)x1, (int)y1);
-  }
   
-  void circle(PVector pos, float radius){
-    circle(pos.x, pos.y, radius);
+  void circle(PVector pos, float radius, float brightness){
+    circle(pos.x, pos.y, radius, brightness);
   }
-  void circleAlt(PVector pos, float r){
-    circleAlt(pos.x, pos.y, r);
+  void circleAlt(PVector pos, float r, float  brightness){
+    circleAlt(pos.x, pos.y, r, brightness);
   }
-  void circle(float x0, float y0, float radius){
+  void circle(float x0, float y0, float radius, float bright){
     int x = (int)(radius-1);
     int y = 0;
     int dx = 1;
@@ -97,14 +90,14 @@ class GridRenderer {
 
     while (x >= y)
     {
-        point(x0 + x, y0 + y);
-        point(x0 + y, y0 + x);
-        point(x0 - y, y0 + x);
-        point(x0 - x, y0 + y);
-        point(x0 - x, y0 - y);
-        point(x0 - y, y0 - x);
-        point(x0 + y, y0 - x);
-        point(x0 + x, y0 - y);
+        point(x0 + x, y0 + y, bright);
+        point(x0 + y, y0 + x, bright);
+        point(x0 - y, y0 + x, bright);
+        point(x0 - x, y0 + y, bright);
+        point(x0 - x, y0 - y, bright);
+        point(x0 - y, y0 - x, bright);
+        point(x0 + y, y0 - x, bright);
+        point(x0 + x, y0 - y, bright);
 
         if (err <= 0)
         {
@@ -122,19 +115,19 @@ class GridRenderer {
     }
   }
   
-  private void drawCirclePoints(float xc, float yc, float x, float y)
+  private void drawCirclePoints(float xc, float yc, float x, float y, float brightness)
   {
-      point(xc+x, yc+y);
-      point(xc-x, yc+y);
-      point(xc+x, yc-y);
-      point(xc-x, yc-y);
-      point(xc+y, yc+x);
-      point(xc-y, yc+x);
-      point(xc+y, yc-x);
-      point(xc-y, yc-x);
+      point(xc+x, yc+y, brightness);
+      point(xc-x, yc+y, brightness);
+      point(xc+x, yc-y, brightness);
+      point(xc-x, yc-y, brightness);
+      point(xc+y, yc+x, brightness);
+      point(xc-y, yc+x, brightness);
+      point(xc+y, yc-x, brightness);
+      point(xc-y, yc-x, brightness);
   }
   
-  void circleAlt(float xc, float yc, float r)
+  void circleAlt(float xc, float yc, float r, float brightness)
   {
       int x = 0, y = (int)r;
       int d = (int)(3 - 2 * r);
@@ -142,7 +135,7 @@ class GridRenderer {
       {
           // for each pixel we will
           // draw all eight pixels
-          drawCirclePoints(xc, yc, x, y);
+          drawCirclePoints(xc, yc, x, y, brightness);
           x++;
    
           // check for decision parameter
@@ -155,14 +148,14 @@ class GridRenderer {
           }
           else
               d = d + 4 * x + 6;
-          drawCirclePoints(xc, yc, x, y);
+          drawCirclePoints(xc, yc, x, y, brightness);
       }
   }
   
-  void rect(float x, float y, float rWidth, float rHeight){
-    line((int)x, (int)y, (int)x+rWidth, (int)y);
-    line((int)x+rWidth, (int)y, (int)x+rWidth, (int)y);
-    line((int)x+rWidth, (int)y+rHeight, (int)x,(int)y+rHeight);
-    line((int)x,(int)y+rHeight, (int)x, (int)y);
+  void rect(float x, float y, float rWidth, float rHeight, float brightness){
+    line(x, y, x+rWidth, y, brightness);
+    line(x+rWidth, y, x+rWidth, y, brightness);
+    line(x+rWidth, y+rHeight, x,y+rHeight, brightness);
+    line(x,y+rHeight, x, y, brightness);
   }
 }

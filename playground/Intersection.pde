@@ -1,22 +1,28 @@
-static class Intersection {
-  PVector get_line_intersection(float p0_x, float p0_y, float p1_x, float p1_y, 
+static class Intersection {  
+  static PVector checkLineIntersection(PVector l1p1, PVector l1p2, PVector l2p1, PVector l2p2){
+    return checkLineIntersection(l1p1.x, l1p1.y, l1p2.x, l1p2.y, l2p1.x, l2p1.y, l2p2.x, l2p2.y);
+  }
+  
+  static PVector checkLineIntersection(float p0_x, float p0_y, float p1_x, float p1_y, 
     float p2_x, float p2_y, float p3_x, float p3_y)
   {
-      float s1_x, s1_y, s2_x, s2_y;
-      s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;
-      s2_x = p3_x - p2_x;     s2_y = p3_y - p2_y;
-  
-      float s, t;
-      s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
-      t = ( s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
-  
-      if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
-      {
-          // Collision detected
-          return new PVector(p0_x + (t * s1_x),p0_y + (t * s1_y)) ;
-      }
-  
-      return null; // No collision
+    float s1_x, s1_y, s2_x, s2_y;
+    s1_x = p1_x - p0_x;     
+    s1_y = p1_y - p0_y;
+    s2_x = p3_x - p2_x;     
+    s2_y = p3_y - p2_y;
+
+    float s, t;
+    s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
+    t = ( s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
+
+    if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
+    {
+      // Collision detected
+      return new PVector(p0_x + (t * s1_x), p0_y + (t * s1_y)) ;
+    }
+
+    return null; // No collision
   }
   static boolean checkLineCircleIntersect(PVector start, PVector end, PVector sphereCenter, float radius) {
     PVector d = PVector.sub(end, start);
@@ -68,13 +74,25 @@ static class Intersection {
     }
     return false;
   }
-  
-  
-  static PVector getCollisionNormal(PVector vec, PVector sphereCenter){
+
+  static PVector[] checkLineBoxIntersection(PVector lp1, PVector lp2, Box box) {
+    Edge[] edges = box.getEdges();
+    for(Edge e: edges){
+      PVector v = checkLineIntersection(lp1,lp2,e.vectors[0], e.vectors[1]);
+      if(v != null)return new PVector[]{v, getLineNormal(e.vectors[0], e.vectors[1])};
+    }
+    return null;
+  }
+
+  static PVector getCollisionNormal(PVector vec, PVector sphereCenter) {
     return PVector.sub(vec, sphereCenter).normalize();
   }
+
+  static PVector getReflectedVector(PVector v, PVector normal) {
+    return PVector.sub(v, normal.mult(2.0*PVector.dot(v, normal)));
+  }
   
-  static PVector getReflectedVector(PVector v, PVector normal){
-    return PVector.sub(v, normal.mult(2*PVector.dot(v, normal)));
+  static PVector getLineNormal(PVector p1, PVector p2){
+    return (new PVector(- p2.y + p1.y, p2.x - p1.x)).normalize();
   }
 }

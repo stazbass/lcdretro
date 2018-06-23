@@ -13,29 +13,27 @@ ScenePong pongScene;
 
 // ------------
 void setup() {
-  size(1024, 768, P3D);
-  smooth();
-  //fullScreen();
+  fullScreen(P3D);
   background(0);
   stroke(220, 150, 220);
   fill(250, 10, 250);
   rectMode(CENTER);
   frameRate(50);
-  //strokeWeight(1);
   strokeWeight(1.0);
+  
   videoRecorder = new VideoRecorder(ConfigSource.VIDEO_RECORDING_ENABLED, new VideoExport(this, "interactive.mp4"));
   videoRecorder.start();
   grid = new ImpulseGrid(width/ConfigSource.CELL_SIZE, height/ConfigSource.CELL_SIZE, ConfigSource.CELL_SIZE, ConfigSource.CELL_SIZE, ConfigSource.CELL_SIZE/2, ConfigSource.CELL_SIZE/2);
-  println("Grid size: " + grid.width + " : " + grid.height);
   render = new GridRenderer(grid);
   pongScene = new ScenePong(render);
+  println("Grid size: " + grid.width + " : " + grid.height);
 }
 
 void draw() {
   clear();
 
   drawAll();
-  updateAll(1.0/450.0);
+  updateAll(1.0/100.0);
   videoRecorder.frame();
 }
 
@@ -52,9 +50,5 @@ void updateAll(float delta) {
 void keyPressed() {
   if (key == 'q') {
     exit();
-  }
-  if (key == 'a') {
-  }
-  if (key == 'c') {
   }
 }

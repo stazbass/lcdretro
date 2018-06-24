@@ -1,5 +1,5 @@
 class ScenePong{
-  public final int BALLS_INITIAL = 5;
+  public final int BALLS_INITIAL = SceneConfig.BALLS_COUNT;
   GridRenderer render;
   Ball ball;
   Bitka bitka;
@@ -40,7 +40,9 @@ class ScenePong{
    for(Ball b : balls){
      if( (intersection = Intersection.checkLineBoxIntersection(b.point.pos,b.point.nextPosition,bitka.box)) !=null ){
        b.point.dir = Intersection.getReflectedVector(b.point.dir, intersection[1]);
-       b.size = b.size+1;
+       b.point.pos.set(intersection[0]);
+       b.point.nextPosition = intersection[0];
+       //b.size = b.size+1;
        b.update(delta);
      }
    }

@@ -19,7 +19,7 @@ void setup() {
   fill(250, 10, 250);
   rectMode(CENTER);
   frameRate(50);
-  strokeWeight(1.0);
+  strokeWeight(0.5);
   
   videoRecorder = new VideoRecorder(ConfigSource.VIDEO_RECORDING_ENABLED, new VideoExport(this, "interactive.mp4"));
   videoRecorder.start();

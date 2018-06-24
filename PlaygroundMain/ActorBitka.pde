@@ -8,7 +8,7 @@ class Bitka{
   
   Bitka(GridRenderer render){
     this.render = render;
-    box = new Box(10, 1);
+    box = new Box(20,7);
   }
   
   void draw(){
@@ -20,11 +20,13 @@ class Bitka{
     render.line(vertices[3].x,vertices[3].y,vertices[0].x,vertices[0].y, 1.0);
   }
   
-  
+  PVector [] getEdge(){
+    return new PVector[]{vertices[0], vertices[1]};
+  }
   
   void update(float dt){
     xpos = mouseX/render.grid.cellWidth;
     ypos = 5;
-    box.moveTo(xpos, render.grid.height-2);
+    box.moveTo(xpos, render.grid.height/2);
   }
 }

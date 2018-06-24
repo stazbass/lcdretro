@@ -75,11 +75,11 @@ static class Intersection {
     return false;
   }
 
-  static PVector[] checkLineBoxIntersection(PVector lp1, PVector lp2, Box box) {
+  static PVector[] checkLineBoxIntersection(PVector start, PVector end, Box box) {
     Edge[] edges = box.getEdges();
-    for(Edge e: edges){
-      PVector v = checkLineIntersection(lp1,lp2,e.vectors[0], e.vectors[1]);
-      if(v != null)return new PVector[]{v, getLineNormal(e.vectors[0], e.vectors[1])};
+    for(Edge edge: edges){
+      PVector vector = checkLineIntersection(start,end,edge.vectors[0], edge.vectors[1]);
+      if(vector != null)return new PVector[]{vector, getLineNormal(edge.vectors[0], edge.vectors[1])};
     }
     return null;
   }

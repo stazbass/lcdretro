@@ -13,13 +13,14 @@ ScenePong pongScene;
 
 // ------------
 void setup() {
-  fullScreen(P3D);
+  //fullScreen(P3D);
+  size(1024, 768, P3D);
   background(0);
   stroke(220, 150, 220);
   fill(250, 10, 250);
   rectMode(CENTER);
   frameRate(50);
-  strokeWeight(0.5);
+  strokeWeight(2.5);
   
   videoRecorder = new VideoRecorder(ConfigSource.VIDEO_RECORDING_ENABLED, new VideoExport(this, "interactive.mp4"));
   videoRecorder.start();

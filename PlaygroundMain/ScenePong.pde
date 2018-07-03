@@ -27,11 +27,15 @@ class ScenePong{
   }
   
   void update(float delta){
+    delta = mouseX != 0 ? 1.0/mouseX : delta;
     checkCollisions(delta);
     bitka.update(delta);
     ball.update(delta);
     for(Ball b : balls){
       b.update(delta);
+    }
+    if(frameCount%10 == 0){
+      addBall((int)random(10, 30));
     }
  }
  

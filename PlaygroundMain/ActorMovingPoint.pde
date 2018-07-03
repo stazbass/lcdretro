@@ -8,8 +8,8 @@ class MovingPoint{
   PVector nextPosition = new PVector();
   
   MovingPoint(int maxx, int maxy){
-    pos = new PVector((float)(maxx * Math.random()), (float)(maxy * Math.random()));
-    dir = new PVector(random(-1, 1), random(-1, 1));
+    pos = new PVector();
+    dir = new PVector(random(0, 1), random(0, 1));
     nextPosition = movePoint(pos.copy(), dir, speed, 1.0/50.0);
     this.maxX = maxx;
     this.maxY = maxy;

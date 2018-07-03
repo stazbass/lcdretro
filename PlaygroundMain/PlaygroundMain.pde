@@ -20,7 +20,7 @@ void setup() {
   fill(250, 10, 250);
   rectMode(CENTER);
   frameRate(50);
-  strokeWeight(2.5);
+  strokeWeight(1.5);
   
   videoRecorder = new VideoRecorder(ConfigSource.VIDEO_RECORDING_ENABLED, new VideoExport(this, "interactive.mp4"));
   videoRecorder.start();
@@ -32,9 +32,10 @@ void setup() {
 
 void draw() {
   clear();
+  float delta = mouseX != 0 ? 1.0/mouseX : 1.0;
 
   drawAll();
-  updateAll(1.0/100.0);
+  updateAll(delta);
   videoRecorder.frame();
 }
 

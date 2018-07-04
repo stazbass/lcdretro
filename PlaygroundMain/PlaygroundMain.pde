@@ -6,9 +6,9 @@ final int SCREEN_WIDTH = 1500;
 final int SCREEN_HEIGHT = 1000;
 
 VideoRecorder videoRecorder;
-ImpulseGrid grid;
+Grid grid;
 GridRenderer render;
-ScenePong pongScene;
+Scenes scenes;
 
 
 // ------------
@@ -19,38 +19,61 @@ void setup() {
   stroke(220, 150, 220);
   fill(250, 10, 250);
   rectMode(CENTER);
-  frameRate(50);
-  strokeWeight(1.5);
+  frameRate(100);
+  strokeWeight(Config.BORDER_WIDTH);
   
-  videoRecorder = new VideoRecorder(ConfigSource.VIDEO_RECORDING_ENABLED, new VideoExport(this, "interactive.mp4"));
+  videoRecorder = new VideoRecorder(Config.RECORD_VIDEO, new VideoExport(this, "interactive.mp4"));
   videoRecorder.start();
-  grid = new ImpulseGrid(width/ConfigSource.CELL_SIZE, height/ConfigSource.CELL_SIZE, ConfigSource.CELL_SIZE, ConfigSource.CELL_SIZE, ConfigSource.CELL_SIZE/2, ConfigSource.CELL_SIZE/2);
+  grid = new Grid(width/Config.CELL_SIZE, height/Config.CELL_SIZE, Config.CELL_SIZE, Config.CELL_SIZE, Config.CELL_SIZE/2, Config.CELL_SIZE/2);
   render = new GridRenderer(grid);
-  pongScene = new ScenePong(render);
+  scenes = new Scenes(render);
   println("Grid size: " + grid.width + " : " + grid.height);
 }
 
 void draw() {
-  clear();
   float delta = mouseX != 0 ? 1.0/mouseX : 1.0;
 
-  drawAll();
-  updateAll(delta);
-  videoRecorder.frame();
+  clear();
+  drawAll(render);
+  updateAll(1/50.0);//delta);
 }
 
-void drawAll() {
-  pongScene.draw();
+void drawAll(GridRenderer render) {
+  scenes.draw(render);
   grid.draw();
 }
 
 void updateAll(float delta) {
-  pongScene.update(delta);
+  scenes.update(delta);
   grid.update(delta);
+  videoRecorder.frame();
 }
 
 void keyPressed() {
   if (key == 'q') {
     exit();
+  }
+}
+
+import com.hamoid.*;
+class VideoRecorder {
+  VideoExport videoExport;
+  boolean enabled = false;
+  
+  VideoRecorder(boolean enabled, VideoExport ve) {
+    this.enabled = enabled;
+    this.videoExport = ve;
+  }
+
+  void start() {
+    if (enabled) {
+      videoExport.startMovie();
+    }
+  }
+
+  void frame() {
+    if (enabled) {
+      videoExport.saveFrame();
+    }
   }
 }

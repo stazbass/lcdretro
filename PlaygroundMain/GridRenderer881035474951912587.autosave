@@ -5,7 +5,7 @@ class GridRenderer {
     this.grid = grid;
   }
 
-  void point(float x, float y, float brightness) {
+  void pGridx, float y, float brightness) {
     grid.getCellAt(Math.round(x), Math.round(y)).show(brightness);
   }
   
@@ -17,19 +17,16 @@ class GridRenderer {
     if (dy < 0) {
       yi = -1;
       dy = -dy;
-    }
-
-    int D = 2*dy - dx;
+ Gridnt D = 2*dy - dx;
     int y = y0;
 
     for (int x = x0; x <= x1; x++) {
       point(x, y, brightness);
       if (D > 0) {
-        y = y + yi;
+  Grid + yi;
         D = D - 2 * dx;
       }
-      D = D + 2*dy;
-    }
+      D = D +Grid}
   }
 
   private void plotLineHigh(int x0, int y0, int x1, int y1, float brightness) {

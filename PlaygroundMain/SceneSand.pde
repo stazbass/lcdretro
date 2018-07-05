@@ -2,6 +2,7 @@ class SceneSand {
   int[][] sandpiles;
   int w;
   int h;
+  boolean enabled = true;
 
   SceneSand(int sceneWidth, int sceneHeight) {
     this.w = sceneWidth;
@@ -43,8 +44,8 @@ class SceneSand {
   }
 
   void draw(GridRenderer render) {
-    render.point(10, 10, 0.5);
-    render.line(0,0, 10, 10, 1.0);
+    if (!enabled)return;
+
     for (int x = 0; x < w; x++) {
       for (int y = 0; y < h; y++) {
         int num = sandpiles[x][y];
@@ -60,15 +61,16 @@ class SceneSand {
         }
 
         render.point(x, y, col);
-        //pixels[x+y*width] = col;
       }
     }
-    for(int i = 0; i < 100; i++){
+    for (int i = 0; i < 200; i++) {
       topple();
     }
   }
 
   void update(float dt) {
+    if (!enabled)return;
+
     //if (frameCount%5 == 0)topple();
   }
 }

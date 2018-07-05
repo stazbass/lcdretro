@@ -87,7 +87,8 @@ class ImpulseCell{
   }
   
   void setTargetSize(float targetSize){
-    this.targetSize = constrain(targetSize, Config.MIN_CELL_SIZE, Config.MAX_CELL_SIZE);
+    if(targetSize > this.targetSize)
+      this.targetSize = constrain(targetSize, Config.MIN_CELL_SIZE, Config.MAX_CELL_SIZE);
   }
   
   void setSize(float size){

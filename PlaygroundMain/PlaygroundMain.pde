@@ -15,7 +15,7 @@ PImage image;
 // ------------
 void setup() {
   fullScreen(P3D);
-  //size(1900, 768, P3D);
+  //size(1500, 800, P3D);
   background(0);
   stroke(220, 150, 220);
   fill(250, 10, 250);
@@ -36,23 +36,11 @@ void draw() {
 
   clear();
   drawAll(render);
-  updateAll(1/50.0);//delta);
+  updateAll(delta);//delta);
 }
 
 void drawAll(GridRenderer render) {
   scenes.draw(render);
-  image.loadPixels();
-  int[] pixels = image.pixels;
-  if(pixels.length > 0)
-  for(int i = 0; i < 320; i++){
-    for(int j = 0; j < 240; j++){
-      //print(color().
-      render.point(i,j,brightness(pixels[j*image.width + i])/255.0);
-    }
-  }
-  image.updatePixels();
-  println(pixels.length);
-
   grid.draw();
 }
 

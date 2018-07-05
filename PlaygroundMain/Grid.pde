@@ -6,6 +6,7 @@ class Grid{
   float cellWidth;
   float cellHeight;
   ImpulseCell[] cells;
+  PImage cellImage;
   
   Grid(int width, int height, int cellWidth, int cellHeight, int originX, int originY){
     this.width = width;
@@ -14,10 +15,11 @@ class Grid{
     this.cellHeight = cellHeight;
     this.originX = originX;
     this.originY = originY;
+    cellImage = loadImage("kvadrat.png");
     cells = new ImpulseCell[width*height];
     for(int i = 0; i < width; i++){
       for(int j = 0; j < height; j++){
-        cells[j*width + i] = new ImpulseCell(cellWidth, cellHeight, i, j);
+        cells[j*width + i] = new ImpulseCell(cellWidth, cellHeight, i, j, cellImage);
       }
     }
   }
@@ -53,12 +55,14 @@ class ImpulseCell{
   float cellWidth;
   float cellHeight;
   float x, y;
+  PImage img;
 
-  ImpulseCell(float width, float height, int x, int y){
+  ImpulseCell(float width, float height, int x, int y, PImage image){
     this.cellWidth = width;
     this.cellHeight = height;
     this.x = x;
     this.y = y;
+    this.img = image;
   }
 
   float getRealX(){
@@ -100,7 +104,9 @@ class ImpulseCell{
   }
   
   void draw(){
-    rect(x*cellWidth, y * cellHeight, cellWidth* size, cellHeight * size);
+    //rect(x*cellWidth, y * cellHeight, cellWidth* size, cellHeight * size);
+    //scale(size);
+    image(img, x*cellWidth, y * cellHeight, img.width*size, img.height*size);
   }
 }
 

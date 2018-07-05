@@ -17,10 +17,12 @@ void setup() {
   fullScreen(P3D);
   //size(1500, 800, P3D);
   background(0);
-  stroke(220, 150, 220);
+  stroke(220, 200, 220);
   fill(250, 10, 250);
   rectMode(CENTER);
-  frameRate(100);
+    imageMode(CENTER);
+
+  frameRate(30);
   strokeWeight(Config.BORDER_WIDTH);
 
   videoRecorder = new VideoRecorder(Config.RECORD_VIDEO, new VideoExport(this, "interactive.mp4"));
@@ -32,7 +34,7 @@ void setup() {
 }
 
 void draw() {
-  float delta = mouseX != 0 ? 1.0/mouseX : 1.0;
+  float delta = mouseX != 0 ? 4.0/mouseX : 1.0;
 
   clear();
   drawAll(render);
@@ -45,8 +47,8 @@ void drawAll(GridRenderer render) {
 }
 
 void updateAll(float delta) {
-  scenes.update(delta);
   grid.update(delta);
+  scenes.update(delta);
   videoRecorder.frame();
 }
 

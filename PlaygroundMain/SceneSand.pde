@@ -1,4 +1,4 @@
-class SceneSand {
+class SceneSand extends BaseObject{
   int[][] sandpiles;
   int w;
   int h;
@@ -55,15 +55,15 @@ class SceneSand {
         } else if (num == 1) {
           col = 0.2;//color(0, 185, 63);
         } else if (num == 2) {
-          col = 0.6;//color(0, 104, 255);
+          col = 0.7;//color(0, 104, 255);
         } else if (num == 3) {
           col = 1.0;//color(122, 0, 229);
         }
 
-        render.point(x, y, col);
+        render.point(x, y, col*0.8);
       }
     }
-    for (int i = 0; i < 200; i++) {
+    for (int i = 0; i < random(10, 30); i++) {
       topple();
     }
   }

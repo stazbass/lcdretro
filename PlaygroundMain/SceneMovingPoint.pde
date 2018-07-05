@@ -1,4 +1,4 @@
-class SceneMovingPoint{
+class SceneMovingPoint extends BaseObject{
   PVector pos = new PVector(1,1);
   PVector speed = new PVector(5,5);
   boolean enabled = true;

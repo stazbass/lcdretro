@@ -1,12 +1,16 @@
-class SceneLife {
+class SceneLife extends BaseObject{
   int[][] cells; 
   // Buffer to record the state of the cells and use this while changing the others in the interations
   int[][] cellsBuffer; 
   int mapWidth;
   int mapHeight;
-  float probabilityOfAliveAtStart = 35;
+  float probabilityOfAliveAtStart = 15;
   boolean initialized = false;
   boolean enabled = true;
+  int randomCellCount = 1;
+  double generationInterval = 0.3;
+  double time = 0;
+  
 
   SceneLife() {
   }
@@ -34,29 +38,20 @@ class SceneLife {
 
   void update(float dt) {
     if (!enabled || !initialized)return;
+    time+=dt;
     // Iterate if timer ticks
-    if (frameCount%1 == 0) {
+    //if(key == 'a')randomCellCount++;
+    randomCellCount = abs(mouseY-height/2);
+    if(time > generationInterval){
       iteration();
+      seedRandomLiveCells(randomCellCount);
+      time = 0;
+    }
+  }
+  
+  void seedRandomLiveCells(int cnt){
+    for(int i = 0; i < cnt; i++){
       randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-            randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      randomLiveCell();
-      println("iteration");
     }
   }
 

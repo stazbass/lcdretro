@@ -1,3 +1,6 @@
+/// -----------------------------------------------------------------------------------------------------------------------
+////    GRID
+/// -----------------------------------------------------------------------------------------------------------------------
 
 class Grid{
   int width;
@@ -15,7 +18,8 @@ class Grid{
     this.cellHeight = cellHeight;
     this.originX = originX;
     this.originY = originY;
-    cellImage = loadImage("kvadrat.png");
+    if(Config.cellImageMode)
+      cellImage = loadImage(Config.cellImagePath);
     cells = new ImpulseCell[width*height];
     for(int i = 0; i < width; i++){
       for(int j = 0; j < height; j++){
@@ -33,6 +37,7 @@ class Grid{
   }
   
   void draw(){
+    blendMode(ADD);
     pushMatrix();
     translate(originX, originY);
     for(int i =0; i < cells.length; i++){
@@ -48,6 +53,9 @@ class Grid{
   }
 }
 
+/// -----------------------------------------------------------------------------------------------------------------------
+////    IMPULSE CELL
+/// -----------------------------------------------------------------------------------------------------------------------
 
 class ImpulseCell{
   float size = Config.MIN_CELL_SIZE;
@@ -55,14 +63,16 @@ class ImpulseCell{
   float cellWidth;
   float cellHeight;
   float x, y;
-  PImage img;
+  PImage cellImage;
+  color targetColor = color(0, 0, 0);
+  color currentColor = color(255, 255, 255);
 
   ImpulseCell(float width, float height, int x, int y, PImage image){
     this.cellWidth = width;
     this.cellHeight = height;
     this.x = x;
     this.y = y;
-    this.img = image;
+    this.cellImage = image;
   }
 
   float getRealX(){
@@ -73,15 +83,23 @@ class ImpulseCell{
     return y * height;
   }
   
+  float getGridX(int realX){
+    return (realX - this.x)/cellWidth;
+  }
+  float getGridY(int realY){
+    return (realY - this.y)/cellHeight;
+  }
+  
   void update(float deltaTime){
     if(size <= targetSize){
       float sizeDelta = deltaTime * Config.SHOW_SPEED;
       setSize(size + sizeDelta);
+      float colorScale = targetSize!=0?size/targetSize:0.0;
+      currentColor = color(red(targetColor)*colorScale, green(targetColor)*colorScale, blue(targetColor)*colorScale, size/Config.MAX_CELL_SIZE*255);
       if(size >= targetSize){
         size = targetSize;
         targetSize = Config.MIN_CELL_SIZE;
       }
-      //setImpulse(targetSize - delta);
     }else{
       if(size != targetSize){
         setSize(size - deltaTime*Config.HIDE_SPEED);
@@ -103,12 +121,27 @@ class ImpulseCell{
     setTargetSize(brightness);
   }
   
+  void paint(color targetColor){
+    this.targetColor = targetColor;
+  }
+  
   void draw(){
-    //rect(x*cellWidth, y * cellHeight, cellWidth* size, cellHeight * size);
-    //scale(size);
-    image(img, x*cellWidth, y * cellHeight, img.width*size, img.height*size);
+    if(Config.cellImageMode){
+      scale(size);
+      tint(currentColor);
+      image(cellImage, x*cellWidth, y *cellHeight, cellWidth*size, cellHeight*size);
+    }else{
+      strokeWeight(Config.BORDER_WIDTH);
+      fill(currentColor);
+      rect(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
+    }
   }
 }
+
+
+/// -----------------------------------------------------------------------------------------------------------------------
+////    RENDER
+/// -----------------------------------------------------------------------------------------------------------------------
 
 class GridRenderer {
   Grid grid;
@@ -121,7 +154,12 @@ class GridRenderer {
     grid.getCellAt(Math.round(x), Math.round(y)).show(brightness);
   }
   
-  private void plotLineLow(int x0, int y0, int x1, int y1, float brightness) {
+  void point(float x, float y, float brightness, color col) {
+    grid.getCellAt(Math.round(x), Math.round(y)).paint(col);
+    grid.getCellAt(Math.round(x), Math.round(y)).show(brightness);
+  }
+  
+  private void plotLineLow(int x0, int y0, int x1, int y1, float brightness, color lineColor) {
     int dx = x1 - x0;
     int dy = y1 - y0;
 
@@ -135,7 +173,7 @@ class GridRenderer {
     int y = y0;
 
     for (int x = x0; x <= x1; x++) {
-      point(x, y, brightness);
+      point(x, y, brightness, lineColor);
       if (D > 0) {
         y = y + yi;
         D = D - 2 * dx;
@@ -144,7 +182,7 @@ class GridRenderer {
     }
   }
 
-  private void plotLineHigh(int x0, int y0, int x1, int y1, float brightness) {
+  private void plotLineHigh(int x0, int y0, int x1, int y1, float brightness, color lineColor) {
     int dx = x1 - x0;
     int dy = y1 - y0;
     int xi = 1;
@@ -156,7 +194,7 @@ class GridRenderer {
     int x = x0;
 
     for (int y = y0; y <= y1; y++) {
-      point(x, y, brightness);
+      point(x, y, brightness, lineColor);
       if (D > 0) {
         x = x + xi;
         D = D - 2 * dy;
@@ -165,7 +203,7 @@ class GridRenderer {
     }
   }
 
-  void line(float x0, float y0, float x1, float y1, float brightness) {
+  void line(float x0, float y0, float x1, float y1, float brightness, color lineColor) {
     int x0i = Math.round(x0);
     int y0i = Math.round(y0);
     int x1i = Math.round(x1);
@@ -173,15 +211,15 @@ class GridRenderer {
     
     if (abs(y1 - y0) < abs(x1 - x0)) {
       if (x0 > x1) {
-        plotLineLow(x1i, y1i, x0i, y0i, brightness);
+        plotLineLow(x1i, y1i, x0i, y0i, brightness, lineColor);
       } else {
-        plotLineLow(x0i, y0i, x1i, y1i, brightness);
+        plotLineLow(x0i, y0i, x1i, y1i, brightness, lineColor);
       }
     } else {
       if (y0 > y1) {
-        plotLineHigh(x1i, y1i, x0i, y0i, brightness);
+        plotLineHigh(x1i, y1i, x0i, y0i, brightness, lineColor);
       } else {
-        plotLineHigh(x0i, y0i, x1i, y1i, brightness);
+        plotLineHigh(x0i, y0i, x1i, y1i, brightness, lineColor);
       }
     }
   }
@@ -264,10 +302,10 @@ class GridRenderer {
       }
   }
   
-  void rect(float x, float y, float rWidth, float rHeight, float brightness){
-    line(x, y, x+rWidth, y, brightness);
-    line(x+rWidth, y, x+rWidth, y, brightness);
-    line(x+rWidth, y+rHeight, x,y+rHeight, brightness);
-    line(x,y+rHeight, x, y, brightness);
+  void rect(float x, float y, float rWidth, float rHeight, float brightness, color rectColor){
+    line(x, y, x+rWidth, y, brightness, rectColor);
+    line(x+rWidth, y, x+rWidth, y, brightness, rectColor);
+    line(x+rWidth, y+rHeight, x,y+rHeight, brightness, rectColor);
+    line(x,y+rHeight, x, y, brightness, rectColor);
   }
 }

@@ -5,7 +5,7 @@ class SceneLife extends BaseObject{
   int mapWidth;
   int mapHeight;
   float probabilityOfAliveAtStart = 15;
-  boolean initialized = false;
+  boolean initialized = true;
   boolean enabled = true;
   int randomCellCount = 1;
   double generationInterval = 0.3;
@@ -13,19 +13,17 @@ class SceneLife extends BaseObject{
   
 
   SceneLife() {
+    initLife(grid.width, grid.height);
   }
 
-  void draw(GridRenderer render) {
+  void draw() {
     if (!enabled)return;
-    if (!initialized) {
-      initLife(render.grid.width, render.grid.height);
-    }
     for (int x=0; x<mapWidth; x++) {
       for (int y=0; y<mapHeight; y++) {
         if (cells[x][y]==1) {
           render.point(x, y, 1);
         } else {
-          //render.point(x,y,1);
+          render.point(x,y,.1);
         }
       }
     }
@@ -37,14 +35,14 @@ class SceneLife extends BaseObject{
   }
 
   void update(float dt) {
-    if (!enabled || !initialized)return;
+    if (!enabled)return;
     time+=dt;
     // Iterate if timer ticks
     //if(key == 'a')randomCellCount++;
     randomCellCount = abs(mouseY-height/2);
     if(time > generationInterval){
       iteration();
-      seedRandomLiveCells(randomCellCount);
+      seedRandomLiveCells(10);
       time = 0;
     }
   }
@@ -72,7 +70,6 @@ class SceneLife extends BaseObject{
         cells[x][y] = int(state); // Save state of each cell
       }
     }
-    initialized = true;
   }
 
   void randomLiveCell() {

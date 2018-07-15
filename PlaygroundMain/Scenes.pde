@@ -1,31 +1,33 @@
 
-class Scenes {
-  ArrayList<BaseObject> actors = new ArrayList();
-
-  Scenes(GridRenderer render) {
-    actors.add(new SceneSand(render.grid.width, render.grid.height));
-    actors.add(new SceneImage());
+class Scenes extends BaseObject{
+  Scenes() {
+    super();
+    //actors.add(new SceneSand());
+    //actors.add(new SceneImage());
     //actors.add(new SceneMovingPoint());
     //actors.add(new SceneLife());
+    addChild(new SceneBitka());
   }
 
-  void draw(GridRenderer render) {
-    for (BaseObject b : actors) {
-      b.draw(render);
-    }
-  }
-
-  void update(float dt) {
-    for (BaseObject b : actors) {
-      b.update(dt);
-    }
-  }
 }
 
 class BaseObject {
-  void draw(GridRenderer r) {
+  ArrayList<BaseObject> children = new ArrayList();
+  
+  BaseObject addChild(BaseObject child){
+     children.add(child);
+     return this;
+  }
+  
+  void draw() {
+    for(BaseObject o : children){
+      o.draw();
+    }
   }
 
   void update(float deltaTime) {
+    for(BaseObject o : children){
+      o.update(deltaTime);
+    }
   }
 }

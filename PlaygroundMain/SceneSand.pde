@@ -4,9 +4,9 @@ class SceneSand extends BaseObject{
   int h;
   boolean enabled = true;
 
-  SceneSand(int sceneWidth, int sceneHeight) {
-    this.w = sceneWidth;
-    this.h = sceneHeight;
+  SceneSand() {
+    this.w = render.grid.width;
+    this.h = render.grid.height;
     sandpiles = new int[this.w][this.h];
     sandpiles[this.w/2][this.h/2] = 1000000000;
     topple();
@@ -43,7 +43,7 @@ class SceneSand extends BaseObject{
     sandpiles = nextpiles;
   }
 
-  void draw(GridRenderer render) {
+  void draw() {
     if (!enabled)return;
 
     for (int x = 0; x < w; x++) {
@@ -63,7 +63,7 @@ class SceneSand extends BaseObject{
         render.point(x, y, col*0.8);
       }
     }
-    for (int i = 0; i < random(10, 30); i++) {
+    for (int i = 0; i < random(1, 5); i++) {
       topple();
     }
   }

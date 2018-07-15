@@ -9,40 +9,44 @@ VideoRecorder videoRecorder;
 Grid grid;
 GridRenderer render;
 Scenes scenes;
-PImage image;
+HashMap<Character, Boolean> keys = new HashMap();
+PVector mouseSmooth = new PVector();
 
+boolean isKeyPressed(char key){
+  return keys.get(key) != null && keys.get(key) == true;
+}
 
 // ------------
 void setup() {
-  fullScreen(P3D);
-  //size(1500, 800, P3D);
+  //fullScreen(P3D);
+  size(1000, 1000, P3D);
   background(0);
   stroke(220, 200, 220);
   fill(250, 10, 250);
   rectMode(CENTER);
-    imageMode(CENTER);
+  imageMode(CENTER);
 
-  frameRate(30);
-  strokeWeight(Config.BORDER_WIDTH);
-
+  frameRate(100);
+  mouseSmooth.x = mouseX;
+  mouseSmooth.y = mouseY;
+  
   videoRecorder = new VideoRecorder(Config.RECORD_VIDEO, new VideoExport(this, "interactive.mp4"));
   videoRecorder.start();
   grid = new Grid(width/Config.CELL_SIZE, height/Config.CELL_SIZE, Config.CELL_SIZE, Config.CELL_SIZE, Config.CELL_SIZE/2, Config.CELL_SIZE/2);
   render = new GridRenderer(grid);
-  scenes = new Scenes(render);
-  image = loadImage("poisonclan.png");
+  scenes = new Scenes();
 }
 
 void draw() {
-  float delta = mouseX != 0 ? 4.0/mouseX : 1.0;
-
   clear();
-  drawAll(render);
-  updateAll(delta);//delta);
+  float delta = (1.0/frameRate)/2.0;
+  
+  drawAll();
+  updateAll(delta);
 }
 
-void drawAll(GridRenderer render) {
-  scenes.draw(render);
+void drawAll() {
+  scenes.draw();
   grid.draw();
 }
 
@@ -53,9 +57,15 @@ void updateAll(float delta) {
 }
 
 void keyPressed() {
+  keys.put(key, true);
+  
   if (key == 'q') {
     exit();
   }
+}
+
+void keyReleased(){
+  keys.put(key, false);
 }
 
 import com.hamoid.*;

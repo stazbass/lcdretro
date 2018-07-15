@@ -78,8 +78,8 @@ static class Intersection {
   static PVector[] checkLineBoxIntersection(PVector start, PVector end, Box box) {
     Edge[] edges = box.getEdges();
     for(Edge edge: edges){
-      PVector vector = checkLineIntersection(start,end,edge.vectors[0], edge.vectors[1]);
-      if(vector != null)return new PVector[]{vector, getLineNormal(edge.vectors[0], edge.vectors[1])};
+      PVector vector = checkLineIntersection(start,end,edge.p1, edge.p2);
+      if(vector != null)return new PVector[]{vector, edge.normal};
     }
     return null;
   }
@@ -97,10 +97,27 @@ static class Intersection {
   }
 }
 
+class Edge{
+  PVector p1,p2;
+  PVector normal;
+  
+  Edge(PVector start, PVector end){
+    setPoints(start,end);
+  }
+  
+  void setPoints(PVector start, PVector end){
+    this.p1 = start;
+    this.p2 = end;
+    this.normal = p2.sub(p1).rotate(-PI/2.0);
+    this.normal.normalize();
+  }
+}
+
 class Box {
   PVector lu, ru, ld, rd;
   PVector position;
   PVector[] vertices;
+  Edge [] edges = new Edge[4];
   float angle = 0;
 
   Box(float bWidth, float bHeight) {
@@ -124,28 +141,21 @@ class Box {
     }
   }
   void calculateVertices() {
-    vertices = new PVector[]{lu.copy().rotate(angle), ru.copy().rotate(angle), rd.copy().rotate(angle), ld.copy().rotate(angle)};
+    this.vertices = new PVector[]{lu.copy().rotate(angle), ru.copy().rotate(angle), rd.copy().rotate(angle), ld.copy().rotate(angle)};
     for (PVector v : vertices) {
       v.add(position);
     }
+    edges[0] = new Edge(vertices[0], vertices[1]);
+    edges[1] = new Edge(vertices[1], vertices[2]);
+    edges[2] = new Edge(vertices[2], vertices[3]);
+    edges[3] = new Edge(vertices[3], vertices[0]);
   }
 
   Edge [] getEdges() {
-    return new Edge[] {new Edge(vertices[0], vertices[1]), new Edge(vertices[1], vertices[2]), 
-      new Edge(vertices[2], vertices[3]), new Edge(vertices[3], vertices[0])};
+    return edges;
   }
 
   PVector [] getVertices() {
     return vertices;
   }
-}
-
-class Edge{
-  PVector [] vectors;
-  
-  Edge(PVector...vectors){
-    this.vectors = vectors;
-  }
-  
-  
 }

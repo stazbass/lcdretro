@@ -5,7 +5,7 @@ class Scenes extends BaseObject{
     //actors.add(new SceneSand());
     //actors.add(new SceneImage());
     addChild(new SceneMovingPoint());
-    //actors.add(new SceneLife());
+    addChild(new SceneLife());
     addChild(new SceneBitka());
   }
   

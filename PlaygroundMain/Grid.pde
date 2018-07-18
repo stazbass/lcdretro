@@ -103,6 +103,8 @@ class ImpulseCell{
     }else{
       if(size != targetSize){
         setSize(size - deltaTime*Config.HIDE_SPEED);
+         float colorScale = targetSize!=0?size/Config.MAX_CELL_SIZE:0.0;
+        currentColor = color(red(targetColor)*colorScale, green(targetColor)*colorScale, blue(targetColor)*colorScale, size/Config.MAX_CELL_SIZE*255);
         if(size <= targetSize)size = targetSize;
       }
     }

@@ -4,7 +4,7 @@ class SceneLife extends BaseObject{
   int[][] cellsBuffer; 
   int mapWidth;
   int mapHeight;
-  float probabilityOfAliveAtStart = 15;
+  float probabilityOfAliveAtStart = 45;
   boolean initialized = true;
   boolean enabled = true;
   int randomCellCount = 1;
@@ -21,9 +21,9 @@ class SceneLife extends BaseObject{
     for (int x=0; x<mapWidth; x++) {
       for (int y=0; y<mapHeight; y++) {
         if (cells[x][y]==1) {
-          render.point(x, y, 1);
+          render.point(x, y, 1, color(200, 0, 0));
         } else {
-          render.point(x,y,.1);
+          render.point(x,y,.1, color(200, 0, 0));
         }
       }
     }
@@ -40,9 +40,9 @@ class SceneLife extends BaseObject{
     // Iterate if timer ticks
     //if(key == 'a')randomCellCount++;
     randomCellCount = abs(mouseY-height/2);
+    iteration();
     if(time > generationInterval){
-      iteration();
-      seedRandomLiveCells(10);
+      seedRandomLiveCells(100);
       time = 0;
     }
   }

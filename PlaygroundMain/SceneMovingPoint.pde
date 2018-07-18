@@ -38,8 +38,9 @@ class MovingPoint extends BaseObject{
   
   MovingPoint(){
     pos = new PVector(random(0, render.grid.width), random(0, render.grid.height));
+    nextPos = pos.copy();
     speed = new PVector(random(0,1)*100.0f, random(0,1)*100.0f);
-    col = color(50*random(0,1), 255*random(0,1), 50*random(0, 1));
+    col = color(255*random(0,1), 255*random(0,1), 255*random(0, 1));
   }
   
   void draw(){

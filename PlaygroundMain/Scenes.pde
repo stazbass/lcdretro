@@ -4,10 +4,11 @@ class Scenes extends BaseObject{
     super();
     //actors.add(new SceneSand());
     //actors.add(new SceneImage());
-    addChild(new SceneMovingPoint());
-    addChild(new SceneLife());
-    addChild(new SceneBitka());
+    //addChild(new SceneMovingPoint());
+    //addChild(new SceneLife());
+    //addChild(new SceneBitka());
     //addChild(new SceneRectangles());
+    addChild(new SceneWebcam());
   }
   
   void update(float dt){

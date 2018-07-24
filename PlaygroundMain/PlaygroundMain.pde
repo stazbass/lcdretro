@@ -18,7 +18,7 @@ boolean isKeyPressed(char key){
 
 // ------------
 void setup() {
-  size(700, 500, P3D);
+  size(1700, 1000, P3D);
   //fullScreen(P3D);
   background(0);
   stroke(220, 200, 220);
@@ -46,10 +46,11 @@ float getDelta(long frameCount){
 void draw() {
   clear();
   
-  float delta = (0.5/frameRate);
+  float delta = (1.0/frameRate);
   drawAll();
   updateAll(delta);
-  println("Frame rate " + frameRate);
+  if(frameCount%10 == 0)
+    println("Frame rate " + frameRate);
 }
 
 void drawAll() {
@@ -74,6 +75,10 @@ void keyPressed() {
 
 void keyReleased(){
   keys.put(key, false);
+}
+
+Capture getCamera(String cameraDesc){
+  return new Capture(this, cameraDesc);
 }
 
 import com.hamoid.*;

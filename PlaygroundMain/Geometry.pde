@@ -108,7 +108,7 @@ class Edge{
   void setPoints(PVector start, PVector end){
     this.p1 = start;
     this.p2 = end;
-    this.normal = p2.sub(p1).rotate(-PI/2.0);
+    this.normal = p2.copy().sub(p1).normalize().rotate(-PI/2.0);
     this.normal.normalize();
   }
 }
@@ -137,8 +137,8 @@ class Box {
   void rot(float angle) {
     if (this.angle != angle) {
       this.angle = angle;
-      calculateVertices();
     }
+    calculateVertices();
   }
   void calculateVertices() {
     this.vertices = new PVector[]{lu.copy().rotate(angle), ru.copy().rotate(angle), rd.copy().rotate(angle), ld.copy().rotate(angle)};

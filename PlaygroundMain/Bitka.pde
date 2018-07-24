@@ -25,7 +25,7 @@ class Bitka extends BaseObject{
   void update(float dt){
     super.update(dt);
     xpos = mouseX/grid.cellWidth;
-    ypos = 5;
+    ypos = 15;
     box.moveTo(xpos, grid.height/2);
   }
 }

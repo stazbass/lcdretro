@@ -19,14 +19,14 @@ boolean isKeyPressed(char key){
 // ------------
 void setup() {
   fullScreen(P3D);
-  //size(1000, 1000, P3D);
+  //size(1500, 1000, P3D);
   background(0);
   stroke(220, 200, 220);
   fill(250, 10, 250);
   rectMode(CENTER);
   imageMode(CENTER);
 
-  frameRate(100);
+  frameRate(33);
   mouseSmooth.x = mouseX;
   mouseSmooth.y = mouseY;
   
@@ -37,12 +37,21 @@ void setup() {
   scenes = new Scenes();
 }
 
+float getDelta(long frameCount){
+  float frequency = 1.0;
+  //float amplitude = 1500;
+  return abs(sin( (frameCount)*PI/(180.0 * frequency)))/10.0;
+}
+
 void draw() {
   clear();
-  float delta = (1.0/frameRate)/2.0;
   
+  float delta = (0.5/frameRate);
+  //float delta = mouseX!=0?50.0/mouseX:1;
+  //float delta = getDelta(frameCount);
   drawAll();
   updateAll(delta);
+  println("Frame rate " + frameRate);
 }
 
 void drawAll() {
@@ -51,6 +60,7 @@ void drawAll() {
 }
 
 void updateAll(float delta) {
+  println(delta);
   grid.update(delta);
   scenes.update(delta);
   videoRecorder.frame();

@@ -1,4 +1,4 @@
-class SceneLife extends BaseObject{
+class SceneLife extends BaseObject {
   int[][] cells; 
   // Buffer to record the state of the cells and use this while changing the others in the interations
   int[][] cellsBuffer; 
@@ -8,9 +8,9 @@ class SceneLife extends BaseObject{
   boolean initialized = true;
   boolean enabled = true;
   int randomCellCount = 1;
-  double generationInterval = 0.3;
+  double generationInterval = 0.1;
   double time = 0;
-  
+
 
   SceneLife() {
     initLife(grid.width, grid.height);
@@ -21,9 +21,9 @@ class SceneLife extends BaseObject{
     for (int x=0; x<mapWidth; x++) {
       for (int y=0; y<mapHeight; y++) {
         if (cells[x][y]==1) {
-          render.point(x, y, 1, color(200, 0, 0));
+          render.point(x, y, 1, color(random(0, 1)*200, 20*random(0, 1), 100*random(0,1)));
         } else {
-          render.point(x,y,.1, color(200, 0, 0));
+          render.point(x, y, .1, color(random(0, 1)*200, 20*random(0, 1), 100*random(0,1)));
         }
       }
     }
@@ -38,17 +38,21 @@ class SceneLife extends BaseObject{
     if (!enabled)return;
     time+=dt;
     // Iterate if timer ticks
-    //if(key == 'a')randomCellCount++;
-    randomCellCount = abs(mouseY-height/2);
+    if (isKeyPressed('c')) {
+      randomCellCount+=10;
+      seedRandomLiveCells(randomCellCount);
+      println(randomCellCount);
+    }
+    //randomCellCount = abs(mouseY-height/2);
     iteration();
-    if(time > generationInterval){
-      seedRandomLiveCells(100);
+    if (time > generationInterval) {
+      //seedRandomLiveCells(randomCellCount);
       time = 0;
     }
   }
-  
-  void seedRandomLiveCells(int cnt){
-    for(int i = 0; i < cnt; i++){
+
+  void seedRandomLiveCells(int cnt) {
+    for (int i = 0; i < cnt; i++) {
       randomLiveCell();
     }
   }

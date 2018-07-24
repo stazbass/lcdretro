@@ -27,7 +27,6 @@ class Grid{
       }
     }
   }
-
   ImpulseCell getCellAt(int x, int y){
     if(x >= width)x = width-1;
     if(x < 0)x = 0;
@@ -65,7 +64,7 @@ class ImpulseCell{
   float x, y;
   PImage cellImage;
   color targetColor = color(0, 0, 0);
-  color currentColor = color(255, 255, 255);
+  color currentColor = color(0, 0, 0);
 
   ImpulseCell(float width, float height, int x, int y, PImage image){
     this.cellWidth = width;
@@ -94,7 +93,7 @@ class ImpulseCell{
     if(size <= targetSize){
       float sizeDelta = deltaTime * Config.SHOW_SPEED;
       setSize(size + sizeDelta);
-      float colorScale = targetSize!=0?size/targetSize:0.0;
+      float colorScale = size/Config.MAX_CELL_SIZE;
       currentColor = color(red(targetColor)*colorScale, green(targetColor)*colorScale, blue(targetColor)*colorScale, size/Config.MAX_CELL_SIZE*255);
       if(size >= targetSize){
         size = targetSize;
@@ -103,7 +102,7 @@ class ImpulseCell{
     }else{
       if(size != targetSize){
         setSize(size - deltaTime*Config.HIDE_SPEED);
-         float colorScale = targetSize!=0?size/Config.MAX_CELL_SIZE:0.0;
+         float colorScale = size/Config.MAX_CELL_SIZE;
         currentColor = color(red(targetColor)*colorScale, green(targetColor)*colorScale, blue(targetColor)*colorScale, size/Config.MAX_CELL_SIZE*255);
         if(size <= targetSize)size = targetSize;
       }
@@ -129,13 +128,14 @@ class ImpulseCell{
   
   void draw(){
     if(Config.cellImageMode){
-      scale(size);
+      //scale(size);
       tint(currentColor);
-      image(cellImage, x*cellWidth, y *cellHeight, cellWidth*size, cellHeight*size);
+      image(cellImage, x*cellWidth, y *cellHeight, cellWidth * size, cellHeight * size);
     }else{
       strokeWeight(Config.BORDER_WIDTH);
       fill(currentColor);
       rect(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
+      //ellipse(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
     }
   }
 }

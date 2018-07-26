@@ -25,7 +25,7 @@ void setup() {
   fill(250, 10, 250);
   rectMode(CENTER);
   imageMode(CENTER);
-  //smooth();
+
   frameRate(33);
   mouseSmooth.x = mouseX;
   mouseSmooth.y = mouseY;
@@ -76,6 +76,10 @@ void keyPressed() {
 
 void keyReleased(){
   keys.put(key, false);
+}
+
+Capture getCamera(String cameraDesc){
+  return new Capture(this, cameraDesc);
 }
 
 import com.hamoid.*;

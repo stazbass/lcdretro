@@ -3,7 +3,7 @@ class SceneMovingPoint extends BaseObject{
   ArrayList<MovingPoint> points = new ArrayList(1000);
   
   SceneMovingPoint(){
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 200; i++){
     points.add(new MovingPoint());
     }
   }
@@ -13,11 +13,6 @@ class SceneMovingPoint extends BaseObject{
     for(MovingPoint pt : points){
       pt.draw();
     }
-    //for(int i = 0; i < points.size()-1; i++){
-    //  MovingPoint p1 = points.get(i);
-    //  MovingPoint p2 = points.get(i+1);
-    //  render.line(p1.pos.x,p1.pos.y,p2.pos.x,p2.pos.y,1,p1.col);
-    //}
   }
   
   
@@ -26,18 +21,11 @@ class SceneMovingPoint extends BaseObject{
     for(MovingPoint pt : points){
       pt.update(dt);
     }
-    if(isKeyPressed('a')){
-      //for(int i = 0; i < points.size()/100; i++){
-        points.add(new MovingPoint());
-      //}
+    if(keys.get('a') != null && keys.get('a') == true){
+      points.add(new MovingPoint());
+      points.add(new MovingPoint());
+      points.add(new MovingPoint());
       println("Points " + points.size());
-    }
-    if(isKeyPressed('s')){
-      //for(int i = 0; i < 10; i++){
-      //  if(points.size() > 0)
-      //  points.remove(0);
-      //  else break;
-      //}
     }
   }
 }
@@ -47,14 +35,13 @@ class MovingPoint extends BaseObject{
   PVector nextPos;
   PVector speed;
   color col;
-  boolean alive = true;
+  static final float SPEED = 10.0;
   
   MovingPoint(){
-    //pos = new PVector(sin((frameCount%180)*PI/180.0)*grid.height, cos((frameCount%180)*PI/180.0)*grid.height);
-    pos = new PVector(grid.width/2, grid.height/2);
+    pos = new PVector(random(0, render.grid.width), random(0, render.grid.height));
     nextPos = pos.copy();
-    speed = new PVector(sin(random(0,2*PI))*10.0f, cos(random(0,2*PI))*10.0f);
-    col = color(255*random(0,1), 107*random(0,1), 100*random(0, 1));
+    speed = new PVector(random(0,1)*SPEED, random(0,1)*SPEED);
+    col = color(255*random(0,1), 255*random(0,1), 255*random(0, 1));
   }
   
   void draw(){
@@ -72,22 +59,18 @@ class MovingPoint extends BaseObject{
     if(nextPos.x > render.grid.width-1){
       nextPos.x = render.grid.width-1;
       speed.x *=-1;
-      alive = false;
     }
     if(nextPos.x < 0){
       nextPos.x = 0;
       speed.x *=-1;
-      alive = false;
     }
     if(nextPos.y > render.grid.height-1){
       nextPos.y = render.grid.height-1;
       speed.y *=-1;
-      alive = false;
     }
     if(nextPos.y < 0){
       nextPos.y = 0;
       speed.y *=-1;
-      alive = false;
     }
   }
   

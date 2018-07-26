@@ -1,5 +1,6 @@
 class SceneLife extends BaseObject {
   int[][] cells; 
+  color[][] colors;
   // Buffer to record the state of the cells and use this while changing the others in the interations
   int[][] cellsBuffer; 
   int mapWidth;
@@ -21,9 +22,9 @@ class SceneLife extends BaseObject {
     for (int x=0; x<mapWidth; x++) {
       for (int y=0; y<mapHeight; y++) {
         if (cells[x][y]==1) {
-          render.point(x, y, 1, color(random(0, 1)*200, 20*random(0, 1), 100*random(0,1)));
+          render.point(x, y, 1, colors[x][y]);
         } else {
-          render.point(x, y, .1, color(random(0, 1)*200, 20*random(0, 1), 100*random(0,1)));
+          render.point(x, y, .1, colors[x][y]);
         }
       }
     }
@@ -62,6 +63,7 @@ class SceneLife extends BaseObject {
     this.mapHeight = sceneHeight;
     cells = new int[mapWidth][mapHeight];
     cellsBuffer = new int[mapWidth][mapHeight];
+    colors = new color[mapWidth][mapHeight];
 
     for (int x=0; x<mapWidth; x++) {
       for (int y=0; y<mapHeight; y++) {
@@ -72,6 +74,7 @@ class SceneLife extends BaseObject {
           state = 1;
         }
         cells[x][y] = int(state); // Save state of each cell
+        colors[x][y] = color(random(0, 1)*10, 240*random(0, 1), 100*random(0,1));
       }
     }
   }

@@ -55,32 +55,32 @@ class SceneSand extends BaseObject {
           color colorObject;
           if (num == 0) {
             col = 0.0;// color(255, 255, 0);
-            colorObject = color(50, 0, 255);
+            colorObject = color(0, 180, 20);
             render.point(x, y, 1, colorObject);
           } else if (num == 1) {
             col = 0.2;//color(0, 185, 63);
-            colorObject = color(100, 0, 0);
+            colorObject = color(200, 0, 0);
             render.point(x, y, 1, colorObject);
           } else if (num == 2) {
             col = 0.7;//color(0, 104, 255);
-            colorObject = color(150, 0, 0);
+            colorObject = color(0, 150, 0);
             render.point(x, y, 1, colorObject);
           } else if (num == 3) {
             col = 1.0;//color(122, 0, 229);
-            colorObject = color(230, 0, 0);
+            colorObject = color(20, 70, 200);
             render.point(x, y, 1, colorObject);
           }else{
-            colorObject = color(250, 0, 0);
+            colorObject = color(220, 10, 30);
             render.point(x, y, 1, colorObject);
           }
 
         }
-        topple();
+        
       }
   }
 
   void update(float dt) {
 
-    //if (frameCount%5 == 0)topple();
+    if (frameCount%10 == 0)topple();
   }
 }

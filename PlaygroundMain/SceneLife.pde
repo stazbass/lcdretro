@@ -74,7 +74,7 @@ class SceneLife extends BaseObject {
           state = 1;
         }
         cells[x][y] = int(state); // Save state of each cell
-        colors[x][y] = color(random(0, 1)*10, 240*random(0, 1), 100*random(0,1));
+        colors[x][y] = color(random(0, 1)*10, 240*random(0, 1), 130*random(0,1));
       }
     }
   }

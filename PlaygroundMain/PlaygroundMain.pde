@@ -18,8 +18,8 @@ boolean isKeyPressed(char key){
 
 // ------------
 void setup() {
-  //fullScreen(P3D);
-  size(1500, 1000, P3D);
+  fullScreen(P3D);
+  //size(1500, 1000, P3D);
   background(0);
   stroke(220, 200, 220);
   fill(250, 10, 250);
@@ -46,7 +46,7 @@ float getDelta(long frameCount){
 void draw() {
   clear();
   
-  float delta = (0.5/frameRate);
+  float delta = (0.1/frameRate);
   //float delta = mouseX!=0?50.0/mouseX:1;
   //float delta = getDelta(frameCount);
   drawAll();

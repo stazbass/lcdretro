@@ -22,6 +22,8 @@ class Grid{
     //cellImage = loadImage(Config.cellImagePath);
     PGraphics g = createGraphics((int)width, (int)height);
     g.beginDraw();
+    g.stroke(0,0,0);
+    g.strokeWeight(Config.BORDER_WIDTH);
     g.fill(255, 255, 255);
     g.ellipse(width/2.0,height/2.0,width,height);      
     g.endDraw();
@@ -147,7 +149,7 @@ class ImpulseCell{
     if(Config.cellImageMode){
       //scale(size);
       tint(currentColor.value);
-      image(cellImage, x*cellWidth, y *cellHeight, cellWidth * size, cellHeight * size);
+      image(cellImage, x*cellWidth, y *cellHeight, cellWidth * size*Config.CELL_SCALE, cellHeight * size*Config.CELL_SCALE);
     }else{
       strokeWeight(Config.BORDER_WIDTH);
       fill(currentColor.value);

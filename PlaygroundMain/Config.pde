@@ -5,13 +5,13 @@ class Config{
   public static final float HIDE_SPEED =1;
   
   public static final int CELL_SIZE = 15;
-  public static final float CELL_SCALE = 1.3;
+  public static final float CELL_SCALE = PI/2;
   public static final float MIN_CELL_SIZE = 0.0;
   public static final float MAX_CELL_SIZE = 1.0;
   
   public static final float BORDER_WIDTH =0.0;
   
-  public static final boolean cellImageMode = false;
+  public static final boolean cellImageMode = true;
   public static final String cellImagePath = "circrle_15.png";
   
   

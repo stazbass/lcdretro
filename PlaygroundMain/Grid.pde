@@ -18,8 +18,22 @@ class Grid{
     this.cellHeight = cellHeight;
     this.originX = originX;
     this.originY = originY;
-    if(Config.cellImageMode)
-      cellImage = loadImage(Config.cellImagePath);
+    //if(Config.cellImageMode)
+    //cellImage = loadImage(Config.cellImagePath);
+    PGraphics g = createGraphics((int)width, (int)height);
+    g.beginDraw();
+    g.fill(255, 0, 0);
+    g.ellipse(0,0,width,height);      
+    g.endDraw();
+    g.loadPixels();
+    cellImage = createImage((int)width, (int)height, ARGB);
+    cellImage.loadPixels();
+    for(int i = 0; i < g.pixels.length; i++){
+      cellImage.pixels[i] = color(g.pixels[i]);
+    }
+    cellImage.updatePixels();
+    
+      
     cells = new ImpulseCell[width*height];
     for(int i = 0; i < width; i++){
       for(int j = 0; j < height; j++){
@@ -71,7 +85,7 @@ class ImpulseCell{
     this.cellHeight = height;
     this.x = x;
     this.y = y;
-    this.cellImage = image;
+    this.cellImage = image; //<>//
   }
 
   float getRealX(){
@@ -94,7 +108,8 @@ class ImpulseCell{
       float sizeDelta = deltaTime * Config.SHOW_SPEED;
       setSize(size + sizeDelta);
       float colorScale = size/Config.MAX_CELL_SIZE;
-      currentColor = color(red(targetColor)*colorScale, green(targetColor)*colorScale, blue(targetColor)*colorScale, size/Config.MAX_CELL_SIZE*255);
+      //currentColor = color(red(targetColor)*colorScale, green(targetColor)*colorScale, blue(targetColor)*colorScale, size/Config.MAX_CELL_SIZE*255);
+      currentColor = targetColor;
       if(size >= targetSize){
         size = targetSize;
         targetSize = Config.MIN_CELL_SIZE;
@@ -103,7 +118,8 @@ class ImpulseCell{
       if(size != targetSize){
         setSize(size - deltaTime*Config.HIDE_SPEED);
          float colorScale = size/Config.MAX_CELL_SIZE;
-        currentColor = color(red(targetColor)*colorScale, green(targetColor)*colorScale, blue(targetColor)*colorScale, size/Config.MAX_CELL_SIZE*255);
+      currentColor = targetColor;
+        //currentColor = color(red(targetColor)*colorScale, green(targetColor)*colorScale, blue(targetColor)*colorScale, size/Config.MAX_CELL_SIZE*255);
         if(size <= targetSize)size = targetSize;
       }
     }
@@ -123,7 +139,7 @@ class ImpulseCell{
   }
   
   void paint(color targetColor){
-    this.targetColor = targetColor;
+    this.targetColor = lerpColor(targetColor, this.currentColor, 0.5);
   }
   
   void draw(){
@@ -134,8 +150,8 @@ class ImpulseCell{
     }else{
       strokeWeight(Config.BORDER_WIDTH);
       fill(currentColor);
-      rect(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
-      //ellipse(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
+      //rect(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
+      ellipse(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
     }
   }
 }

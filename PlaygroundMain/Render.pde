@@ -22,14 +22,15 @@ class Grid{
     //cellImage = loadImage(Config.cellImagePath);
     PGraphics g = createGraphics((int)width, (int)height);
     g.beginDraw();
-    g.fill(255, 0, 0);
-    g.ellipse(0,0,width,height);      
+    g.fill(255, 255, 255);
+    g.ellipse(width/2.0,height/2.0,width,height);      
     g.endDraw();
     g.loadPixels();
     cellImage = createImage((int)width, (int)height, ARGB);
-    cellImage.loadPixels();
-    for(int i = 0; i < g.pixels.length; i++){
-      cellImage.pixels[i] = color(g.pixels[i]);
+    //cellImage.loadPixels();
+    int [] gPixels = g.pixels;
+    for(int i = 0; i < gPixels.length; i++){
+      cellImage.pixels[i] = color(gPixels[i]);
     }
     cellImage.updatePixels();
     
@@ -77,8 +78,7 @@ class ImpulseCell{
   float cellHeight;
   float x, y;
   PImage cellImage;
-  color targetColor = color(0, 0, 0);
-  color currentColor = color(0, 0, 0);
+  AnimatedColor currentColor = new AnimatedColor(color(10, 10, 10));
 
   ImpulseCell(float width, float height, int x, int y, PImage image){
     this.cellWidth = width;
@@ -104,12 +104,13 @@ class ImpulseCell{
   }
   
   void update(float deltaTime){
+    currentColor.update(deltaTime);
     if(size <= targetSize){
       float sizeDelta = deltaTime * Config.SHOW_SPEED;
       setSize(size + sizeDelta);
-      float colorScale = size/Config.MAX_CELL_SIZE;
+      //float colorScale = size/Config.MAX_CELL_SIZE;
       //currentColor = color(red(targetColor)*colorScale, green(targetColor)*colorScale, blue(targetColor)*colorScale, size/Config.MAX_CELL_SIZE*255);
-      currentColor = targetColor;
+      //currentColor = targetColor;
       if(size >= targetSize){
         size = targetSize;
         targetSize = Config.MIN_CELL_SIZE;
@@ -118,7 +119,7 @@ class ImpulseCell{
       if(size != targetSize){
         setSize(size - deltaTime*Config.HIDE_SPEED);
          float colorScale = size/Config.MAX_CELL_SIZE;
-      currentColor = targetColor;
+      //currentColor = targetColor;
         //currentColor = color(red(targetColor)*colorScale, green(targetColor)*colorScale, blue(targetColor)*colorScale, size/Config.MAX_CELL_SIZE*255);
         if(size <= targetSize)size = targetSize;
       }
@@ -139,17 +140,17 @@ class ImpulseCell{
   }
   
   void paint(color targetColor){
-    this.targetColor = lerpColor(targetColor, this.currentColor, 0.5);
+    this.currentColor.setTargetColor(targetColor);
   }
   
   void draw(){
     if(Config.cellImageMode){
       //scale(size);
-      tint(currentColor);
+      tint(currentColor.value);
       image(cellImage, x*cellWidth, y *cellHeight, cellWidth * size, cellHeight * size);
     }else{
       strokeWeight(Config.BORDER_WIDTH);
-      fill(currentColor);
+      fill(currentColor.value);
       //rect(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
       ellipse(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
     }
@@ -325,5 +326,34 @@ class GridRenderer {
     line(x+rWidth, y, x+rWidth, y, brightness, rectColor);
     line(x+rWidth, y+rHeight, x,y+rHeight, brightness, rectColor);
     line(x,y+rHeight, x, y, brightness, rectColor);
+  }
+}
+
+class AnimatedColor{
+  color value;
+  color previousValue;
+  color targetValue;
+  float changeProgress = 0;
+  
+  AnimatedColor(color value){
+    this.value = value;
+    this.previousValue = value;
+    this.targetValue = value;
+  }
+  
+  void update(float dt){
+    if(changeProgress != 0){
+      changeProgress-=dt;
+      changeProgress = changeProgress>0 ? changeProgress:0;
+      value = lerpColor(previousValue, targetValue, 1.0-changeProgress);
+    }
+  }
+  
+  void setTargetColor(color target){
+    if(target != targetValue){
+      this.previousValue = value;
+      this.changeProgress = 1.0;
+      this.targetValue = target;
+    }
   }
 }

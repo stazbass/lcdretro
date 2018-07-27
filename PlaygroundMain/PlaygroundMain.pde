@@ -26,7 +26,7 @@ void setup() {
   rectMode(CENTER);
   imageMode(CENTER);
 
-  frameRate(33);
+  frameRate(100);
   mouseSmooth.x = mouseX;
   mouseSmooth.y = mouseY;
   
@@ -46,7 +46,7 @@ float getDelta(long frameCount){
 void draw() {
   clear();
   
-  float delta = (0.1/frameRate);
+  float delta = (1.0/frameRate);
   //float delta = mouseX!=0?50.0/mouseX:1;
   //float delta = getDelta(frameCount);
   drawAll();

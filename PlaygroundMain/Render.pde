@@ -345,7 +345,7 @@ class AnimatedColor{
   
   void update(float dt){
     if(changeProgress != 0){
-      changeProgress-=dt;
+      changeProgress-=dt*Config.COLOR_MIX_SPEED;
       changeProgress = changeProgress>0 ? changeProgress:0;
       value = lerpColor(previousValue, targetValue, 1.0-changeProgress);
     }

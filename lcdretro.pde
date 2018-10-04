@@ -46,7 +46,7 @@ float getDelta(long frameCount){
 void draw() {
   clear();
   
-  float delta = (0.1/frameRate);
+  float delta = frameRate/1000;
   //float delta = mouseX!=0?50.0/mouseX:1;
   //float delta = getDelta(frameCount);
   drawAll();

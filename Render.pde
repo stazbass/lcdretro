@@ -1,7 +1,6 @@
-/// -----------------------------------------------------------------------------------------------------------------------
+/// ----------------------------------------------------------------------------------------------------------------------- //<>//
 ////    GRID
 /// -----------------------------------------------------------------------------------------------------------------------
-
 class Grid{
   int width;
   int height;
@@ -18,21 +17,22 @@ class Grid{
     this.cellHeight = cellHeight;
     this.originX = originX;
     this.originY = originY;
-    //if(Config.cellImageMode)
-    //cellImage = loadImage(Config.cellImagePath);
+    if(Config.cellImageMode)
+      cellImage = loadImage(Config.cellImagePath);
     PGraphics g = createGraphics((int)width, (int)height);
     g.beginDraw();
     g.stroke(0,0,0);
     g.strokeWeight(Config.BORDER_WIDTH);
     g.fill(255, 255, 255);
-    g.ellipse(width/2.0,height/2.0,width,height);      
+    g.ellipse(width/2.0,height/2.0,width,height);       //<>//
     g.endDraw();
+    g.updatePixels();
     g.loadPixels();
     cellImage = createImage((int)width, (int)height, ARGB);
     //cellImage.loadPixels();
     int [] gPixels = g.pixels;
     for(int i = 0; i < gPixels.length; i++){
-      cellImage.pixels[i] = color(gPixels[i]);
+      cellImage.pixels[i] = color(red(gPixels[i]), green(gPixels[i]), blue(gPixels[i]));
     }
     cellImage.updatePixels();
     
@@ -66,6 +66,28 @@ class Grid{
     for(int i =0; i < cells.length; i++){
       cells[i].update(deltaTime);
     }
+  }
+}
+
+enum Render{
+  LOAD_IMAGE,
+  GENERATE_IMAGE,
+  VECTOR
+}
+
+interface RenderImageSupplier{
+  PImage getImage();
+}
+
+class FileImage implements RenderImageSupplier{
+  PImage image;
+  
+  FileImage(String path){
+    image = loadImage(path);    
+  }
+  
+  PImage getImage(){
+    return image;
   }
 }
 
@@ -146,16 +168,19 @@ class ImpulseCell{
   }
   
   void draw(){
-    if(Config.cellImageMode){
+    switch(Config.currentRender){
+      
+    }
+    //if(Config.cellImageMode){
       //scale(size);
       tint(currentColor.value);
       image(cellImage, x*cellWidth, y *cellHeight, cellWidth * size*Config.CELL_SCALE, cellHeight * size*Config.CELL_SCALE);
-    }else{
-      strokeWeight(Config.BORDER_WIDTH);
-      fill(currentColor.value);
-      //rect(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
-      ellipse(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
-    }
+    //}{
+    //  strokeWeight(Config.BORDER_WIDTH);
+    //  fill(currentColor.value);
+    //  //rect(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
+    //  ellipse(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
+    //}
   }
 }
 

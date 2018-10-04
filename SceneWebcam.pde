@@ -18,8 +18,8 @@ class SceneWebcam extends BaseObject {
 
       // The camera can be initialized directly using an 
       // element from the array returned by list():
-      cam = getCamera(cameras[13]);
-      cam.start();
+      //cam = getCamera(cameras[13]);
+      //cam.start();
     }
   }
 

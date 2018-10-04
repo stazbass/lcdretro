@@ -18,14 +18,21 @@ class Scenes extends BaseObject{
     if(isKeyPressed('k')){
       Config.CELL_SIZE++;
     }
-    if(isKeyPressed('b')){
+    if(isKeyPressed('c')){
       Config.SHOW_SPEED-=0.1;
-      Config.HIDE_SPEED = Config.SHOW_SPEED/4;
+    }
+    if(isKeyPressed('v')){
+      Config.SHOW_SPEED+=0.1;
+    }
+    if(isKeyPressed('b')){
+      Config.HIDE_SPEED-=0.1;
     }
     if(isKeyPressed('n')){
-      Config.SHOW_SPEED+=0.1;
-      Config.HIDE_SPEED = Config.SHOW_SPEED/4;
+      Config.HIDE_SPEED+=0.1;
     }
+    
+    Config.SHOW_SPEED = constrain(Config.SHOW_SPEED, 0.001, 100);
+    Config.HIDE_SPEED = constrain(Config.HIDE_SPEED, 0.001, 100);
     
     super.update(dt);
   }

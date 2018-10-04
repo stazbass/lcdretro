@@ -3,15 +3,19 @@ class SceneMovingPoint extends BaseObject {
   ArrayList<MovingPoint> points = new ArrayList(1000);
 
   SceneMovingPoint() {
-    for (int i = 0; i < 200; i++) {
+    for (int i = 0; i < 2; i++) {
       points.add(new MovingPoint());
     }
   }
 
   void draw() {
     if (!enabled)return;
-    for (MovingPoint pt : points) {
-      pt.draw();
+    
+    for (int i = 0; i < points.size()-1; i++) {
+      PVector pt1 = points.get(i).pos;
+      PVector pt2 = points.get(i+1).pos;
+      //pt.draw();
+      render.line(pt1.x, pt1.y, pt2.x, pt2.y, 1, 200);
     }
   }
 
@@ -37,14 +41,15 @@ class MovingPoint extends BaseObject {
   PVector pos;
   PVector nextPos;
   PVector speed;
+  float speedNormalized;
   color col;
-  static final float SPEED = 10.0;
 
   MovingPoint() {
     pos = new PVector(render.grid.width/2, render.grid.height/2);
     nextPos = pos.copy();
-    speed = new PVector(sin(random(0, 2*PI))*SPEED, cos(random(0, 2*PI))*SPEED);
-    col = color(100*random(0, 1), 100*random(0, 1), 100*random(0, 1));
+    speedNormalized = random(0.1, 100);
+    speed = new PVector(sin(random(0, 2*PI))*speedNormalized, cos(random(0, 2*PI))*speedNormalized);
+    col = color(240*random(0, 1), 240*random(0, 1), 240*random(0, 1));
   }
 
   void draw() {

@@ -1,11 +1,7 @@
-import com.hamoid.*;
-import shiffman.box2d.*;
-
-
 final int SCREEN_WIDTH = 1500;
 final int SCREEN_HEIGHT = 1000;
 
-VideoRecorder videoRecorder;
+//VideoRecorder videoRecorder;
 Grid grid;
 GridRenderer render;
 Scenes scenes;
@@ -30,10 +26,10 @@ void setup() {
   mouseSmooth.x = mouseX;
   mouseSmooth.y = mouseY;
   
-  videoRecorder = new VideoRecorder(Config.RECORD_VIDEO, new VideoExport(this, "interactive.mp4"));
-  videoRecorder.start();
+  //videoRecorder = new VideoRecorder(Config.RECORD_VIDEO, new VideoExport(this, "interactive.mp4"));
+  //videoRecorder.start();
   grid = new Grid(width/Config.CELL_SIZE, height/Config.CELL_SIZE, Config.CELL_SIZE, Config.CELL_SIZE, Config.CELL_SIZE/2, Config.CELL_SIZE/2);
-  render = new GridRenderer(grid);
+  render = new GridRenderer(grid, Config.RENDER_TYPE);
   scenes = new Scenes();
 }
 
@@ -63,7 +59,7 @@ void updateAll(float delta) {
   println(delta);
   grid.update(delta);
   scenes.update(delta);
-  videoRecorder.frame();
+  //videoRecorder.frame();
 }
 
 void keyPressed() {
@@ -78,29 +74,29 @@ void keyReleased(){
   keys.put(key, false);
 }
 
-Capture getCamera(String cameraDesc){
-  return new Capture(this, cameraDesc);
-}
+//Capture getCamera(String cameraDesc){
+//  return new Capture(this, cameraDesc);
+//}
 
-import com.hamoid.*;
-class VideoRecorder {
-  VideoExport videoExport;
-  boolean enabled = false;
+//import com.hamoid.*;
+//class VideoRecorder {
+//  VideoExport videoExport;
+//  boolean enabled = false;
 
-  VideoRecorder(boolean enabled, VideoExport ve) {
-    this.enabled = enabled;
-    this.videoExport = ve;
-  }
+//  VideoRecorder(boolean enabled, VideoExport ve) {
+//    this.enabled = enabled;
+//    this.videoExport = ve;
+//  }
 
-  void start() {
-    if (enabled) {
-      videoExport.startMovie();
-    }
-  }
+//  void start() {
+//    if (enabled) {
+//      videoExport.startMovie();
+//    }
+//  }
 
-  void frame() {
-    if (enabled) {
-      videoExport.saveFrame();
-    }
-  }
-}
+//  void frame() {
+//    if (enabled) {
+//      videoExport.saveFrame();
+//    }
+//  }
+//}

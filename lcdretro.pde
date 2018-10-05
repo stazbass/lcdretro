@@ -19,32 +19,23 @@ void setup() {
   background(0);
   stroke(220, 200, 220);
   fill(250, 10, 250);
+  smooth(4);
   rectMode(CENTER);
   imageMode(CENTER);
 
-  frameRate(33);
+  frameRate(100);
+
   mouseSmooth.x = mouseX;
   mouseSmooth.y = mouseY;
-  
-  //videoRecorder = new VideoRecorder(Config.RECORD_VIDEO, new VideoExport(this, "interactive.mp4"));
-  //videoRecorder.start();
   grid = new Grid(width/Config.CELL_SIZE, height/Config.CELL_SIZE, Config.CELL_SIZE, Config.CELL_SIZE, Config.CELL_SIZE/2, Config.CELL_SIZE/2);
   render = new GridRenderer(grid, Config.RENDER_TYPE);
   scenes = new Scenes();
-}
-
-float getDelta(long frameCount){
-  float frequency = 1.0;
-  //float amplitude = 1500;
-  return abs(sin( (frameCount)*PI/(180.0 * frequency)))/10.0;
 }
 
 void draw() {
   clear();
   
   float delta = frameRate/1000;
-  //float delta = mouseX!=0?50.0/mouseX:1;
-  //float delta = getDelta(frameCount);
   drawAll();
   updateAll(delta);
   println("Frame rate " + frameRate);
@@ -56,10 +47,8 @@ void drawAll() {
 }
 
 void updateAll(float delta) {
-  println(delta);
   grid.update(delta);
   scenes.update(delta);
-  //videoRecorder.frame();
 }
 
 void keyPressed() {
@@ -73,30 +62,3 @@ void keyPressed() {
 void keyReleased(){
   keys.put(key, false);
 }
-
-//Capture getCamera(String cameraDesc){
-//  return new Capture(this, cameraDesc);
-//}
-
-//import com.hamoid.*;
-//class VideoRecorder {
-//  VideoExport videoExport;
-//  boolean enabled = false;
-
-//  VideoRecorder(boolean enabled, VideoExport ve) {
-//    this.enabled = enabled;
-//    this.videoExport = ve;
-//  }
-
-//  void start() {
-//    if (enabled) {
-//      videoExport.startMovie();
-//    }
-//  }
-
-//  void frame() {
-//    if (enabled) {
-//      videoExport.saveFrame();
-//    }
-//  }
-//}

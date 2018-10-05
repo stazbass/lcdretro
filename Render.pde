@@ -17,30 +17,15 @@ class Grid {
     this.cellHeight = cellHeight;
     this.originX = originX;
     this.originY = originY;
-    
-    
-    if(Config.RENDER_TYPE == RenderType.LOAD_IMAGE){
+
+
+    if (Config.RENDER_TYPE == RenderType.LOAD_IMAGE) {
       pixelRenderer = new FileImageRender(Config.cellImagePath);
     }
+    if (Config.RENDER_TYPE == RenderType.GENERATE_IMAGE) {
+      pixelRenderer = new ImageGenerateRender(Config.CELL_SIZE, Config.CELL_SIZE);
+    }
     
-    //PGraphics g = createGraphics((int)width, (int)height);
-    //g.beginDraw();
-    //g.stroke(0, 0, 0);
-    //g.strokeWeight(Config.BORDER_WIDTH);
-    //g.fill(255, 255, 255);
-    //g.ellipse(width/2.0, height/2.0, width, height);      
-    //g.endDraw();
-    //g.updatePixels();
-    //g.loadPixels();
-    //cellImage = createImage((int)width, (int)height, ARGB);
-    ////cellImage.loadPixels();
-    //int [] gPixels = g.pixels;
-    //for (int i = 0; i < gPixels.length; i++) {
-    //  cellImage.pixels[i] = color(red(gPixels[i]), green(gPixels[i]), blue(gPixels[i]));
-    //}
-    //cellImage.updatePixels();
-
-
     cells = new ImpulseCell[width*height];
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
@@ -96,6 +81,37 @@ class FileImageRender implements PixelRenderer {
   }
 }
 
+class ImageGenerateRender implements PixelRenderer {
+  PImage image;
+
+  ImageGenerateRender(int cellWidth, int cellHeight) {
+    PGraphics g = createGraphics(cellWidth, cellHeight);
+    g.beginDraw();
+    g.smooth(4);
+    g.stroke(255, 255, 255);
+    g.strokeWeight(Config.BORDER_WIDTH);
+    g.fill(150, 150, 150);
+    g.ellipse(cellWidth/2.0, cellHeight/2.0, cellWidth-Config.BORDER_WIDTH, cellHeight-Config.BORDER_WIDTH);      
+    g.endDraw();
+    //g.updatePixels();
+    g.loadPixels();
+    image = createImage(cellWidth, cellHeight, ARGB);
+    image.loadPixels();
+    int [] gPixels = g.pixels;
+    for (int i = 0; i < gPixels.length; i++) {
+      image.pixels[i] = color(red(gPixels[i]), green(gPixels[i]), blue(gPixels[i]), alpha(gPixels[i]));
+    }
+    image.updatePixels();
+  }
+
+  void drawPixel(float x, float y, float cellWidth, float cellHeight, float scale, color colorValue, float brightness) {
+    tint(colorValue);
+    image(image, x*cellWidth, y *cellHeight, cellWidth * brightness * scale, cellHeight * brightness * scale);
+  }
+}
+
+
+
 /// -----------------------------------------------------------------------------------------------------------------------
 ////    IMPULSE CELL
 /// -----------------------------------------------------------------------------------------------------------------------
@@ -106,7 +122,7 @@ class ImpulseCell {
   float cellWidth;
   float cellHeight;
   float x, y;
-  AnimatedColor currentColor = new AnimatedColor(color(10, 10, 10));
+  AnimatedColor currentColor = new AnimatedColor(color(255, 255, 255));
   PixelRenderer pixelRenderer;
 
   ImpulseCell(float width, float height, int x, int y, PixelRenderer pixelRenderer) {
@@ -117,10 +133,10 @@ class ImpulseCell {
     setPixelRenderer(pixelRenderer);
   }
 
-  void setPixelRenderer(PixelRenderer renderer){
+  void setPixelRenderer(PixelRenderer renderer) {
     this.pixelRenderer = renderer;
   }
-  
+
   float getRealX() {
     return x * width;
   }
@@ -175,7 +191,7 @@ class ImpulseCell {
   }
 
   void draw() {
-    pixelRenderer.drawPixel(x,y,cellWidth,cellHeight,Config.CELL_SCALE,currentColor.value,size);
+    pixelRenderer.drawPixel(x, y, cellWidth, cellHeight, Config.CELL_SCALE, currentColor.value, size);
     //if(Config.cellImageMode){
     //scale(size);
     //tint(currentColor.value);
@@ -276,6 +292,10 @@ class GridRenderer {
       }
     }
   }
+  
+  void line(PVector p1, PVector p2, float brightness, color lineColor){
+    line(p1.x, p1.y, p2.x, p2.y, brightness, lineColor);
+  }
 
   void circle(PVector pos, float radius, float brightness) {
     circle(pos.x, pos.y, radius, brightness);
@@ -373,6 +393,7 @@ class AnimatedColor {
     this.value = value;
     this.previousValue = value;
     this.targetValue = value;
+    syncParams();
   }
 
   void update(float dt) {

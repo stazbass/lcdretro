@@ -12,11 +12,7 @@ class SceneMovingPoint extends BaseObject {
     if (!enabled)return;
     
     for (int i = 0; i < points.size(); i++) {
-      PVector pt1 = points.get(i).pos;
-      //PVector pt2 = points.get(i+1).pos;
       points.get(i).draw();
-      //points.get(i+1).draw();.
-      //render.line(pt1.x, pt1.y, pt2.x, pt2.y, 1, color(120, 210, 220));
     }
   }
 
@@ -27,8 +23,6 @@ class SceneMovingPoint extends BaseObject {
       pt.update(dt);
     }
     if (keys.get('a') != null && keys.get('a') == true) {
-      points.add(new MovingPoint());
-      points.add(new MovingPoint());
       points.add(new MovingPoint());
     }
     if(isKeyPressed('d') && !points.isEmpty()){
@@ -43,23 +37,22 @@ class MovingPoint extends BaseObject {
   PVector speed;
   float speedNormalized;
   color col;
-  boolean alive = true;
-
 
   MovingPoint() {
+    reset();
+  }
+  
+  void reset(){
     pos = new PVector(render.grid.width/2, render.grid.height/2);
     nextPos = pos.copy();
     speedNormalized = random(0.1, 100);
     speed = new PVector(sin(random(0, 2*PI))*speedNormalized, cos(random(0, 2*PI))*speedNormalized);
     col = color(240*random(0, 1), 240*random(0, 1), 240*random(0, 1));
-    alive = true;
   }
 
   void draw() {
-    if(alive){
-      super.draw();
-      render.point(pos.x, pos.y, 1, col);
-    }
+    super.draw();
+    render.point(pos.x, pos.y, 1, col);
   }
 
   void update(float dt) {
@@ -72,22 +65,22 @@ class MovingPoint extends BaseObject {
     if (nextPos.x > render.grid.width-1) {
       nextPos.x = render.grid.width-1;
       speed.x *=-1;
-      alive = false;
+      reset();
     }
     if (nextPos.x < 0) {
       nextPos.x = 0;
       speed.x *=-1;
-      alive = false;
+      reset();
     }
     if (nextPos.y > render.grid.height-1) {
       nextPos.y = render.grid.height-1;
       speed.y *=-1;
-      alive = false;
+      reset();
     }
     if (nextPos.y < 0) {
       nextPos.y = 0;
       speed.y *=-1;
-      alive = false;
+      reset();
     }
   }
 

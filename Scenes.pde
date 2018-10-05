@@ -20,9 +20,11 @@ class Scenes extends BaseObject{
     }
     if(isKeyPressed('c')){
       Config.SHOW_SPEED-=0.1;
+      Config.HIDE_SPEED+=0.1;
     }
     if(isKeyPressed('v')){
       Config.SHOW_SPEED+=0.1;
+      Config.HIDE_SPEED+=0.1;
     }
     if(isKeyPressed('b')){
       Config.HIDE_SPEED-=0.1;

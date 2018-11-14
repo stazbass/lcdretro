@@ -14,12 +14,12 @@ boolean isKeyPressed(char key){
 
 // ------------
 void setup() {
-  fullScreen(P3D);
+  fullScreen(P2D);
   //size(1500, 1000, P3D);
   background(0);
   stroke(220, 200, 220);
   fill(250, 10, 250);
-  smooth(4);
+  //smooth(4);
   rectMode(CENTER);
   imageMode(CENTER);
 
@@ -35,7 +35,7 @@ void setup() {
 void draw() {
   clear();
   
-  float delta = frameRate*0.1/1000;
+  float delta = 100.0/1000.0;
   drawAll();
   updateAll(delta);
   println("Frame rate " + frameRate);

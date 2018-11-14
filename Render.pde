@@ -102,6 +102,7 @@ class ImageGenerateRender implements PixelRenderer {
       image.pixels[i] = color(red(gPixels[i]), green(gPixels[i]), blue(gPixels[i]), alpha(gPixels[i]));
     }
     image.updatePixels();
+    g.dispose();
   }
 
   void drawPixel(float x, float y, float cellWidth, float cellHeight, float scale, color colorValue, float brightness) {
@@ -167,7 +168,7 @@ class ImpulseCell {
     } else {
       if (size != targetSize) {
         setSize(size - deltaTime*Config.HIDE_SPEED);
-        float colorScale = size/Config.MAX_CELL_SIZE;
+        //float colorScale = size/Config.MAX_CELL_SIZE;
         if (size <= targetSize)size = targetSize;
       }
     }
@@ -192,16 +193,6 @@ class ImpulseCell {
 
   void draw() {
     pixelRenderer.drawPixel(x, y, cellWidth, cellHeight, Config.CELL_SCALE, currentColor.value, size);
-    //if(Config.cellImageMode){
-    //scale(size);
-    //tint(currentColor.value);
-    //image(cellImage, x*cellWidth, y *cellHeight, cellWidth * size * Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
-    //}{
-    //  strokeWeight(Config.BORDER_WIDTH);
-    //  fill(currentColor.value);
-    //  //rect(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
-    //  ellipse(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
-    //}
   }
 }
 
@@ -387,7 +378,7 @@ class AnimatedColor {
   color previousValue;
   color targetValue;
   float changeProgress = 0;
-  float colorChangeSpeed = 1.0;
+  float colorChangeSpeed = Config.COLOR_CHANGE_SPEED;
 
   AnimatedColor(color value) {
     this.value = value;

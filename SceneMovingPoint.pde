@@ -43,7 +43,7 @@ class MovingPoint extends BaseObject {
   }
   
   void reset(){
-    pos = new PVector(render.grid.width/2, render.grid.height/2);
+    pos = new PVector(mouseX/grid.cellWidth, mouseY/grid.cellHeight);
     nextPos = pos.copy();
     speedNormalized = random(0.1, 100);
     speed = new PVector(sin(random(0, 2*PI))*speedNormalized, cos(random(0, 2*PI))*speedNormalized);
@@ -53,6 +53,7 @@ class MovingPoint extends BaseObject {
   void draw() {
     super.draw();
     render.point(pos.x, pos.y, 1, col);
+    //render.circle(pos.x, pos.y, abs(render.grid.width/2 - pos.x)*2, 1, col);
   }
 
   void update(float dt) {

@@ -39,8 +39,8 @@ class SceneLife extends BaseObject {
     if (!enabled)return;
     time+=dt;
     // Iterate if timer ticks
-    if (isKeyPressed('c')) {
-      randomCellCount+=10;
+    if (isKeyPressed('r')) {
+      randomCellCount+=1;
       seedRandomLiveCells(randomCellCount);
       println(randomCellCount);
     }

@@ -4,9 +4,9 @@ class Scenes extends BaseObject{
     super();
     //addChild(new SceneSand());
     //addChild(new SceneImage());
-    //addChild(new SceneLife());
-    addChild(new SceneMovingPoint());
-    //addChild(new SceneBitka());
+    addChild(new SceneLife());
+    //addChild(new SceneMovingPoint());
+    addChild(new SceneBitka());
     //addChild(new SceneRectangles());
     //addChild(new SceneWebcam());
   }
@@ -20,7 +20,7 @@ class Scenes extends BaseObject{
     }
     if(isKeyPressed('c')){
       Config.SHOW_SPEED-=0.1;
-      Config.HIDE_SPEED+=0.1;
+      Config.HIDE_SPEED-=0.1;
     }
     if(isKeyPressed('v')){
       Config.SHOW_SPEED+=0.1;
@@ -33,8 +33,8 @@ class Scenes extends BaseObject{
       Config.HIDE_SPEED+=0.1;
     }
     
-    Config.SHOW_SPEED = constrain(Config.SHOW_SPEED, 0.001, 100);
-    Config.HIDE_SPEED = constrain(Config.HIDE_SPEED, 0.001, 100);
+    Config.SHOW_SPEED = constrain(Config.SHOW_SPEED, 0.1, 10);
+    Config.HIDE_SPEED = constrain(Config.HIDE_SPEED, 0.1, 10);
     
     super.update(dt);
   }

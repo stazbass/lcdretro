@@ -7,7 +7,7 @@ class Bitka extends BaseObject{
   
   Bitka(){
     for(int i = 0; i < 20; i++){
-    box.add(new Box(sin(i/PI),cos(i/PI)));
+    box.add(new Box(sin(i/PI)*30,cos(i/PI)*30));
     }
     
   }
@@ -16,10 +16,10 @@ class Bitka extends BaseObject{
     super.draw();
     for(int i = 0; i < box.size(); i++){
       vertices = box.get(i).getVertices();
-      render.line(vertices[0].x,vertices[0].y,vertices[1].x,vertices[1].y, 1.0, color(0, 0, 255));
+      render.line(vertices[0].x,vertices[0].y,vertices[1].x,vertices[1].y, 1.0, color(0, 255, 200));
       render.line(vertices[1].x,vertices[1].y,vertices[2].x,vertices[2].y, 1.0, color(0, 0, 255));
-      render.line(vertices[2].x,vertices[2].y,vertices[3].x,vertices[3].y, 1.0, color(0, 0, 255));
-      render.line(vertices[3].x,vertices[3].y,vertices[0].x,vertices[0].y, 1.0, color(0, 0, 255));
+      render.line(vertices[2].x,vertices[2].y,vertices[3].x,vertices[3].y, 1.0, color(255, 0, 255));
+      render.line(vertices[3].x,vertices[3].y,vertices[0].x,vertices[0].y, 1.0, color(0, 255, 255));
     }
   }
   

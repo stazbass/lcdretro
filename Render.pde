@@ -102,6 +102,7 @@ class ImageGenerateRender implements PixelRenderer {
       image.pixels[i] = color(red(gPixels[i]), green(gPixels[i]), blue(gPixels[i]), alpha(gPixels[i]));
     }
     image.updatePixels();
+    g.dispose();
   }
 
   void drawPixel(float x, float y, float cellWidth, float cellHeight, float scale, color colorValue, float brightness) {
@@ -157,6 +158,9 @@ class ImpulseCell {
     if (size <= targetSize) {
       float sizeDelta = deltaTime * Config.SHOW_SPEED;
       setSize(size + sizeDelta);
+      //float colorScale = size/Config.MAX_CELL_SIZE;
+      //currentColor = color(red(targetColor)*colorScale, green(targetColor)*colorScale, blue(targetColor)*colorScale, size/Config.MAX_CELL_SIZE*255);
+      //currentColor = targetColor;
       if (size >= targetSize) {
         size = targetSize;
         targetSize = Config.MIN_CELL_SIZE;
@@ -164,6 +168,7 @@ class ImpulseCell {
     } else {
       if (size != targetSize) {
         setSize(size - deltaTime*Config.HIDE_SPEED);
+        //float colorScale = size/Config.MAX_CELL_SIZE;
         if (size <= targetSize)size = targetSize;
       }
     }
@@ -188,7 +193,16 @@ class ImpulseCell {
 
   void draw() {
     pixelRenderer.drawPixel(x, y, cellWidth, cellHeight, Config.CELL_SCALE, currentColor.value, size);
-    
+    //if(Config.cellImageMode){
+    //scale(size);
+    //tint(currentColor.value);
+    //image(cellImage, x*cellWidth, y *cellHeight, cellWidth * size * Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
+    //}{
+    //  strokeWeight(Config.BORDER_WIDTH);
+    //  fill(currentColor.value);
+    //  //rect(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
+    //  ellipse(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
+    //}
   }
 }
 
@@ -284,30 +298,30 @@ class GridRenderer {
     line(p1.x, p1.y, p2.x, p2.y, brightness, lineColor);
   }
 
-  void circle(PVector pos, float radius, float brightness, color circleColor) {
-    circle(pos.x, pos.y, radius, brightness, circleColor);
+  void circle(PVector pos, float radius, float brightness) {
+    circle(pos.x, pos.y, radius, brightness);
   }
-  void circleAlt(PVector pos, float r, float  brightness, color circleColor) {
-    circleAlt(pos.x, pos.y, r, brightness, circleColor);
+  void circleAlt(PVector pos, float r, float  brightness) {
+    circleAlt(pos.x, pos.y, r, brightness);
   }
-  void circle(float x0, float y0, float radius, float bright, color circleColor) {
+  void circle(float x0, float y0, float radius, float bright) {
     int x = (int)(radius-1);
     int y = 0;
     int dx = 1;
     int dy = 1;
     int intr = (int)radius;
     int err = dx - (intr << 1);
-    
+
     while (x >= y)
     {
-      point(x0 + x, y0 + y, bright, circleColor);
-      point(x0 + y, y0 + x, bright, circleColor);
-      point(x0 - y, y0 + x, bright, circleColor);
-      point(x0 - x, y0 + y, bright, circleColor);
-      point(x0 - x, y0 - y, bright, circleColor);
-      point(x0 - y, y0 - x, bright, circleColor);
-      point(x0 + y, y0 - x, bright, circleColor);
-      point(x0 + x, y0 - y, bright, circleColor);
+      point(x0 + x, y0 + y, bright);
+      point(x0 + y, y0 + x, bright);
+      point(x0 - y, y0 + x, bright);
+      point(x0 - x, y0 + y, bright);
+      point(x0 - x, y0 - y, bright);
+      point(x0 - y, y0 - x, bright);
+      point(x0 + y, y0 - x, bright);
+      point(x0 + x, y0 - y, bright);
 
       if (err <= 0)
       {
@@ -325,19 +339,19 @@ class GridRenderer {
     }
   }
 
-  private void drawCirclePoints(float xc, float yc, float x, float y, float brightness, color circleColor)
+  private void drawCirclePoints(float xc, float yc, float x, float y, float brightness)
   {
-    point(xc+x, yc+y, brightness, circleColor);
-    point(xc-x, yc+y, brightness, circleColor);
-    point(xc+x, yc-y, brightness, circleColor);
-    point(xc-x, yc-y, brightness, circleColor);
-    point(xc+y, yc+x, brightness, circleColor);
-    point(xc-y, yc+x, brightness, circleColor);
-    point(xc+y, yc-x, brightness, circleColor);
-    point(xc-y, yc-x, brightness, circleColor);
+    point(xc+x, yc+y, brightness);
+    point(xc-x, yc+y, brightness);
+    point(xc+x, yc-y, brightness);
+    point(xc-x, yc-y, brightness);
+    point(xc+y, yc+x, brightness);
+    point(xc-y, yc+x, brightness);
+    point(xc+y, yc-x, brightness);
+    point(xc-y, yc-x, brightness);
   }
 
-  void circleAlt(float xc, float yc, float r, float brightness, int circleColor)
+  void circleAlt(float xc, float yc, float r, float brightness)
   {
     int x = 0, y = (int)r;
     int d = (int)(3 - 2 * r);
@@ -345,7 +359,7 @@ class GridRenderer {
     {
       // for each pixel we will
       // draw all eight pixels
-      drawCirclePoints(xc, yc, x, y, brightness, circleColor);
+      drawCirclePoints(xc, yc, x, y, brightness);
       x++;
 
       // check for decision parameter
@@ -357,7 +371,7 @@ class GridRenderer {
         d = d + 4 * (x - y) + 10;
       } else
         d = d + 4 * x + 6;
-      drawCirclePoints(xc, yc, x, y, brightness, circleColor);
+      drawCirclePoints(xc, yc, x, y, brightness);
     }
   }
 
@@ -374,7 +388,7 @@ class AnimatedColor {
   color previousValue;
   color targetValue;
   float changeProgress = 0;
-  float colorChangeSpeed = 1.0;
+  float colorChangeSpeed = Config.COLOR_CHANGE_SPEED;
 
   AnimatedColor(color value) {
     this.value = value;

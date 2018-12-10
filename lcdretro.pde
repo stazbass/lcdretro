@@ -19,7 +19,7 @@ void setup() {
   background(0);
   stroke(220, 200, 220);
   fill(250, 10, 250);
-  smooth(4);
+  //smooth(4);
   rectMode(CENTER);
   imageMode(CENTER);
 
@@ -35,7 +35,7 @@ void setup() {
 void draw() {
   clear();
   
-  float delta = frameRate*0.3/1000;
+  float delta = 100.0/1000.0;
   drawAll();
   updateAll(delta);
   println("Frame rate " + frameRate);

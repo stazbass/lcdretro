@@ -14,7 +14,7 @@ boolean isKeyPressed(char key){
 
 // ------------
 void setup() {
-  fullScreen(P2D);
+  fullScreen(P3D);
   //size(1500, 1000, P3D);
   background(0);
   stroke(220, 200, 220);

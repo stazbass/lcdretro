@@ -1,4 +1,4 @@
-class Bitka extends BaseObject {
+class Bitka extends BaseObject{
   float xpos;
   float ypos;
   ArrayList<Box> boxes = new ArrayList();
@@ -10,6 +10,7 @@ class Bitka extends BaseObject {
     for (int i = 0; i < 20; i++) {
       addBox(i);
     }
+    
   }
 
   void addBox(int index) {

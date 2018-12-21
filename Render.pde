@@ -193,6 +193,16 @@ class ImpulseCell {
 
   void draw() {
     pixelRenderer.drawPixel(x, y, cellWidth, cellHeight, Config.CELL_SCALE, currentColor.value, size);
+    //if(Config.cellImageMode){
+    //scale(size);
+    //tint(currentColor.value);
+    //image(cellImage, x*cellWidth, y *cellHeight, cellWidth * size * Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
+    //}{
+    //  strokeWeight(Config.BORDER_WIDTH);
+    //  fill(currentColor.value);
+    //  //rect(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
+    //  ellipse(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
+    //}
   }
 }
 

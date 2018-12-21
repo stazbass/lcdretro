@@ -1,14 +1,14 @@
 static class Config{
   public static final boolean RECORD_VIDEO = false;
   
-  public static float SHOW_SPEED = 1;
-  public static  float HIDE_SPEED = 1;
+  public static float SHOW_SPEED =2;
+  public static  float HIDE_SPEED = 4;
   
-  public static  int CELL_SIZE = 5;
+  public static  int CELL_SIZE = 7;
   public static  float CELL_SCALE = 1.0;
   public static  float MIN_CELL_SIZE = 0.05;
   public static  float MAX_CELL_SIZE = 1.0;
-  public static float COLOR_CHANGE_SPEED = 52.0;
+  public static float COLOR_CHANGE_SPEED = 410.0;
   
   public static  float BORDER_WIDTH = 2.0;
   

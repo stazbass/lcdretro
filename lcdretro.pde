@@ -35,7 +35,7 @@ void setup() {
 void draw() {
   clear();
   
-  float delta = 100.0/1000.0;
+  float delta = 10.0/1000.0;
   drawAll();
   updateAll(delta);
   println("Frame rate " + frameRate);

@@ -2,9 +2,9 @@
 class Scenes extends BaseObject{
   Scenes() {
     super();
-    addChild(new SceneSand());
+    //addChild(new SceneSand());
     //addChild(new SceneImage());
-    addChild(new SceneLife());
+    //addChild(new SceneLife());
     addChild(new SceneMovingPoint());
     addChild(new SceneBitka());
     //addChild(new SceneRectangles());

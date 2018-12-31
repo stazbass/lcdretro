@@ -1,4 +1,4 @@
-/// ----------------------------------------------------------------------------------------------------------------------- //<>// //<>// //<>//
+/// ----------------------------------------------------------------------------------------------------------------------- //<>// //<>// //<>// //<>//
 ////    GRID
 /// -----------------------------------------------------------------------------------------------------------------------
 class Grid {
@@ -87,15 +87,19 @@ class ImageGenerateRender implements PixelRenderer {
   ImageGenerateRender(int cellWidth, int cellHeight) {
     PGraphics g = createGraphics(cellWidth, cellHeight);
     g.beginDraw();
-    g.smooth(4);
-    g.stroke(255, 255, 255);
+    //g.smooth(4);
+    g.beginShape();
+    g.stroke(Config.BORDER_COLOR, 1);
     g.strokeWeight(Config.BORDER_WIDTH);
-    g.fill(150, 150, 150);
-    g.ellipse(cellWidth/2.0, cellHeight/2.0, cellWidth-Config.BORDER_WIDTH, cellHeight-Config.BORDER_WIDTH);      
+    g.fill(255, 255, 255);
+    int imageWidth = cellWidth;
+    int imageHeight = cellHeight;
+    g.ellipse(imageWidth/2.0, imageHeight/2.0, imageWidth, imageHeight);      
+    g.endShape();
     g.endDraw();
     //g.updatePixels();
     g.loadPixels();
-    image = createImage(cellWidth, cellHeight, ARGB);
+    image = createImage(g.width, g.height, ARGB);
     image.loadPixels();
     int [] gPixels = g.pixels;
     for (int i = 0; i < gPixels.length; i++) {
@@ -158,9 +162,6 @@ class ImpulseCell {
     if (size <= targetSize) {
       float sizeDelta = deltaTime * Config.SHOW_SPEED;
       setSize(size + sizeDelta);
-      //float colorScale = size/Config.MAX_CELL_SIZE;
-      //currentColor = color(red(targetColor)*colorScale, green(targetColor)*colorScale, blue(targetColor)*colorScale, size/Config.MAX_CELL_SIZE*255);
-      //currentColor = targetColor;
       if (size >= targetSize) {
         size = targetSize;
         targetSize = Config.MIN_CELL_SIZE;
@@ -168,7 +169,6 @@ class ImpulseCell {
     } else {
       if (size != targetSize) {
         setSize(size - deltaTime*Config.HIDE_SPEED);
-        //float colorScale = size/Config.MAX_CELL_SIZE;
         if (size <= targetSize)size = targetSize;
       }
     }
@@ -193,16 +193,6 @@ class ImpulseCell {
 
   void draw() {
     pixelRenderer.drawPixel(x, y, cellWidth, cellHeight, Config.CELL_SCALE, currentColor.value, size);
-    //if(Config.cellImageMode){
-    //scale(size);
-    //tint(currentColor.value);
-    //image(cellImage, x*cellWidth, y *cellHeight, cellWidth * size * Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
-    //}{
-    //  strokeWeight(Config.BORDER_WIDTH);
-    //  fill(currentColor.value);
-    //  //rect(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
-    //  ellipse(x*cellWidth, y * cellHeight, cellWidth* size*Config.CELL_SCALE, cellHeight * size * Config.CELL_SCALE);
-    //}
   }
 }
 

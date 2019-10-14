@@ -13,7 +13,6 @@ static class Config{
   public static  float BORDER_WIDTH =2.1;
   public static int BORDER_COLOR = 0x00FF00ff;
   
-  public static  boolean cellImageMode = true;
   public static  String cellImagePath = "data/rect_round.png";
   
   //public static RenderType RENDER_TYPE = RenderType.LOAD_IMAGE;

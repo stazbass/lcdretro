@@ -33,8 +33,9 @@ void setup() {
 void draw() {
   clear();
   
-  float delta = ((mouseX /  (float)SCREEN_WIDTH) * 100) /1000.0;
-  println(delta);
+  //float delta = ((mouseX /  (float)SCREEN_WIDTH) * 100) /1000.0;
+  //println(delta);
+  float delta = frameRate/3000.0;
   drawAll();
   updateAll(delta);
 }

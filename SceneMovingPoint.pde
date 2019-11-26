@@ -37,6 +37,7 @@ class MovingPoint extends BaseObject {
   PVector speed;
   float speedNormalized;
   color col;
+  float size;
 
   MovingPoint() {
     reset();
@@ -48,12 +49,13 @@ class MovingPoint extends BaseObject {
     speedNormalized = random(0.1, 100);
     speed = new PVector(sin(random(0, 2*PI))*speedNormalized, cos(random(0, 2*PI))*speedNormalized);
     col = color(240*random(0, 1), 240*random(0, 1), 240*random(0, 1));
+    size = random(1, 10);
   }
 
   void draw() {
     super.draw();
-    render.point(pos.x, pos.y, 1, col);
-    //render.circle(pos.x, pos.y, abs(render.grid.width/2 - pos.x)*2, 1, col);
+    //render.point(pos.x, pos.y, 1, col);
+    render.circleAlt(pos.x, pos.y, size, 1, color(200, 100, 0));
   }
 
   void update(float dt) {

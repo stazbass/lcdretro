@@ -6,8 +6,9 @@ class Scenes extends BaseObject{
     //addChild(new SceneImage());
     //addChild(new SceneLife());
     //addChild(new SceneMovingPoint());
+    addChild(new ScenePhyllotaxis());
     //addChild(new SceneBitka());
-    addChild(new StarzScene());
+    //addChild(new StarzScene());
     //addChild(new SceneRectangles());
     //addChild(new SceneWebcam());
   }
@@ -19,9 +20,11 @@ class Scenes extends BaseObject{
     if(isKeyPressed('k')){
       Config.CELL_SIZE++;
     }
-    
-    Config.SHOW_SPEED = constrain(Config.SHOW_SPEED, 0.001, 20);
-    Config.HIDE_SPEED = constrain(Config.HIDE_SPEED, 0.001, 20);
+    if(isKeyPressed('p')){
+      saveFrame();
+    }
+    //Config.SHOW_SPEED = constrain(Config.SHOW_SPEED, 0.001, 20);
+    //Config.HIDE_SPEED = constrain(Config.HIDE_SPEED, 0.001, 20);
     
     super.update(dt);
   }

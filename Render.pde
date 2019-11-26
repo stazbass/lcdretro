@@ -1,4 +1,4 @@
-/// ----------------------------------------------------------------------------------------------------------------------- //<>// //<>// //<>// //<>//
+/// ----------------------------------------------------------------------------------------------------------------------- //<>// //<>// //<>// //<>// //<>//
 ////    GRID
 /// -----------------------------------------------------------------------------------------------------------------------
 class Grid {
@@ -9,7 +9,9 @@ class Grid {
   float cellHeight;
   ImpulseCell[] cells;
   PixelRenderer pixelRenderer;
-
+  int mouseLocalX = 0;
+  int mouseLocalY = 0;
+  
   Grid(int width, int height, int cellWidth, int cellHeight, int originX, int originY) {
     this.width = width;
     this.height = height;
@@ -42,7 +44,7 @@ class Grid {
   }
 
   void draw() {
-    blendMode(ADD);
+    blendMode(ADD );
     pushMatrix();
     translate(originX, originY);
     for (int i =0; i < cells.length; i++) {
@@ -55,6 +57,9 @@ class Grid {
     for (int i =0; i < cells.length; i++) {
       cells[i].update(deltaTime);
     }
+    mouseLocalX = round((mouseX - originX)/cellWidth);
+    mouseLocalY = round((mouseY - originY)/cellHeight);
+    
   }
 }
 
@@ -94,7 +99,8 @@ class ImageGenerateRender implements PixelRenderer {
     g.fill(255, 255, 255);
     int imageWidth = cellWidth;
     int imageHeight = cellHeight;
-    g.ellipse(imageWidth/2.0, imageHeight/2.0, imageWidth, imageHeight);      
+    //g.ellipse(imageWidth/2.0, imageHeight/2.0, imageWidth, imageHeight);      
+    g.rect(imageWidth/2.0, imageHeight/2.0, imageWidth, imageHeight);      
     g.endShape();
     g.endDraw();
     //g.updatePixels();
@@ -175,7 +181,7 @@ class ImpulseCell {
   }
 
   void setTargetSize(float targetSize) {
-    if (targetSize > this.targetSize)
+    //if (targetSize > this.targetSize)
       this.targetSize = constrain(targetSize, Config.MIN_CELL_SIZE, Config.MAX_CELL_SIZE);
   }
 
@@ -291,8 +297,8 @@ class GridRenderer {
   void circle(PVector pos, float radius, float brightness) {
     circle(pos.x, pos.y, radius, brightness);
   }
-  void circleAlt(PVector pos, float r, float  brightness) {
-    circleAlt(pos.x, pos.y, r, brightness);
+  void circleAlt(PVector pos, float r, float  brightness, color colorValue) {
+    circleAlt(pos.x, pos.y, r, brightness, colorValue);
   }
   void circle(float x0, float y0, float radius, float bright) {
     int x = (int)(radius-1);
@@ -329,19 +335,19 @@ class GridRenderer {
     }
   }
 
-  private void drawCirclePoints(float xc, float yc, float x, float y, float brightness)
+  private void drawCirclePoints(float xc, float yc, float x, float y, float brightness, color colorValue)
   {
-    point(xc+x, yc+y, brightness);
-    point(xc-x, yc+y, brightness);
-    point(xc+x, yc-y, brightness);
-    point(xc-x, yc-y, brightness);
-    point(xc+y, yc+x, brightness);
-    point(xc-y, yc+x, brightness);
-    point(xc+y, yc-x, brightness);
-    point(xc-y, yc-x, brightness);
+    point(xc+x, yc+y, brightness, colorValue);
+    point(xc-x, yc+y, brightness, colorValue);
+    point(xc+x, yc-y, brightness, colorValue);
+    point(xc-x, yc-y, brightness, colorValue);
+    point(xc+y, yc+x, brightness, colorValue);
+    point(xc-y, yc+x, brightness, colorValue);
+    point(xc+y, yc-x, brightness, colorValue);
+    point(xc-y, yc-x, brightness, colorValue);
   }
 
-  void circleAlt(float xc, float yc, float r, float brightness)
+  void circleAlt(float xc, float yc, float r, float brightness, color colorValue)
   {
     int x = 0, y = (int)r;
     int d = (int)(3 - 2 * r);
@@ -349,7 +355,7 @@ class GridRenderer {
     {
       // for each pixel we will
       // draw all eight pixels
-      drawCirclePoints(xc, yc, x, y, brightness);
+      drawCirclePoints(xc, yc, x, y, brightness, colorValue);
       x++;
 
       // check for decision parameter
@@ -361,7 +367,7 @@ class GridRenderer {
         d = d + 4 * (x - y) + 10;
       } else
         d = d + 4 * x + 6;
-      drawCirclePoints(xc, yc, x, y, brightness);
+      drawCirclePoints(xc, yc, x, y, brightness, colorValue);
     }
   }
 

@@ -14,7 +14,7 @@ boolean isKeyPressed(char key){
 
 // ------------
 void setup() {
-  fullScreen(P2D, 1);
+  fullScreen(P3D, 1);
 
   background(0);
 
@@ -35,7 +35,7 @@ void draw() {
   
   //float delta = ((mouseX /  (float)SCREEN_WIDTH) * 100) /1000.0;
   //println(delta);
-  float delta = frameRate/3000.0;
+  float delta = frameRate/5000.0;
   drawAll();
   updateAll(delta);
 }

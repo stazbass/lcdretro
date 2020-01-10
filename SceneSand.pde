@@ -2,7 +2,7 @@ class SceneSand extends BaseObject {
   int[][] sandpiles;
   int w;
   int h;
-  final int SKIP_FIRST = 6000;
+  final int SKIP_FIRST = 100000;
 
   SceneSand() {
     this.w = render.grid.width;

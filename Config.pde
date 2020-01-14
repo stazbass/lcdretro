@@ -1,10 +1,10 @@
 static class Config {
   public static final boolean RECORD_VIDEO = false;
 
-  public static float SHOW_SPEED = 5;
-  public static  float HIDE_SPEED = 2;
+  public static float SHOW_SPEED = 10;
+  public static  float HIDE_SPEED = 12;
 
-  public static  int CELL_SIZE = 15;
+  public static  int CELL_SIZE = 10;
   public static  float CELL_SCALE = 1.3;
   public static  float MIN_CELL_SIZE = 0.00;
   public static  float MAX_CELL_SIZE = 1.0;

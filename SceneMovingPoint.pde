@@ -54,7 +54,6 @@ class MovingPoint extends BaseObject {
 
   void draw() {
     super.draw();
-    //render.point(pos.x, pos.y, 1, col);
     render.circleAlt(pos.x, pos.y, size, 1, color(200, 100, 0));
   }
 

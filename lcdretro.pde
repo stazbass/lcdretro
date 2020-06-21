@@ -35,11 +35,11 @@ void setup() {
 void draw() {
   clear();
   
-  //float delta = ((mouseX /  (float)SCREEN_WIDTH) * 100) /1000.0;
+  float delta = ((mouseX /  (float)SCREEN_WIDTH) * 100) /1000.0;
   //println(delta);
   //float delta = 1.0/frameRate;///5000.0;//
   long time = millis();
-  float delta = (time - lastTime)/1000.0;
+  //float delta = (time - lastTime)/1000.0;
   lastTime = time;
   drawAll();
   updateAll(delta);
@@ -60,6 +60,10 @@ void keyPressed() {
   
   if (key == 'q') {
     exit();
+  }
+  
+  if( key == 'p'){
+    saveFrame();
   }
 }
 

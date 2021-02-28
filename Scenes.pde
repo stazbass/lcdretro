@@ -6,12 +6,12 @@ class Scenes extends BaseObject{
     //addChild(new SceneImage());
     //addChild(new SceneLife());
     //addChild(new SceneMovingPoint());
-    //addChild(new ScenePhyllotaxis());
+    addChild(new ScenePhyllotaxis());
     //addChild(new SceneBitka());
     //addChild(new StarzScene());
     //addChild(new SceneRectangles());
     //addChild(new SceneWebcam());
-    addChild(new SceneLighting());
+    //addChild(new SceneLighting());
   }
   
   void update(float dt){

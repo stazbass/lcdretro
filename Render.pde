@@ -81,8 +81,12 @@ class FileImageRender implements PixelRenderer {
   }
 
   void drawPixel(float x, float y, float cellWidth, float cellHeight, float scale, color colorValue, float brightness) {
+    pushMatrix();
     tint(colorValue);
-    image(image, x*cellWidth, y *cellHeight, cellWidth * brightness * scale, cellHeight * brightness * scale);
+    translate(x*cellWidth, y *cellHeight);
+    scale(brightness*scale);
+    image(image, 0, 0, cellWidth, cellHeight);
+    popMatrix();
   }
 }
 

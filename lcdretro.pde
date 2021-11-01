@@ -16,7 +16,7 @@ boolean isKeyPressed(char key){
 // ------------
 void setup() {
   fullScreen(P3D, 1);
-
+//colorMode(RGB, 255);
   background(0);
 
   rectMode(CENTER);
@@ -28,19 +28,19 @@ void setup() {
   mouseSmooth.y = mouseY;
   grid = new Grid(width/Config.CELL_SIZE, height/Config.CELL_SIZE, Config.CELL_SIZE, Config.CELL_SIZE, Config.CELL_SIZE/2, Config.CELL_SIZE/2);
   render = new GridRenderer(grid, Config.RENDER_TYPE);
-  scenes = new Scenes();
+  scenes = new Scenes(this);
   lastTime = millis();
 }
 
 void draw() {
   clear();
   
-  float delta = ((mouseX /  (float)SCREEN_WIDTH) * 100) /1000.0;
-  //println(delta);
+  //float delta = ((mouseX /  (float)SCREEN_WIDTH) * 100) /1000.0;
   //float delta = 1.0/frameRate;///5000.0;//
   long time = millis();
-  //float delta = (time - lastTime)/1000.0;
+  float delta = (time - lastTime)/1000.0;
   lastTime = time;
+  println(frameRate);
   drawAll();
   updateAll(delta);
 }

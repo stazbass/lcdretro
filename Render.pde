@@ -83,7 +83,7 @@ class FileImageRender implements PixelRenderer {
   void drawPixel(float x, float y, float cellWidth, float cellHeight, float scale, color colorValue, float brightness) {
     pushMatrix();
     tint(colorValue);
-    translate(x*cellWidth, y *cellHeight);
+    translate(x*cellWidth - cellWidth/2.0, y *cellHeight - cellHeight/2.0);
     scale(brightness*scale);
     image(image, 0, 0, cellWidth, cellHeight);
     popMatrix();
@@ -98,13 +98,14 @@ class ImageGenerateRender implements PixelRenderer {
     g.beginDraw();
     //g.smooth(4);
     g.beginShape();
-    g.stroke(Config.BORDER_COLOR, 1);
+    g.stroke(255);
+    g.noStroke();
     g.strokeWeight(Config.BORDER_WIDTH);
     g.fill(255, 255, 255);
     int imageWidth = cellWidth;
     int imageHeight = cellHeight;
     //g.ellipse(imageWidth/2.0, imageHeight/2.0, imageWidth, imageHeight);      
-    g.rect(imageWidth/2.0, imageHeight/2.0, imageWidth, imageHeight);      
+    g.rect(0, 0, imageWidth, imageHeight);      
     g.endShape();
     g.endDraw();
     //g.updatePixels();

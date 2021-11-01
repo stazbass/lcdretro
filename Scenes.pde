@@ -1,16 +1,16 @@
 
 class Scenes extends BaseObject{
-  Scenes() {
+  Scenes(PApplet p) {
     super();
     //addChild(new SceneSand());
     //addChild(new SceneImage());
     //addChild(new SceneLife());
     //addChild(new SceneMovingPoint());
-    addChild(new ScenePhyllotaxis());
+    //addChild(new ScenePhyllotaxis());
     //addChild(new SceneBitka());
-    //addChild(new StarzScene());
+    addChild(new StarzScene());
     //addChild(new SceneRectangles());
-    //addChild(new SceneWebcam());
+    //addChild(new SceneWebcam(p));
     //addChild(new SceneLighting());
   }
   

@@ -14,6 +14,17 @@ class StarzScene extends BaseObject{
   void update(float dt){
     super.update(dt);
     addStar();
+    addStar();
+    addStar();
+    addStar();
+    addStar();
+    addStar();
+    addStar();
+    addStar();
+    addStar();
+    addStar();
+    addStar();
+    addStar();
   }
 }
 

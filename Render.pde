@@ -98,8 +98,9 @@ class ImageGenerateRender implements PixelRenderer {
     g.beginDraw();
     //g.smooth(4);
     g.beginShape();
-    g.stroke(255);
-    g.noStroke();
+    g.stroke(100, 0, 0);
+    g.strokeWeight(2);
+    //g.noStroke();
     g.strokeWeight(Config.BORDER_WIDTH);
     g.fill(255, 255, 255);
     int imageWidth = cellWidth;
@@ -122,6 +123,7 @@ class ImageGenerateRender implements PixelRenderer {
 
   void drawPixel(float x, float y, float cellWidth, float cellHeight, float scale, color colorValue, float brightness) {
     tint(colorValue);
+    //scale(,)
     image(image, x*cellWidth, y *cellHeight, cellWidth * brightness * scale, cellHeight * brightness * scale);
   }
 }

@@ -4,8 +4,8 @@ class ScenePhyllotaxis extends BaseObject {
   final float THETA = PI * (3.0 - sqrt(5));
   float scaleFactor = 3.0;
   ArrayList<PVector> points = new ArrayList();
-  int MAX_POINTS = 100`1;
-  int MAX_SCALE = 4;
+  int MAX_POINTS = 3000;
+  int MAX_SCALE = 5;
   float pointsCount = 1;
 
   public ScenePhyllotaxis() {
@@ -17,36 +17,36 @@ class ScenePhyllotaxis extends BaseObject {
     int index = 0;
     float lastPosX = -1;
     float lastPosY = -1;
-      for (PVector point : points) {
+    for (PVector point : points) {
       index++;
       point.rotate(frameCount*PI/180.0);
       float posX = point.x +center.x;
       float posY = point.y +center.y;
-      render.point(posX, posY, 2.0, color(255*index/(points.size()!=0?points.size():1), 0, 0));
-      if(lastPosX > 0){
-        render.line(center.x, center.y, posX, posY, 1.0, color(index*255.0/points.size(), 255, 0));
+      //render.circle(posX, posY, index/5.0, color((meditation/100.0)*255, 250*(attention/100.0), 0, 0));
+      if (lastPosX > 0) {
+        render.line(lastPosX, lastPosY, posX, posY, 1.0, color(index%points.size(), 150, 0));
       }
-      if(poorSignal < 20){
-      textSize(32);
-      fill(255, 102, 153);
-      stroke(2);
-      textAlign(CENTER,CENTER);
-      text(meditation, width/2, height/2);  // Specify a z-axis value
+      if (poorSignal < 20) {
+        textSize(164);
+        fill(10, 20, 25);
+        stroke(2);
+        textAlign(CENTER, CENTER);
+        text(meditation, width/2, height/2);  // Specify a z-axis value
       }
       lastPosX = posX;
       lastPosY = posY;
     }
   }
-void setMeditation(int val){
-  Ani.to(this,  2.5, "meditation", val);
-}
+  void setMeditation(int val) {
+    Ani.to(this, 1.5, "meditation", val);
+  }
 
-void setPoorSignal(int val){
-  Ani.to(this,  0.5, "poorSignal", val);
-}
-void setAttention(int val){
-  Ani.to(this,  0.5, "attention", val);
-}
+  void setPoorSignal(int val) {
+    Ani.to(this, 1.5, "poorSignal", val);
+  }
+  void setAttention(int val) {
+    Ani.to(this, 1.5, "attention", val);
+  }
   void update(float dt) {
     //if (isKeyPressed('a')) {
     //  scaleFactor = scaleFactor - scaleFactor*0.1;
@@ -60,8 +60,8 @@ void setAttention(int val){
     //if (isKeyPressed('c')) {
     //  pointsCount = pointsCount + pointsCount/10.0;
     //}
-    pointsCount = MAX_POINTS * meditation/100.0;
-    scaleFactor = MAX_SCALE*meditation/100.0;
+    pointsCount = MAX_POINTS * meditation/100.0+1;
+    scaleFactor = MAX_SCALE*meditation/100.0+1;
     points = generateLeafs(round(pointsCount), scaleFactor);
     println("ScaleFactor: " + scaleFactor);
     println("PointsCount: " + pointsCount);

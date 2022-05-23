@@ -4,7 +4,7 @@ static class Config {
   public static float SHOW_SPEED = 7;
   public static  float HIDE_SPEED = 7;
 
-  public static  int CELL_SIZE =4;
+  public static  int CELL_SIZE =5;
   public static  float CELL_SCALE = 1.0;
   public static  float MIN_CELL_SIZE = 0.00;
   public static  float MAX_CELL_SIZE = 1.0;

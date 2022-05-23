@@ -24,7 +24,8 @@ boolean isKeyPressed(char key){
 
 // ------------
 void setup() {
-  fullScreen(P3D, 1);
+  //fullScreen(P3D, 1);
+  size(1024, 768);
 //colorMode(RGB, 255);
   background(0);
 

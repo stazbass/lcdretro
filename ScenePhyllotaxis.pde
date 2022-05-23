@@ -4,7 +4,7 @@ class ScenePhyllotaxis extends BaseObject {
   final float THETA = PI * (3.0 - sqrt(5));
   float scaleFactor = 3.0;
   ArrayList<PVector> points = new ArrayList();
-  int MAX_POINTS = 3000;
+  int MAX_POINTS = 100;
   int MAX_SCALE = 5;
   float pointsCount = 1;
 
@@ -20,11 +20,13 @@ class ScenePhyllotaxis extends BaseObject {
     for (PVector point : points) {
       index++;
       point.rotate(frameCount*PI/180.0);
+      meditation = 100;
       float posX = point.x +center.x;
       float posY = point.y +center.y;
-      //render.circle(posX, posY, index/5.0, color((meditation/100.0)*255, 250*(attention/100.0), 0, 0));
+      render.circle(posX, posY, meditation/5.0, color((meditation/100.0)*255, 250*(attention/100.0), 0, 0));
+      render.circle(posX, posY, index/5.0, color((100/100.0)*255, 250*(100/100.0), 0, 0));
       if (lastPosX > 0) {
-        render.line(lastPosX, lastPosY, posX, posY, 1.0, color(index%points.size(), 150, 0));
+        //render.line(lastPosX, lastPosY, posX, posY, 1.0, color(index%points.size(), 150, 0));
       }
       if (poorSignal < 20) {
         textSize(164);
@@ -70,7 +72,7 @@ class ScenePhyllotaxis extends BaseObject {
   ArrayList generateLeafs(int size, float scaleFactor) {
     ArrayList leafs = new ArrayList();
     for (int i = 0; i < size; i++) {
-      leafs.add(getLeaf(scaleFactor, size/2 - i));
+      leafs.add(getLeaf(scaleFactor, size - i));
     }
     return leafs;
   }

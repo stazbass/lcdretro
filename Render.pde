@@ -307,6 +307,40 @@ class GridRenderer {
   void circleAlt(PVector pos, float r, float  brightness, color colorValue) {
     circleAlt(pos.x, pos.y, r, brightness, colorValue);
   }
+  void circle(float x0, float y0, float radius, float bright, color col) {
+    int x = (int)(radius-1);
+    int y = 0;
+    int dx = 1;
+    int dy = 1;
+    int intr = (int)radius;
+    int err = dx - (intr << 1);
+
+    while (x >= y)
+    {
+      point(x0 + x, y0 + y, bright, col);
+      point(x0 + y, y0 + x, bright, col);
+      point(x0 - y, y0 + x, bright, col);
+      point(x0 - x, y0 + y, bright, col);
+      point(x0 - x, y0 - y, bright, col);
+      point(x0 - y, y0 - x, bright, col);
+      point(x0 + y, y0 - x, bright, col);
+      point(x0 + x, y0 - y, bright, col);
+
+      if (err <= 0)
+      {
+        y++;
+        err += dy;
+        dy += 2;
+      }
+
+      if (err > 0)
+      {
+        x--;
+        dx += 2;
+        err += dx - (intr << 1);
+      }
+    }
+  }
   void circle(float x0, float y0, float radius, float bright) {
     int x = (int)(radius-1);
     int y = 0;

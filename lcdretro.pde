@@ -24,8 +24,8 @@ boolean isKeyPressed(char key){
 
 // ------------
 void setup() {
-  //fullScreen(P3D, 1);
-  size(1024, 768);
+  fullScreen(P3D, 1);
+  //size(1024, 768);
 //colorMode(RGB, 255);
   background(0);
 
@@ -49,16 +49,9 @@ void webSocketEvent(String msg) {
   println(msg);
   JSONObject  message = parseJSONObject(msg);
   recentMessage = message;
-  println("WEBSOCKET");
-  println("---------");
-  println(message);
-  println("---------");
-  //meditation = message.getInt("meditation");
-  //poorSignal = message.getInt("poorSignal");
-  //attention = message.getInt("attention");
-      setMeditation(message.getInt("meditation"));
-    setPoorSignal(message.getInt("poorSignal"));
-    setAttention(message.getInt("attention"));
+  setMeditation(message.getInt("meditation"));
+  setPoorSignal(message.getInt("poorSignal"));
+  setAttention(message.getInt("attention"));
 }
 void setMeditation(int val){
   Ani.to(this,  2.5, "meditation", val);
@@ -78,7 +71,7 @@ void draw() {
   long time = millis();
   float delta = (time - lastTime)/1000.0;
   lastTime = time;
-  println(frameRate);
+  if(frameCount%4==0)println("FPS:"+frameRate);
   drawAll();
   updateAll(delta);
 }

@@ -8,7 +8,7 @@ class Scenes extends BaseObject{
     //addChild(new SceneMovingPoint());
     addChild(new ScenePhyllotaxis());
     //addChild(new SceneBitka());
-    //addChild(new StarzScene());
+    addChild(new StarzScene());
     //addChild(new SceneRectangles());
     //addChild(new SceneWebcam(p));
     //addChild(new SceneLighting());

@@ -11,8 +11,11 @@ Scenes scenes;
 HashMap<Character, Boolean> keys = new HashMap();
 PVector mouseSmooth = new PVector();
 long lastTime = 0;
-WebsocketClient wsc;
+//WebsocketClient wsc;
+Websocket websocket;
+
 int meditation = 0;
+int meditationSmooth = 0;
 int maxMeditation = 100;
 int poorSignal = 0;
 int attention = 0;
@@ -24,9 +27,10 @@ boolean isKeyPressed(char key){
 
 // ------------
 void setup() {
-  //fullScreen(P3D, 1);
-  size(1024, 768);
+  fullScreen(P3D, 1);
+  //size(1024, 768);
 //colorMode(RGB, 255);
+  colorMode(RGB, 255, 255, 255);
   background(0);
 
   rectMode(CENTER);
@@ -41,42 +45,35 @@ void setup() {
   render = new GridRenderer(grid, Config.RENDER_TYPE);
   scenes = new Scenes(this);
   lastTime = millis();
-  wsc= new WebsocketClient(this, "ws://localhost:8025/mind");
+  if(Config.WEBSOCKETS_ENABLED){
+    websocket = new Websocket();
+    websocket.setup("ws://localhost:8025/mind", this);
+  }
+  //wsc= new WebsocketClient(this, "ws://localhost:8025/mind");
 }
 
 void webSocketEvent(String msg) {
-  println("Got message");
-  println(msg);
-  JSONObject  message = parseJSONObject(msg);
-  recentMessage = message;
-  println("WEBSOCKET");
-  println("---------");
-  println(message);
-  println("---------");
-  //meditation = message.getInt("meditation");
-  //poorSignal = message.getInt("poorSignal");
-  //attention = message.getInt("attention");
-      setMeditation(message.getInt("meditation"));
-    setPoorSignal(message.getInt("poorSignal"));
-    setAttention(message.getInt("attention"));
+  websocket.webSocketEvent(msg);
 }
 void setMeditation(int val){
-  Ani.to(this,  2.5, "meditation", val);
+    if(meditation != val){
+      Ani.to(this,  0.5, "meditationSmooth", val);
+    }
+    meditation = val;
 }
 
 void setPoorSignal(int val){
-  Ani.to(this,  0.5, "poorSignal", val);
+  //Ani.to(this,  0.5, "poorSignal", val);
+  poorSignal = val;
 }
 void setAttention(int val){
-  Ani.to(this,  0.5, "attention", val);
+  //Ani.to(this,  0.5, "attention", val);
+  attention = val;
 }
 void draw() {
   clear();
-  
-  //fxzzxloat delta = ((mouseX /  (float)SCREEN_WIDTH) * 100) /1000.0;
-  //float delta = 1.0/frameRate;///5000.0;//
   long time = millis();
-  float delta = (time - lastTime)/1000.0;
+  float delta = (time - lastTime)/10000.0;
   lastTime = time;
   println(frameRate);
   drawAll();
@@ -91,6 +88,11 @@ void drawAll() {
 void updateAll(float delta) {
   grid.update(delta);
   scenes.update(delta);
+  if(!Config.WEBSOCKETS_ENABLED){
+    setMeditation(100);
+    setPoorSignal(0);
+    setAttention(33);
+  }
 }
 
 void keyPressed() {

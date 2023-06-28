@@ -12,8 +12,9 @@ class Scenes extends BaseObject{
     //addChild(new SceneRectangles());
     //addChild(new SceneWebcam(p));
     //addChild(new SceneLighting());
+    
   }
-  
+          
   void update(float dt){
     if(isKeyPressed('j')){
       Config.CELL_SIZE--;
@@ -25,6 +26,20 @@ class Scenes extends BaseObject{
       saveFrame();
     }
     super.update(dt);
+    drawMeditext(meditation, poorSignal);
+  }
+  
+  void drawMeditext(int meditation, int poorSignal){
+    textSize(50);
+    fill(130, 90, 160, 30);
+    stroke(2);
+    textAlign(CENTER, CENTER);
+    text(meditationSmooth, width/2, height/2);  // Specify a z-axis value
+    textSize(30);
+    if(poorSignal != 0){
+      fill(190, 30, 30, 150);
+      text("Poor signal " + poorSignal, width/2, height/2);  // Specify a z-axis value
+    }
   }
 }
 

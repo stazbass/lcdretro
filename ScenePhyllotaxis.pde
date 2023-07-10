@@ -1,18 +1,18 @@
 
 class ScenePhyllotaxis extends BaseObject {
-  final int POINTS_NUMBER = 1000;
+  final int POINTS_NUMBER = 500;
   float PHYLO_ANGLE = 137.5;
   final float THETA = PI * (3.0 - sqrt(5));
-  float scaleFactor = 8.0;
+  float scaleFactor = 7.0;
   float targetScale = 0;
   ArrayList<PVector> points = new ArrayList();
-  int MAX_POINTS = 100;
+  int MAX_POINTS = 50;
   int MAX_SCALE = 5;
   float pointsCount = 1;
   int lastMeditation;
-  float rotateSpeed = 0.01;
-  HashMap lastPointHash = new HashMap();
-  
+  float rotateSpeed = 0.1;
+  HashMap lastPointHash = new HashMap<Integer, PVector>();
+
   public ScenePhyllotaxis() {
     points = generateLeafs(POINTS_NUMBER, scaleFactor);
     lastMeditation = meditation;
@@ -21,39 +21,44 @@ class ScenePhyllotaxis extends BaseObject {
 
   void draw() {
     PVector center = new PVector(grid.width/2.0, grid.height/2.0);
-    if(meditation  != lastMeditation){
+    if (meditation  != lastMeditation) {
       lastMeditation = getMeditation();
       setMeditation(meditation);
     }
+    meditationSmooth = 50;
     int index = 0;
     float lastPosX = 0;
     float lastPosY = 0;
     lastPointHash.clear();
-    
+
     render.circle(center.x, center.y, 2, 1);
     for (PVector point : points) {
       index++;
-      //point.setMag(point.mag()+index);
       point.rotate(index*rotateSpeed*PI/180.0);
       float scale2Meditation = scaleFactor*(meditationSmooth/100.0);
-      
+
       float posX = point.x*scale2Meditation +center.x;
       float posY = point.y*scale2Meditation +center.y;
-       PVector.dist(point,center);
-      render.point(posX, posY, 1.0, color(sin((index%255)*PI/180)*255, sin( (255-index%255)*PI/180 )*255, 0));
+      int lastPointKey = int(index*rotateSpeed)%360;
+      if (lastPointHash.containsKey(lastPointKey)) {
+        lastPosX = ((PVector)lastPointHash.get(lastPointKey)).x;
+        lastPosY = ((PVector)lastPointHash.get(lastPointKey)).y;
+      }
+      lastPointHash.put(lastPointKey, new PVector(posX, posY));
+
+      //render.point(posX, posY, 1.0, color(sin((index%255)*PI/180)*255, sin( (255-index%255)*PI/180 )*255, 0));
       if (lastPosX > 0) {
-        //render.line(lastPosX, lastPosY, posX, posY, 1.0, color(index%255, 255-index%255, 0));
+        render.line(lastPosX, lastPosY, posX, posY, 1.0, color(index%255, 255-index%255, 0));
         lastPosX = posX;
         lastPosY = posY;
       }
-      //if (poorSignal < 20) {
-      //}
     }
+    lastPointHash.clear();
   }
 
-  
-  int getMeditation(){
-    return meditation; 
+
+  int getMeditation() {
+    return meditation;
   }
   void update(float dt) {
     if (isKeyPressed('r')) {

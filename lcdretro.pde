@@ -45,11 +45,8 @@ void setup() {
   render = new GridRenderer(grid, Config.RENDER_TYPE);
   scenes = new Scenes(this);
   lastTime = millis();
-  if(Config.WEBSOCKETS_ENABLED){
-    websocket = new Websocket();
-    websocket.setup("ws://localhost:8025/mind", this);
-  }
-  //wsc= new WebsocketClient(this, "ws://localhost:8025/mind");
+  websocket = new Websocket();
+  websocket.setup("ws://localhost:8025/mind", this);
 }
 
 void webSocketEvent(String msg) {
@@ -57,19 +54,19 @@ void webSocketEvent(String msg) {
 }
 void setMeditation(int val){
     if(meditation != val){
-      Ani.to(this,  0.5, "meditationSmooth", val);
+      float time = abs(val-meditation)/100.0;
+      Ani.to(this,  time, "meditationSmooth", val);
     }
     meditation = val;
 }
 
 void setPoorSignal(int val){
-  //Ani.to(this,  0.5, "poorSignal", val);
   poorSignal = val;
 }
 void setAttention(int val){
-  //Ani.to(this,  0.5, "attention", val);
   attention = val;
 }
+
 void draw() {
   clear();
   long time = millis();
@@ -89,9 +86,7 @@ void updateAll(float delta) {
   grid.update(delta);
   scenes.update(delta);
   if(!Config.WEBSOCKETS_ENABLED){
-    setMeditation(100);
-    setPoorSignal(0);
-    setAttention(33);
+    websocket.webSocketEvent("");
   }
 }
 

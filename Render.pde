@@ -82,10 +82,10 @@ class FileImageRender implements PixelRenderer {
 
   void drawPixel(float x, float y, float cellWidth, float cellHeight, float scale, color colorValue, float brightness) {
     pushMatrix(); //<>//
-    colorValue = color(red(colorValue), green(colorValue), blue(colorValue), brightness*100);
+    colorValue = color(red(colorValue), green(colorValue), blue(colorValue), 255);
     tint(colorValue);
     translate(x*cellWidth - cellWidth/2.0, y *cellHeight - cellHeight/2.0);
-    rotate(brightness*50*PI/180.0);
+    //rotate(brightness*50*PI/180.0);
     scale(brightness*scale);
     image(image, 0, 0, cellWidth, cellHeight);
     popMatrix();
@@ -125,8 +125,7 @@ class ImageGenerateRender implements PixelRenderer {
 
   void drawPixel(float x, float y, float cellWidth, float cellHeight, float scale, color colorValue, float brightness) {
     tint(colorValue);
-    //scale(,)
-    image(image, x*cellWidth, y *cellHeight, cellWidth * brightness * scale, cellHeight * brightness * scale); //<>//
+    image(image, x*cellWidth, y*cellHeight, cellWidth*brightness*scale, cellHeight*brightness*scale); //<>//
   }
 }
 
